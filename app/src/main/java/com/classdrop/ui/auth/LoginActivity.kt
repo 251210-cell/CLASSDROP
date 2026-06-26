@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.databinding.ActivityLoginBinding
-import com.classdrop.model.LoginResponse
 import com.classdrop.model.UserRole
 import com.classdrop.network.NetworkResult
 import com.classdrop.ui.admin.AdminHomeActivity
@@ -50,10 +49,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding.tvForgotPassword.setOnClickListener {
             Toast.makeText(this, "Próximamente", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnGoogle.setOnClickListener {
-            Toast.makeText(this, "Inicio con Google próximamente", Toast.LENGTH_SHORT).show()
         }
     }
 

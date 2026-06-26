@@ -7,7 +7,7 @@
     android:background="?android:attr/colorBackground"
     tools:context=".ui.auth.LoginActivity">
 
-    <!-- Purple Glow Top Right -->
+    <!-- Purple Glow Decor -->
     <View
         android:layout_width="400dp"
         android:layout_height="400dp"
@@ -172,10 +172,11 @@
                         android:layout_marginTop="12dp"
                         android:visibility="gone" />
 
-                    <!-- Divisor -->
+                    <!-- Register Link -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+<<<<<<< Updated upstream
                         android:layout_marginTop="28dp"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -207,6 +208,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
+=======
+                        android:layout_marginTop="32dp"
+>>>>>>> Stashed changes
                         android:gravity="center"
                         android:orientation="horizontal">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="¿No tienes una cuenta? " android:textColor="?attr/colorOnSurfaceVariant" android:textSize="13sp" />
