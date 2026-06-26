@@ -13,7 +13,7 @@
 /captures
 .externalNativeBuild
 .cxx
-
+/[Aa]pp/build/
 # Gradle Wrapper - ESTO DEBE ESTAR EN EL REPO
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
