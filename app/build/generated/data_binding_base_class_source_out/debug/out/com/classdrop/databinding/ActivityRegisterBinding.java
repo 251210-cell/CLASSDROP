@@ -4,25 +4,57 @@ package com.classdrop.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.classdrop.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
+import java.lang.String;
 
 public final class ActivityRegisterBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ConstraintLayout rootView;
 
-  private ActivityRegisterBinding(@NonNull LinearLayout rootView) {
+  @NonNull
+  public final Button btnRegister;
+
+  @NonNull
+  public final ImageView btnTogglePassword;
+
+  @NonNull
+  public final EditText etEmail;
+
+  @NonNull
+  public final EditText etName;
+
+  @NonNull
+  public final EditText etPassword;
+
+  @NonNull
+  public final TextView tvLoginLink;
+
+  private ActivityRegisterBinding(@NonNull ConstraintLayout rootView, @NonNull Button btnRegister,
+      @NonNull ImageView btnTogglePassword, @NonNull EditText etEmail, @NonNull EditText etName,
+      @NonNull EditText etPassword, @NonNull TextView tvLoginLink) {
     this.rootView = rootView;
+    this.btnRegister = btnRegister;
+    this.btnTogglePassword = btnTogglePassword;
+    this.etEmail = etEmail;
+    this.etName = etName;
+    this.etPassword = etPassword;
+    this.tvLoginLink = tvLoginLink;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ConstraintLayout getRoot() {
     return rootView;
   }
 
@@ -43,10 +75,50 @@ public final class ActivityRegisterBinding implements ViewBinding {
 
   @NonNull
   public static ActivityRegisterBinding bind(@NonNull View rootView) {
-    if (rootView == null) {
-      throw new NullPointerException("rootView");
-    }
+    // The body of this method is generated in a way you would not otherwise write.
+    // This is done to optimize the compiled bytecode for size and performance.
+    int id;
+    missingId: {
+      id = R.id.btnRegister;
+      Button btnRegister = ViewBindings.findChildViewById(rootView, id);
+      if (btnRegister == null) {
+        break missingId;
+      }
 
-    return new ActivityRegisterBinding((LinearLayout) rootView);
+      id = R.id.btnTogglePassword;
+      ImageView btnTogglePassword = ViewBindings.findChildViewById(rootView, id);
+      if (btnTogglePassword == null) {
+        break missingId;
+      }
+
+      id = R.id.etEmail;
+      EditText etEmail = ViewBindings.findChildViewById(rootView, id);
+      if (etEmail == null) {
+        break missingId;
+      }
+
+      id = R.id.etName;
+      EditText etName = ViewBindings.findChildViewById(rootView, id);
+      if (etName == null) {
+        break missingId;
+      }
+
+      id = R.id.etPassword;
+      EditText etPassword = ViewBindings.findChildViewById(rootView, id);
+      if (etPassword == null) {
+        break missingId;
+      }
+
+      id = R.id.tvLoginLink;
+      TextView tvLoginLink = ViewBindings.findChildViewById(rootView, id);
+      if (tvLoginLink == null) {
+        break missingId;
+      }
+
+      return new ActivityRegisterBinding((ConstraintLayout) rootView, btnRegister,
+          btnTogglePassword, etEmail, etName, etPassword, tvLoginLink);
+    }
+    String missingId = rootView.getResources().getResourceName(id);
+    throw new NullPointerException("Missing required view with ID: ".concat(missingId));
   }
 }

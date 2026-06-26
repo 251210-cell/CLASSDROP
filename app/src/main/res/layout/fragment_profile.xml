@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollViewProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -126,7 +127,6 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Nombre -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +140,6 @@
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="@color/outline_variant" />
 
-                <!-- Correo -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,10 +172,14 @@
             android:orientation="horizontal">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardUploads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
@@ -189,10 +192,14 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDownloads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
@@ -205,10 +212,14 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFavorites"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
@@ -221,11 +232,32 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Archivos subidos Section -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:paddingHorizontal="24dp" android:gravity="center_vertical">
-            <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_nav_upload" app:tint="@color/primary" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Archivos subidos" android:textColor="@color/on_background" android:textStyle="bold" />
-        </LinearLayout>
+        <!-- Archivos subidos Section Header -->
+        <RelativeLayout
+            android:id="@+id/titleUploads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:paddingHorizontal="24dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_nav_upload" app:tint="@color/primary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Archivos subidos" android:textColor="@color/on_background" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvSeeMoreUploads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Ver más →"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true"/>
+        </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -257,11 +289,32 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Favoritos Section -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:paddingHorizontal="24dp" android:gravity="center_vertical">
-            <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_favorite" app:tint="@color/primary" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Favoritos" android:textColor="@color/on_background" android:textStyle="bold" />
-        </LinearLayout>
+        <!-- Favoritos Section Header -->
+        <RelativeLayout
+            android:id="@+id/titleFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="24dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_favorite" app:tint="@color/primary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Favoritos" android:textColor="@color/on_background" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvSeeMoreFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Ver más →"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true"/>
+        </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -314,7 +367,18 @@
             android:layout_marginTop="32dp" app:cardBackgroundColor="#EEF2FF" app:cardCornerRadius="24dp" app:cardElevation="0dp" app:strokeWidth="0dp">
             <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="24dp">
                 <TextView android:id="@+id/tvHelpTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="¿Necesitas ayuda?" android:textColor="@color/on_background" android:textSize="18sp" android:textStyle="bold" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
-                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:layout_marginEnd="16dp" android:text="Si tienes alguna duda, queja o comentario sobre ClassDrop, puedes comunicarte con el equipo de The Sync escribenos a:\nsoporte.classdrop@gmail.com" android:textColor="@color/text_secondary" android:textSize="11sp" app:layout_constraintEnd_toStartOf="@id/ivHelpIcon" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tvHelpTitle" />
+                <TextView
+                    android:id="@+id/tvHelpDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Si tienes alguna duda, queja o comentario sobre ClassDrop, puedes comunicarte con el equipo de The Sync escribenos a:\nsoporte.classdrop@gmail.com"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toStartOf="@id/ivHelpIcon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvHelpTitle" />
                 
                 <com.google.android.material.card.MaterialCardView 
                     android:id="@+id/ivHelpIcon" 

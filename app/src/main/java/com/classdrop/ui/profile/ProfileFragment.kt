@@ -1,6 +1,7 @@
 package com.classdrop.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.classdrop.databinding.FragmentProfileBinding
 import com.classdrop.ui.auth.LoginActivity
+import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
 
 class ProfileFragment : Fragment() {
@@ -45,6 +47,30 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        // --- Navegación por Scroll (Desplazamiento suave a la sección) ---
+        
+        // Al pulsar la tarjeta de "Archivos subidos" arriba
+        binding.cardUploads.setOnClickListener {
+            binding.scrollViewProfile.post {
+                // Calculamos la posición y restamos un pequeño margen para que se vea bien el título
+                binding.scrollViewProfile.smoothScrollTo(0, binding.titleUploads.top - 20)
+            }
+        }
+
+        // Al pulsar la tarjeta de "Favoritos" arriba
+        binding.cardFavorites.setOnClickListener {
+            binding.scrollViewProfile.post {
+                binding.scrollViewProfile.smoothScrollTo(0, binding.titleFavorites.top - 20)
+            }
+        }
+
+        // Para descargas (puedes añadir la sección luego)
+        binding.cardDownloads.setOnClickListener {
+            Toast.makeText(context, "Próximamente sección de descargas", Toast.LENGTH_SHORT).show()
+        }
+
+        // --- Otros Listeners ---
+        
         binding.btnLogout.setOnClickListener {
             sessionManager.clearSession()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -58,7 +84,34 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnNorms.setOnClickListener {
-            Toast.makeText(context, "Normas de ClassDrop", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), CommunityRulesActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.tvHelpDescription.setOnClickListener {
+            sendEmail()
+        }
+        
+        // Listeners para "Ver más"
+        binding.tvSeeMoreUploads.setOnClickListener {
+            Toast.makeText(context, "Abriendo todos tus archivos...", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.tvSeeMoreFavorites.setOnClickListener {
+            Toast.makeText(context, "Abriendo todos tus favoritos...", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun sendEmail() {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("soporte.classdrop@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, "Soporte ClassDrop")
+        }
+        try {
+            startActivity(Intent.createChooser(intent, "Enviar correo con..."))
+        } catch (e: Exception) {
+            Toast.makeText(context, "No se encontró una aplicación de correo", Toast.LENGTH_SHORT).show()
         }
     }
 

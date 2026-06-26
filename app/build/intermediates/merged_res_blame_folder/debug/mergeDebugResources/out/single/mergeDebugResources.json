@@ -4,6 +4,10 @@
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/mipmap-xhdpi/ic_launcher_foreground.webp"
     },
     {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/drawable_ic_check_circle.xml.flat",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/drawable/ic_check_circle.xml"
+    },
+    {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_item_upload_file.xml.flat",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_upload_file.xml"
     },
@@ -40,12 +44,12 @@
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_file_detail.xml"
     },
     {
-        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_activity_register.xml.flat",
-        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_register.xml"
-    },
-    {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_activity_register.xml.flat",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_register.xml"
     },
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_activity_main.xml.flat",
@@ -92,12 +96,20 @@
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/drawable/bg_tab_slider.xml"
     },
     {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/drawable_ic_status_shield.xml.flat",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/drawable/ic_status_shield.xml"
+    },
+    {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_item_upload_url.xml.flat",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_upload_url.xml"
     },
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_activity_login.xml.flat",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_login.xml"
+    },
+    {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_fragment_file_status.xml.flat",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/fragment_file_status.xml"
     },
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/drawable_bg_purple_glow.xml.flat",
@@ -146,6 +158,10 @@
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/layout_activity_community_rules.xml.flat",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_community_rules.xml"
     },
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/drawable_ic_arrow_back.xml.flat",
@@ -278,6 +294,10 @@
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/drawable_ic_nav_profile.xml.flat",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/drawable/ic_nav_profile.xml"
+    },
+    {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/drawable_ic_warning.xml.flat",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/drawable/ic_warning.xml"
     },
     {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-debug-39:/mipmap-xxxhdpi_ic_launcher.webp.flat",

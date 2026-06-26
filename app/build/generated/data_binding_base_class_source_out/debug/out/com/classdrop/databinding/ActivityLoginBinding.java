@@ -6,32 +6,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.classdrop.R;
+import com.google.android.material.button.MaterialButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
 
 public final class ActivityLoginBinding implements ViewBinding {
   @NonNull
-  private final ScrollView rootView;
+  private final ConstraintLayout rootView;
 
   @NonNull
-  public final LinearLayout btnGoogle;
+  public final MaterialButton btnGoogle;
 
   @NonNull
   public final Button btnLogin;
 
   @NonNull
-  public final ImageButton btnTogglePassword;
+  public final ImageView btnTogglePassword;
 
   @NonNull
   public final EditText etEmail;
@@ -48,10 +48,11 @@ public final class ActivityLoginBinding implements ViewBinding {
   @NonNull
   public final TextView tvGoToRegister;
 
-  private ActivityLoginBinding(@NonNull ScrollView rootView, @NonNull LinearLayout btnGoogle,
-      @NonNull Button btnLogin, @NonNull ImageButton btnTogglePassword, @NonNull EditText etEmail,
-      @NonNull EditText etPassword, @NonNull ProgressBar progressBar,
-      @NonNull TextView tvForgotPassword, @NonNull TextView tvGoToRegister) {
+  private ActivityLoginBinding(@NonNull ConstraintLayout rootView,
+      @NonNull MaterialButton btnGoogle, @NonNull Button btnLogin,
+      @NonNull ImageView btnTogglePassword, @NonNull EditText etEmail, @NonNull EditText etPassword,
+      @NonNull ProgressBar progressBar, @NonNull TextView tvForgotPassword,
+      @NonNull TextView tvGoToRegister) {
     this.rootView = rootView;
     this.btnGoogle = btnGoogle;
     this.btnLogin = btnLogin;
@@ -65,7 +66,7 @@ public final class ActivityLoginBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public ScrollView getRoot() {
+  public ConstraintLayout getRoot() {
     return rootView;
   }
 
@@ -91,7 +92,7 @@ public final class ActivityLoginBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.btnGoogle;
-      LinearLayout btnGoogle = ViewBindings.findChildViewById(rootView, id);
+      MaterialButton btnGoogle = ViewBindings.findChildViewById(rootView, id);
       if (btnGoogle == null) {
         break missingId;
       }
@@ -103,7 +104,7 @@ public final class ActivityLoginBinding implements ViewBinding {
       }
 
       id = R.id.btnTogglePassword;
-      ImageButton btnTogglePassword = ViewBindings.findChildViewById(rootView, id);
+      ImageView btnTogglePassword = ViewBindings.findChildViewById(rootView, id);
       if (btnTogglePassword == null) {
         break missingId;
       }
@@ -138,8 +139,8 @@ public final class ActivityLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityLoginBinding((ScrollView) rootView, btnGoogle, btnLogin, btnTogglePassword,
-          etEmail, etPassword, progressBar, tvForgotPassword, tvGoToRegister);
+      return new ActivityLoginBinding((ConstraintLayout) rootView, btnGoogle, btnLogin,
+          btnTogglePassword, etEmail, etPassword, progressBar, tvForgotPassword, tvGoToRegister);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.classdrop.databinding.ActivityMainBinding
 import com.classdrop.ui.explore.ExploreFragment
 import com.classdrop.ui.files.UploadFileActivity
+import com.classdrop.ui.files.FileStatusFragment
 import com.classdrop.ui.home.HomeFragment
 import com.classdrop.ui.profile.ProfileFragment
 
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private val homeFragment by lazy { HomeFragment() }
     private val exploreFragment by lazy { ExploreFragment() }
     private val profileFragment by lazy { ProfileFragment() }
-    private val notesFragment by lazy { Fragment() } 
+    private val fileStatusFragment by lazy { FileStatusFragment() } 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val nav = binding.includeBottomNav
         nav.btnNavHome.setOnClickListener { selectTab(Tab.HOME) }
         nav.btnNavSearch.setOnClickListener { selectTab(Tab.EXPLORE) }
-        nav.btnNavNotes.setOnClickListener { selectTab(Tab.NOTES) }
+        nav.btnNavNotes.setOnClickListener { selectTab(Tab.STATUS) }
         nav.btnNavUpload.setOnClickListener {
             startActivity(Intent(this, UploadFileActivity::class.java))
         }
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val fragment: Fragment = when (tab) {
             Tab.HOME -> homeFragment
             Tab.EXPLORE -> exploreFragment
-            Tab.NOTES -> notesFragment
+            Tab.STATUS -> fileStatusFragment
             Tab.PROFILE -> profileFragment
         }
         supportFragmentManager.beginTransaction()
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         val icons = mutableMapOf(
             Tab.HOME to (nav.btnNavHome.getChildAt(0) as android.widget.ImageView),
             Tab.EXPLORE to (nav.btnNavSearch.getChildAt(0) as android.widget.ImageView),
-            Tab.NOTES to (nav.btnNavNotes.getChildAt(0) as android.widget.ImageView)
+            Tab.STATUS to (nav.btnNavNotes.getChildAt(0) as android.widget.ImageView)
         )
         
         val activeColor = android.graphics.Color.parseColor("#6366F1")
@@ -83,5 +84,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    enum class Tab { HOME, EXPLORE, NOTES, PROFILE }
+    enum class Tab { HOME, EXPLORE, STATUS, PROFILE }
 }

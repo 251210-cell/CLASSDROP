@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,16 +34,43 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final LinearLayout btnPrivacy;
 
   @NonNull
+  public final MaterialCardView cardDownloads;
+
+  @NonNull
+  public final MaterialCardView cardFavorites;
+
+  @NonNull
+  public final MaterialCardView cardUploads;
+
+  @NonNull
   public final MaterialCardView ivHelpIcon;
 
   @NonNull
   public final ImageView ivNotification;
 
   @NonNull
+  public final NestedScrollView scrollViewProfile;
+
+  @NonNull
+  public final RelativeLayout titleFavorites;
+
+  @NonNull
+  public final RelativeLayout titleUploads;
+
+  @NonNull
   public final TextView tvAvatarInitials;
 
   @NonNull
+  public final TextView tvHelpDescription;
+
+  @NonNull
   public final TextView tvHelpTitle;
+
+  @NonNull
+  public final TextView tvSeeMoreFavorites;
+
+  @NonNull
+  public final TextView tvSeeMoreUploads;
 
   @NonNull
   public final TextView tvUserCareer;
@@ -52,17 +80,31 @@ public final class FragmentProfileBinding implements ViewBinding {
 
   private FragmentProfileBinding(@NonNull NestedScrollView rootView,
       @NonNull MaterialButton btnLogout, @NonNull LinearLayout btnNorms,
-      @NonNull LinearLayout btnPrivacy, @NonNull MaterialCardView ivHelpIcon,
-      @NonNull ImageView ivNotification, @NonNull TextView tvAvatarInitials,
-      @NonNull TextView tvHelpTitle, @NonNull TextView tvUserCareer, @NonNull TextView tvUserName) {
+      @NonNull LinearLayout btnPrivacy, @NonNull MaterialCardView cardDownloads,
+      @NonNull MaterialCardView cardFavorites, @NonNull MaterialCardView cardUploads,
+      @NonNull MaterialCardView ivHelpIcon, @NonNull ImageView ivNotification,
+      @NonNull NestedScrollView scrollViewProfile, @NonNull RelativeLayout titleFavorites,
+      @NonNull RelativeLayout titleUploads, @NonNull TextView tvAvatarInitials,
+      @NonNull TextView tvHelpDescription, @NonNull TextView tvHelpTitle,
+      @NonNull TextView tvSeeMoreFavorites, @NonNull TextView tvSeeMoreUploads,
+      @NonNull TextView tvUserCareer, @NonNull TextView tvUserName) {
     this.rootView = rootView;
     this.btnLogout = btnLogout;
     this.btnNorms = btnNorms;
     this.btnPrivacy = btnPrivacy;
+    this.cardDownloads = cardDownloads;
+    this.cardFavorites = cardFavorites;
+    this.cardUploads = cardUploads;
     this.ivHelpIcon = ivHelpIcon;
     this.ivNotification = ivNotification;
+    this.scrollViewProfile = scrollViewProfile;
+    this.titleFavorites = titleFavorites;
+    this.titleUploads = titleUploads;
     this.tvAvatarInitials = tvAvatarInitials;
+    this.tvHelpDescription = tvHelpDescription;
     this.tvHelpTitle = tvHelpTitle;
+    this.tvSeeMoreFavorites = tvSeeMoreFavorites;
+    this.tvSeeMoreUploads = tvSeeMoreUploads;
     this.tvUserCareer = tvUserCareer;
     this.tvUserName = tvUserName;
   }
@@ -112,6 +154,24 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardDownloads;
+      MaterialCardView cardDownloads = ViewBindings.findChildViewById(rootView, id);
+      if (cardDownloads == null) {
+        break missingId;
+      }
+
+      id = R.id.cardFavorites;
+      MaterialCardView cardFavorites = ViewBindings.findChildViewById(rootView, id);
+      if (cardFavorites == null) {
+        break missingId;
+      }
+
+      id = R.id.cardUploads;
+      MaterialCardView cardUploads = ViewBindings.findChildViewById(rootView, id);
+      if (cardUploads == null) {
+        break missingId;
+      }
+
       id = R.id.ivHelpIcon;
       MaterialCardView ivHelpIcon = ViewBindings.findChildViewById(rootView, id);
       if (ivHelpIcon == null) {
@@ -124,15 +184,47 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      NestedScrollView scrollViewProfile = (NestedScrollView) rootView;
+
+      id = R.id.titleFavorites;
+      RelativeLayout titleFavorites = ViewBindings.findChildViewById(rootView, id);
+      if (titleFavorites == null) {
+        break missingId;
+      }
+
+      id = R.id.titleUploads;
+      RelativeLayout titleUploads = ViewBindings.findChildViewById(rootView, id);
+      if (titleUploads == null) {
+        break missingId;
+      }
+
       id = R.id.tvAvatarInitials;
       TextView tvAvatarInitials = ViewBindings.findChildViewById(rootView, id);
       if (tvAvatarInitials == null) {
         break missingId;
       }
 
+      id = R.id.tvHelpDescription;
+      TextView tvHelpDescription = ViewBindings.findChildViewById(rootView, id);
+      if (tvHelpDescription == null) {
+        break missingId;
+      }
+
       id = R.id.tvHelpTitle;
       TextView tvHelpTitle = ViewBindings.findChildViewById(rootView, id);
       if (tvHelpTitle == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSeeMoreFavorites;
+      TextView tvSeeMoreFavorites = ViewBindings.findChildViewById(rootView, id);
+      if (tvSeeMoreFavorites == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSeeMoreUploads;
+      TextView tvSeeMoreUploads = ViewBindings.findChildViewById(rootView, id);
+      if (tvSeeMoreUploads == null) {
         break missingId;
       }
 
@@ -149,8 +241,9 @@ public final class FragmentProfileBinding implements ViewBinding {
       }
 
       return new FragmentProfileBinding((NestedScrollView) rootView, btnLogout, btnNorms,
-          btnPrivacy, ivHelpIcon, ivNotification, tvAvatarInitials, tvHelpTitle, tvUserCareer,
-          tvUserName);
+          btnPrivacy, cardDownloads, cardFavorites, cardUploads, ivHelpIcon, ivNotification,
+          scrollViewProfile, titleFavorites, titleUploads, tvAvatarInitials, tvHelpDescription,
+          tvHelpTitle, tvSeeMoreFavorites, tvSeeMoreUploads, tvUserCareer, tvUserName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
