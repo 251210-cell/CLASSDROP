@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="background">#F8FAFC</color>
+    <color name="black">#000000</color>
+    <color name="error">#EF4444</color>
+    <color name="on_background">#0F172A</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_surface">#0F172A</color>
+    <color name="on_surface_variant">#475569</color>
+    <color name="outline">#E2E8F0</color>
+    <color name="outline_variant">#F1F5F9</color>
+    <color name="placeholder">#94A3B8</color>
+    <color name="primary">#6366F1</color>
+    <color name="primary_dark">#4F46E5</color>
+    <color name="success">#22C55E</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F3F3F5</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="transparent">#00000000</color>
+    <color name="warning">#F59E0B</color>
+    <color name="white">#FFFFFF</color>
+    <string name="admin_materias">Materias y contenido</string>
+    <string name="admin_moderacion">Moderación con IA</string>
+    <string name="admin_normas">Gestión de normas</string>
+    <string name="admin_panel_subtitulo">Gestiona el contenido y la comunidad de ClassDrop</string>
+    <string name="admin_panel_titulo">Panel de administración</string>
+    <string name="admin_reportes">Reportes de comentarios</string>
+    <string name="app_name">ClassDrop</string>
+    <string name="archivos_count">%1$d archivos</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="continuar_con_google">Continuar con Google</string>
+    <string name="google">Google</string>
+    <string name="hint_contrasena">••••••••</string>
+    <string name="hint_correo">ejemplo@ids.upchiapas.edu.mx</string>
+    <string name="home_novedades">Novedades</string>
+    <string name="home_saludo">¡Hola, Mariana!</string>
+    <string name="home_subtitulo">¿Qué vamos a estudiar hoy?</string>
+    <string name="home_tus_materias">Tus Materias</string>
+    <string name="home_ver_todas">Ver todas</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="label_contrasena">Contraseña</string>
+    <string name="label_correo">Correo electrónico</string>
+    <string name="login_titulo">¡Hola de nuevo!</string>
+    <string name="materia_algebra">Álgebra</string>
+    <string name="materia_bd">Base de Datos</string>
+    <string name="materia_calculo">Cálculo II</string>
+    <string name="materia_progra">Programación</string>
+    <string name="mostrar_contrasena">Mostrar contraseña</string>
+    <string name="nav_explorar">Explorar</string>
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_perfil">Perfil</string>
+    <string name="nav_subir">Subir archivo</string>
+    <string name="no_tienes_cuenta">¿No tienes una cuenta?</string>
+    <string name="o_continuar_con">O continuar con</string>
+    <string name="olvidaste_contrasena">¿Olvidaste tu contraseña?</string>
+    <string name="registrate_aqui">Regístrate aquí</string>
+    <string name="tiempo_hace">hace %1$s</string>
+    <style name="ShapeAppearance.Material3.Corner.Small" parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerSize">12dp</item>
+    </style>
+    <style name="Theme.ClassDrop" parent="Theme.Material3.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOutline">@color/outline</item>
+
+        <item name="colorOnBackground">@color/on_background</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_error</item>
+
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="android:windowLightStatusBar" ns1:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" ns1:targetApi="27">true</item>
+    </style>
+    <style name="Widget.ClassDrop.Button" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Widget.ClassDrop.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">28dp</item>
+        <item name="boxCornerRadiusTopEnd">28dp</item>
+        <item name="boxCornerRadiusBottomStart">28dp</item>
+        <item name="boxCornerRadiusBottomEnd">28dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">@color/surface_variant</item>
+        <item name="hintEnabled">false</item>
+    </style>
+</resources>

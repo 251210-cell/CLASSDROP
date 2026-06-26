@@ -35,7 +35,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupUserData() {
-        // Corregido: fetchUserName() es el método correcto en SessionManager
         val userName = sessionManager.fetchUserName()
         binding.tvUserName.text = userName
         binding.tvAvatarInitials.text = userName.split(" ")
@@ -54,7 +53,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnPrivacy.setOnClickListener {
-            Toast.makeText(context, "Políticas de Privacidad", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), PrivacyPolicyActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnNorms.setOnClickListener {

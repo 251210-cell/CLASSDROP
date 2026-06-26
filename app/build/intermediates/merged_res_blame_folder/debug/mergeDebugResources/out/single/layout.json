@@ -76,6 +76,10 @@
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_file_card.xml"
     },
     {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_privacy_policy.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_privacy_policy.xml"
+    },
+    {
         "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_moderation.xml",
         "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_moderation.xml"
     },

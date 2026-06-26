@@ -31,10 +31,13 @@ drawable bg_purple_glow
 drawable bg_quarter_selected
 drawable bg_screen_glow
 drawable bg_splash_glow
+drawable bg_tab_slider
 drawable ic_app_logo
 drawable ic_arrow_back
 drawable ic_chevron_down
 drawable ic_comment
+drawable ic_data_protection
+drawable ic_data_usage
 drawable ic_download
 drawable ic_eye_hide
 drawable ic_eye_show
@@ -52,6 +55,7 @@ drawable ic_nav_upload
 drawable ic_notification
 drawable ic_thumb_down
 drawable ic_thumb_up
+drawable ic_user_rights
 id bottomNavBar
 id btnBack
 id btnBookmark
@@ -71,7 +75,6 @@ id btnNavUpload
 id btnNorms
 id btnPrivacy
 id btnPublish
-id btnRegister
 id btnSelectMateria
 id btnSelectQuarter
 id btnSelectSubject
@@ -86,7 +89,6 @@ id cardReportes
 id cardSubject
 id clHeader
 id etEmail
-id etName
 id etPassword
 id etSearch
 id etUrl
@@ -94,8 +96,11 @@ id formCard
 id fragmentContainer
 id headerLayout
 id includeBottomNav
+id ivCommentIcon
 id ivDislikeElena
+id ivDislikeIcon
 id ivDislikeMarco
+id ivDownloadIcon
 id ivFileTypeIcon
 id ivHelpIcon
 id ivIcon
@@ -105,6 +110,9 @@ id ivLikeMarco
 id ivNotification
 id ivSubjectIcon
 id ivUserAvatar
+id llComments
+id llDislike
+id llDownload
 id llLike
 id materiasHeader
 id novedadesHeader
@@ -125,6 +133,7 @@ id tvCerrarSesion
 id tvComments
 id tvDislikeCountElena
 id tvDislikeCountMarco
+id tvDislikes
 id tvDownloads
 id tvFileCount
 id tvFileName
@@ -136,7 +145,6 @@ id tvLabelCuatrimestre
 id tvLikeCountElena
 id tvLikeCountMarco
 id tvLikes
-id tvLoginLink
 id tvQuarterNumber
 id tvSaludo
 id tvSelectedMateria
@@ -160,6 +168,7 @@ layout activity_file_detail
 layout activity_login
 layout activity_main
 layout activity_moderation
+layout activity_privacy_policy
 layout activity_register
 layout activity_splash
 layout activity_subject_detail

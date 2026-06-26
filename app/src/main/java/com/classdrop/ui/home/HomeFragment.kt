@@ -70,7 +70,6 @@ class HomeFragment : Fragment() {
         viewModel.subjects.observe(viewLifecycleOwner) { subjects ->
             adapter.submitList(subjects)
         }
-<<<<<<< Updated upstream
 
         setupInteractions()
     }
@@ -98,7 +97,6 @@ class HomeFragment : Fragment() {
         val colorPlaceholder = resources.getColor(com.classdrop.R.color.placeholder, null)
 
         binding.btnLikeElena.setOnClickListener {
-            // Si tenía dislike, lo quitamos
             if (isElenaDisliked) {
                 isElenaDisliked = false
                 elenaDislikes--
@@ -111,7 +109,6 @@ class HomeFragment : Fragment() {
             elenaLikes += if (isElenaLiked) 1 else -1
             binding.tvLikeCountElena.text = elenaLikes.toString()
             
-            // Usamos el morado del dislike (#A855F7) para el like también
             val color = if (isElenaLiked) colorDislike else colorPlaceholder
             binding.ivLikeElena.setColorFilter(color)
             binding.tvLikeCountElena.setTextColor(color)
@@ -122,7 +119,6 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnDislikeElena.setOnClickListener {
-            // Si tenía like, lo quitamos
             if (isElenaLiked) {
                 isElenaLiked = false
                 elenaLikes--
@@ -175,7 +171,6 @@ class HomeFragment : Fragment() {
             marcoLikes += if (isMarcoLiked) 1 else -1
             binding.tvLikeCountMarco.text = marcoLikes.toString()
             
-            // Usamos el morado del dislike (#A855F7) para el like también
             val color = if (isMarcoLiked) colorDislike else colorPlaceholder
             binding.ivLikeMarco.setColorFilter(color)
             binding.tvLikeCountMarco.setTextColor(color)
@@ -206,8 +201,6 @@ class HomeFragment : Fragment() {
                 binding.btnDislikeMarco.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100)
             }
         }
-=======
->>>>>>> Stashed changes
     }
 
     private fun navigateToSubject(subject: Subject) {
