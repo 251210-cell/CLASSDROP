@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.classdrop.app-mergeDebugResources-36:/values-h550dp-port-v13/values-h550dp-port-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\velaz\\.gradle\\caches\\8.14.5\\transforms\\5c19254da9f6a6095083e12f5f8a3092\\transformed\\material-1.11.0\\res\\values-h550dp-port-v13\\values-h550dp-port-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "64",
+                        "endOffsets": "115"
+                    }
+                }
+            ]
+        }
+    ]
+}

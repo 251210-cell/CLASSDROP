@@ -6,4 +6,41 @@
     <string name="nav_explorar">Explorar</string>
     <string name="nav_subir">Subir archivo</string>
     <string name="nav_perfil">Perfil</string>
+
+    <!-- Login -->
+    <string name="login_titulo">¡Hola de nuevo!</string>
+    <string name="label_correo">Correo electrónico</string>
+    <string name="hint_correo">ejemplo@ids.upchiapas.edu.mx</string>
+    <string name="label_contrasena">Contraseña</string>
+    <string name="hint_contrasena">••••••••</string>
+    <string name="mostrar_contrasena">Mostrar contraseña</string>
+    <string name="olvidaste_contrasena">¿Olvidaste tu contraseña?</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="o_continuar_con">O continuar con</string>
+    <string name="continuar_con_google">Continuar con Google</string>
+    <string name="google">Google</string>
+    <string name="no_tienes_cuenta">¿No tienes una cuenta?</string>
+    <string name="registrate_aqui">Regístrate aquí</string>
+
+    <!-- Home -->
+    <string name="home_saludo">¡Hola, Mariana!</string>
+    <string name="home_subtitulo">¿Qué vamos a estudiar hoy?</string>
+    <string name="home_tus_materias">Tus Materias</string>
+    <string name="home_ver_todas">Ver todas</string>
+    <string name="home_novedades">Novedades</string>
+    <string name="materia_calculo">Cálculo II</string>
+    <string name="materia_progra">Programación</string>
+    <string name="materia_bd">Base de Datos</string>
+    <string name="materia_algebra">Álgebra</string>
+    <string name="archivos_count">%1$d archivos</string>
+    <string name="tiempo_hace">hace %1$s</string>
+
+    <!-- Admin -->
+    <string name="admin_panel_titulo">Panel de administración</string>
+    <string name="admin_panel_subtitulo">Gestiona el contenido y la comunidad de ClassDrop</string>
+    <string name="admin_moderacion">Moderación con IA</string>
+    <string name="admin_reportes">Reportes de comentarios</string>
+    <string name="admin_normas">Gestión de normas</string>
+    <string name="admin_materias">Materias y contenido</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
 </resources>

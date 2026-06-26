@@ -3,6 +3,8 @@ package com.classdrop.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.classdrop.model.UserRole
+import com.classdrop.ui.admin.AdminHomeActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
 
@@ -13,7 +15,10 @@ class SplashActivity : AppCompatActivity() {
 
         val sessionManager = SessionManager(this)
         val destination = if (sessionManager.fetchAuthToken() != null) {
-            MainActivity::class.java
+            when (sessionManager.fetchUserRole()) {
+                UserRole.ADMIN -> AdminHomeActivity::class.java
+                UserRole.STUDENT -> MainActivity::class.java
+            }
         } else {
             LoginActivity::class.java
         }
