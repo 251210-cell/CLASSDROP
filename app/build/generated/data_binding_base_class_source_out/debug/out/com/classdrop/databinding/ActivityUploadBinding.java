@@ -4,25 +4,109 @@ package com.classdrop.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
+import androidx.viewpager2.widget.ViewPager2;
 import com.classdrop.R;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
+import java.lang.String;
 
 public final class ActivityUploadBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ConstraintLayout rootView;
 
-  private ActivityUploadBinding(@NonNull LinearLayout rootView) {
+  @NonNull
+  public final MaterialButton btnPublish;
+
+  @NonNull
+  public final MaterialCardView btnSelectQuarter;
+
+  @NonNull
+  public final MaterialCardView btnSelectSubject;
+
+  @NonNull
+  public final MaterialCardView formCard;
+
+  @NonNull
+  public final LinearLayout headerLayout;
+
+  @NonNull
+  public final LayoutBottomNavBarBinding includeBottomNav;
+
+  @NonNull
+  public final ImageView ivNotification;
+
+  @NonNull
+  public final MaterialCardView tabContainer;
+
+  @NonNull
+  public final TextView tabFile;
+
+  @NonNull
+  public final View tabSelector;
+
+  @NonNull
+  public final TextView tabUrl;
+
+  @NonNull
+  public final TextView tvAvatarInitials;
+
+  @NonNull
+  public final TextView tvSelectedQuarter;
+
+  @NonNull
+  public final TextView tvSelectedSubject;
+
+  @NonNull
+  public final TextView tvSubtitle;
+
+  @NonNull
+  public final TextView tvTitle;
+
+  @NonNull
+  public final ViewPager2 viewPager;
+
+  private ActivityUploadBinding(@NonNull ConstraintLayout rootView,
+      @NonNull MaterialButton btnPublish, @NonNull MaterialCardView btnSelectQuarter,
+      @NonNull MaterialCardView btnSelectSubject, @NonNull MaterialCardView formCard,
+      @NonNull LinearLayout headerLayout, @NonNull LayoutBottomNavBarBinding includeBottomNav,
+      @NonNull ImageView ivNotification, @NonNull MaterialCardView tabContainer,
+      @NonNull TextView tabFile, @NonNull View tabSelector, @NonNull TextView tabUrl,
+      @NonNull TextView tvAvatarInitials, @NonNull TextView tvSelectedQuarter,
+      @NonNull TextView tvSelectedSubject, @NonNull TextView tvSubtitle, @NonNull TextView tvTitle,
+      @NonNull ViewPager2 viewPager) {
     this.rootView = rootView;
+    this.btnPublish = btnPublish;
+    this.btnSelectQuarter = btnSelectQuarter;
+    this.btnSelectSubject = btnSelectSubject;
+    this.formCard = formCard;
+    this.headerLayout = headerLayout;
+    this.includeBottomNav = includeBottomNav;
+    this.ivNotification = ivNotification;
+    this.tabContainer = tabContainer;
+    this.tabFile = tabFile;
+    this.tabSelector = tabSelector;
+    this.tabUrl = tabUrl;
+    this.tvAvatarInitials = tvAvatarInitials;
+    this.tvSelectedQuarter = tvSelectedQuarter;
+    this.tvSelectedSubject = tvSelectedSubject;
+    this.tvSubtitle = tvSubtitle;
+    this.tvTitle = tvTitle;
+    this.viewPager = viewPager;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ConstraintLayout getRoot() {
     return rootView;
   }
 
@@ -43,10 +127,119 @@ public final class ActivityUploadBinding implements ViewBinding {
 
   @NonNull
   public static ActivityUploadBinding bind(@NonNull View rootView) {
-    if (rootView == null) {
-      throw new NullPointerException("rootView");
-    }
+    // The body of this method is generated in a way you would not otherwise write.
+    // This is done to optimize the compiled bytecode for size and performance.
+    int id;
+    missingId: {
+      id = R.id.btnPublish;
+      MaterialButton btnPublish = ViewBindings.findChildViewById(rootView, id);
+      if (btnPublish == null) {
+        break missingId;
+      }
 
-    return new ActivityUploadBinding((LinearLayout) rootView);
+      id = R.id.btnSelectQuarter;
+      MaterialCardView btnSelectQuarter = ViewBindings.findChildViewById(rootView, id);
+      if (btnSelectQuarter == null) {
+        break missingId;
+      }
+
+      id = R.id.btnSelectSubject;
+      MaterialCardView btnSelectSubject = ViewBindings.findChildViewById(rootView, id);
+      if (btnSelectSubject == null) {
+        break missingId;
+      }
+
+      id = R.id.formCard;
+      MaterialCardView formCard = ViewBindings.findChildViewById(rootView, id);
+      if (formCard == null) {
+        break missingId;
+      }
+
+      id = R.id.headerLayout;
+      LinearLayout headerLayout = ViewBindings.findChildViewById(rootView, id);
+      if (headerLayout == null) {
+        break missingId;
+      }
+
+      id = R.id.includeBottomNav;
+      View includeBottomNav = ViewBindings.findChildViewById(rootView, id);
+      if (includeBottomNav == null) {
+        break missingId;
+      }
+      LayoutBottomNavBarBinding binding_includeBottomNav = LayoutBottomNavBarBinding.bind(includeBottomNav);
+
+      id = R.id.ivNotification;
+      ImageView ivNotification = ViewBindings.findChildViewById(rootView, id);
+      if (ivNotification == null) {
+        break missingId;
+      }
+
+      id = R.id.tabContainer;
+      MaterialCardView tabContainer = ViewBindings.findChildViewById(rootView, id);
+      if (tabContainer == null) {
+        break missingId;
+      }
+
+      id = R.id.tabFile;
+      TextView tabFile = ViewBindings.findChildViewById(rootView, id);
+      if (tabFile == null) {
+        break missingId;
+      }
+
+      id = R.id.tabSelector;
+      View tabSelector = ViewBindings.findChildViewById(rootView, id);
+      if (tabSelector == null) {
+        break missingId;
+      }
+
+      id = R.id.tabUrl;
+      TextView tabUrl = ViewBindings.findChildViewById(rootView, id);
+      if (tabUrl == null) {
+        break missingId;
+      }
+
+      id = R.id.tvAvatarInitials;
+      TextView tvAvatarInitials = ViewBindings.findChildViewById(rootView, id);
+      if (tvAvatarInitials == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSelectedQuarter;
+      TextView tvSelectedQuarter = ViewBindings.findChildViewById(rootView, id);
+      if (tvSelectedQuarter == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSelectedSubject;
+      TextView tvSelectedSubject = ViewBindings.findChildViewById(rootView, id);
+      if (tvSelectedSubject == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSubtitle;
+      TextView tvSubtitle = ViewBindings.findChildViewById(rootView, id);
+      if (tvSubtitle == null) {
+        break missingId;
+      }
+
+      id = R.id.tvTitle;
+      TextView tvTitle = ViewBindings.findChildViewById(rootView, id);
+      if (tvTitle == null) {
+        break missingId;
+      }
+
+      id = R.id.viewPager;
+      ViewPager2 viewPager = ViewBindings.findChildViewById(rootView, id);
+      if (viewPager == null) {
+        break missingId;
+      }
+
+      return new ActivityUploadBinding((ConstraintLayout) rootView, btnPublish, btnSelectQuarter,
+          btnSelectSubject, formCard, headerLayout, binding_includeBottomNav, ivNotification,
+          tabContainer, tabFile, tabSelector, tabUrl, tvAvatarInitials, tvSelectedQuarter,
+          tvSelectedSubject, tvSubtitle, tvTitle, viewPager);
+    }
+    String missingId = rootView.getResources().getResourceName(id);
+    throw new NullPointerException("Missing required view with ID: ".concat(missingId));
   }
 }

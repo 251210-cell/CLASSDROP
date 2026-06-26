@@ -3,5 +3,8 @@ package com.classdrop.model
 data class Subject(
     val id: String,
     val name: String,
-    val description: String
+    val fileCount: Int,
+    val iconRes: Int,
+    val iconBgColor: String,
+    val iconTintColor: String
 )

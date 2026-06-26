@@ -4,25 +4,82 @@ package com.classdrop.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.classdrop.R;
+import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
+import java.lang.String;
 
 public final class FragmentExploreBinding implements ViewBinding {
   @NonNull
-  private final FrameLayout rootView;
+  private final NestedScrollView rootView;
 
-  private FragmentExploreBinding(@NonNull FrameLayout rootView) {
+  @NonNull
+  public final MaterialCardView btnSelectMateria;
+
+  @NonNull
+  public final EditText etSearch;
+
+  @NonNull
+  public final LinearLayout headerLayout;
+
+  @NonNull
+  public final RecyclerView rvCuatrimestres;
+
+  @NonNull
+  public final RecyclerView rvSubjectsExplore;
+
+  @NonNull
+  public final RecyclerView rvSuggestions;
+
+  @NonNull
+  public final MaterialCardView searchCard;
+
+  @NonNull
+  public final TextView tvAvatarInitials;
+
+  @NonNull
+  public final TextView tvLabelCuatrimestre;
+
+  @NonNull
+  public final TextView tvSelectedMateria;
+
+  @NonNull
+  public final TextView tvTitle;
+
+  private FragmentExploreBinding(@NonNull NestedScrollView rootView,
+      @NonNull MaterialCardView btnSelectMateria, @NonNull EditText etSearch,
+      @NonNull LinearLayout headerLayout, @NonNull RecyclerView rvCuatrimestres,
+      @NonNull RecyclerView rvSubjectsExplore, @NonNull RecyclerView rvSuggestions,
+      @NonNull MaterialCardView searchCard, @NonNull TextView tvAvatarInitials,
+      @NonNull TextView tvLabelCuatrimestre, @NonNull TextView tvSelectedMateria,
+      @NonNull TextView tvTitle) {
     this.rootView = rootView;
+    this.btnSelectMateria = btnSelectMateria;
+    this.etSearch = etSearch;
+    this.headerLayout = headerLayout;
+    this.rvCuatrimestres = rvCuatrimestres;
+    this.rvSubjectsExplore = rvSubjectsExplore;
+    this.rvSuggestions = rvSuggestions;
+    this.searchCard = searchCard;
+    this.tvAvatarInitials = tvAvatarInitials;
+    this.tvLabelCuatrimestre = tvLabelCuatrimestre;
+    this.tvSelectedMateria = tvSelectedMateria;
+    this.tvTitle = tvTitle;
   }
 
   @Override
   @NonNull
-  public FrameLayout getRoot() {
+  public NestedScrollView getRoot() {
     return rootView;
   }
 
@@ -43,10 +100,81 @@ public final class FragmentExploreBinding implements ViewBinding {
 
   @NonNull
   public static FragmentExploreBinding bind(@NonNull View rootView) {
-    if (rootView == null) {
-      throw new NullPointerException("rootView");
-    }
+    // The body of this method is generated in a way you would not otherwise write.
+    // This is done to optimize the compiled bytecode for size and performance.
+    int id;
+    missingId: {
+      id = R.id.btnSelectMateria;
+      MaterialCardView btnSelectMateria = ViewBindings.findChildViewById(rootView, id);
+      if (btnSelectMateria == null) {
+        break missingId;
+      }
 
-    return new FragmentExploreBinding((FrameLayout) rootView);
+      id = R.id.etSearch;
+      EditText etSearch = ViewBindings.findChildViewById(rootView, id);
+      if (etSearch == null) {
+        break missingId;
+      }
+
+      id = R.id.headerLayout;
+      LinearLayout headerLayout = ViewBindings.findChildViewById(rootView, id);
+      if (headerLayout == null) {
+        break missingId;
+      }
+
+      id = R.id.rvCuatrimestres;
+      RecyclerView rvCuatrimestres = ViewBindings.findChildViewById(rootView, id);
+      if (rvCuatrimestres == null) {
+        break missingId;
+      }
+
+      id = R.id.rvSubjectsExplore;
+      RecyclerView rvSubjectsExplore = ViewBindings.findChildViewById(rootView, id);
+      if (rvSubjectsExplore == null) {
+        break missingId;
+      }
+
+      id = R.id.rvSuggestions;
+      RecyclerView rvSuggestions = ViewBindings.findChildViewById(rootView, id);
+      if (rvSuggestions == null) {
+        break missingId;
+      }
+
+      id = R.id.searchCard;
+      MaterialCardView searchCard = ViewBindings.findChildViewById(rootView, id);
+      if (searchCard == null) {
+        break missingId;
+      }
+
+      id = R.id.tvAvatarInitials;
+      TextView tvAvatarInitials = ViewBindings.findChildViewById(rootView, id);
+      if (tvAvatarInitials == null) {
+        break missingId;
+      }
+
+      id = R.id.tvLabelCuatrimestre;
+      TextView tvLabelCuatrimestre = ViewBindings.findChildViewById(rootView, id);
+      if (tvLabelCuatrimestre == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSelectedMateria;
+      TextView tvSelectedMateria = ViewBindings.findChildViewById(rootView, id);
+      if (tvSelectedMateria == null) {
+        break missingId;
+      }
+
+      id = R.id.tvTitle;
+      TextView tvTitle = ViewBindings.findChildViewById(rootView, id);
+      if (tvTitle == null) {
+        break missingId;
+      }
+
+      return new FragmentExploreBinding((NestedScrollView) rootView, btnSelectMateria, etSearch,
+          headerLayout, rvCuatrimestres, rvSubjectsExplore, rvSuggestions, searchCard,
+          tvAvatarInitials, tvLabelCuatrimestre, tvSelectedMateria, tvTitle);
+    }
+    String missingId = rootView.getResources().getResourceName(id);
+    throw new NullPointerException("Missing required view with ID: ".concat(missingId));
   }
 }

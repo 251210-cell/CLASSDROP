@@ -56,6 +56,9 @@
     <string name="olvidaste_contrasena">¿Olvidaste tu contraseña?</string>
     <string name="registrate_aqui">Regístrate aquí</string>
     <string name="tiempo_hace">hace %1$s</string>
+    <style name="ShapeAppearance.Material3.Corner.Small" parent="ShapeAppearance.Material3.Corner.Small">
+        <item name="cornerSize">12dp</item>
+    </style>
     <style name="Theme.ClassDrop" parent="Theme.Material3.Light.NoActionBar">
 
         <item name="colorPrimary">@color/primary</item>

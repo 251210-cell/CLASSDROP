@@ -5,17 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.classdrop.R;
-import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -25,25 +25,40 @@ public final class FragmentHomeBinding implements ViewBinding {
   private final NestedScrollView rootView;
 
   @NonNull
-  public final MaterialCardView cardAlgebra;
+  public final LinearLayout btnDislikeElena;
 
   @NonNull
-  public final MaterialCardView cardBaseDatos;
+  public final LinearLayout btnDislikeMarco;
 
   @NonNull
-  public final MaterialCardView cardCalculo;
+  public final ImageView btnFavoriteElena;
+
+  @NonNull
+  public final ImageView btnFavoriteMarco;
+
+  @NonNull
+  public final LinearLayout btnLikeElena;
+
+  @NonNull
+  public final LinearLayout btnLikeMarco;
 
   @NonNull
   public final FrameLayout cardElena;
 
   @NonNull
-  public final MaterialCardView cardProgramacion;
-
-  @NonNull
-  public final GridLayout gridMaterias;
-
-  @NonNull
   public final LinearLayout headerLayout;
+
+  @NonNull
+  public final ImageView ivDislikeElena;
+
+  @NonNull
+  public final ImageView ivDislikeMarco;
+
+  @NonNull
+  public final ImageView ivLikeElena;
+
+  @NonNull
+  public final ImageView ivLikeMarco;
 
   @NonNull
   public final RelativeLayout materiasHeader;
@@ -52,33 +67,63 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView novedadesHeader;
 
   @NonNull
+  public final RecyclerView rvSubjects;
+
+  @NonNull
   public final LinearLayout saludoLayout;
 
   @NonNull
   public final TextView tvAvatarInitials;
 
   @NonNull
+  public final TextView tvDislikeCountElena;
+
+  @NonNull
+  public final TextView tvDislikeCountMarco;
+
+  @NonNull
+  public final TextView tvLikeCountElena;
+
+  @NonNull
+  public final TextView tvLikeCountMarco;
+
+  @NonNull
   public final TextView tvSaludo;
 
   private FragmentHomeBinding(@NonNull NestedScrollView rootView,
-      @NonNull MaterialCardView cardAlgebra, @NonNull MaterialCardView cardBaseDatos,
-      @NonNull MaterialCardView cardCalculo, @NonNull FrameLayout cardElena,
-      @NonNull MaterialCardView cardProgramacion, @NonNull GridLayout gridMaterias,
-      @NonNull LinearLayout headerLayout, @NonNull RelativeLayout materiasHeader,
-      @NonNull TextView novedadesHeader, @NonNull LinearLayout saludoLayout,
-      @NonNull TextView tvAvatarInitials, @NonNull TextView tvSaludo) {
+      @NonNull LinearLayout btnDislikeElena, @NonNull LinearLayout btnDislikeMarco,
+      @NonNull ImageView btnFavoriteElena, @NonNull ImageView btnFavoriteMarco,
+      @NonNull LinearLayout btnLikeElena, @NonNull LinearLayout btnLikeMarco,
+      @NonNull FrameLayout cardElena, @NonNull LinearLayout headerLayout,
+      @NonNull ImageView ivDislikeElena, @NonNull ImageView ivDislikeMarco,
+      @NonNull ImageView ivLikeElena, @NonNull ImageView ivLikeMarco,
+      @NonNull RelativeLayout materiasHeader, @NonNull TextView novedadesHeader,
+      @NonNull RecyclerView rvSubjects, @NonNull LinearLayout saludoLayout,
+      @NonNull TextView tvAvatarInitials, @NonNull TextView tvDislikeCountElena,
+      @NonNull TextView tvDislikeCountMarco, @NonNull TextView tvLikeCountElena,
+      @NonNull TextView tvLikeCountMarco, @NonNull TextView tvSaludo) {
     this.rootView = rootView;
-    this.cardAlgebra = cardAlgebra;
-    this.cardBaseDatos = cardBaseDatos;
-    this.cardCalculo = cardCalculo;
+    this.btnDislikeElena = btnDislikeElena;
+    this.btnDislikeMarco = btnDislikeMarco;
+    this.btnFavoriteElena = btnFavoriteElena;
+    this.btnFavoriteMarco = btnFavoriteMarco;
+    this.btnLikeElena = btnLikeElena;
+    this.btnLikeMarco = btnLikeMarco;
     this.cardElena = cardElena;
-    this.cardProgramacion = cardProgramacion;
-    this.gridMaterias = gridMaterias;
     this.headerLayout = headerLayout;
+    this.ivDislikeElena = ivDislikeElena;
+    this.ivDislikeMarco = ivDislikeMarco;
+    this.ivLikeElena = ivLikeElena;
+    this.ivLikeMarco = ivLikeMarco;
     this.materiasHeader = materiasHeader;
     this.novedadesHeader = novedadesHeader;
+    this.rvSubjects = rvSubjects;
     this.saludoLayout = saludoLayout;
     this.tvAvatarInitials = tvAvatarInitials;
+    this.tvDislikeCountElena = tvDislikeCountElena;
+    this.tvDislikeCountMarco = tvDislikeCountMarco;
+    this.tvLikeCountElena = tvLikeCountElena;
+    this.tvLikeCountMarco = tvLikeCountMarco;
     this.tvSaludo = tvSaludo;
   }
 
@@ -109,21 +154,39 @@ public final class FragmentHomeBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.cardAlgebra;
-      MaterialCardView cardAlgebra = ViewBindings.findChildViewById(rootView, id);
-      if (cardAlgebra == null) {
+      id = R.id.btnDislikeElena;
+      LinearLayout btnDislikeElena = ViewBindings.findChildViewById(rootView, id);
+      if (btnDislikeElena == null) {
         break missingId;
       }
 
-      id = R.id.cardBaseDatos;
-      MaterialCardView cardBaseDatos = ViewBindings.findChildViewById(rootView, id);
-      if (cardBaseDatos == null) {
+      id = R.id.btnDislikeMarco;
+      LinearLayout btnDislikeMarco = ViewBindings.findChildViewById(rootView, id);
+      if (btnDislikeMarco == null) {
         break missingId;
       }
 
-      id = R.id.cardCalculo;
-      MaterialCardView cardCalculo = ViewBindings.findChildViewById(rootView, id);
-      if (cardCalculo == null) {
+      id = R.id.btnFavoriteElena;
+      ImageView btnFavoriteElena = ViewBindings.findChildViewById(rootView, id);
+      if (btnFavoriteElena == null) {
+        break missingId;
+      }
+
+      id = R.id.btnFavoriteMarco;
+      ImageView btnFavoriteMarco = ViewBindings.findChildViewById(rootView, id);
+      if (btnFavoriteMarco == null) {
+        break missingId;
+      }
+
+      id = R.id.btnLikeElena;
+      LinearLayout btnLikeElena = ViewBindings.findChildViewById(rootView, id);
+      if (btnLikeElena == null) {
+        break missingId;
+      }
+
+      id = R.id.btnLikeMarco;
+      LinearLayout btnLikeMarco = ViewBindings.findChildViewById(rootView, id);
+      if (btnLikeMarco == null) {
         break missingId;
       }
 
@@ -133,21 +196,33 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.cardProgramacion;
-      MaterialCardView cardProgramacion = ViewBindings.findChildViewById(rootView, id);
-      if (cardProgramacion == null) {
-        break missingId;
-      }
-
-      id = R.id.gridMaterias;
-      GridLayout gridMaterias = ViewBindings.findChildViewById(rootView, id);
-      if (gridMaterias == null) {
-        break missingId;
-      }
-
       id = R.id.headerLayout;
       LinearLayout headerLayout = ViewBindings.findChildViewById(rootView, id);
       if (headerLayout == null) {
+        break missingId;
+      }
+
+      id = R.id.ivDislikeElena;
+      ImageView ivDislikeElena = ViewBindings.findChildViewById(rootView, id);
+      if (ivDislikeElena == null) {
+        break missingId;
+      }
+
+      id = R.id.ivDislikeMarco;
+      ImageView ivDislikeMarco = ViewBindings.findChildViewById(rootView, id);
+      if (ivDislikeMarco == null) {
+        break missingId;
+      }
+
+      id = R.id.ivLikeElena;
+      ImageView ivLikeElena = ViewBindings.findChildViewById(rootView, id);
+      if (ivLikeElena == null) {
+        break missingId;
+      }
+
+      id = R.id.ivLikeMarco;
+      ImageView ivLikeMarco = ViewBindings.findChildViewById(rootView, id);
+      if (ivLikeMarco == null) {
         break missingId;
       }
 
@@ -163,6 +238,12 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.rvSubjects;
+      RecyclerView rvSubjects = ViewBindings.findChildViewById(rootView, id);
+      if (rvSubjects == null) {
+        break missingId;
+      }
+
       id = R.id.saludoLayout;
       LinearLayout saludoLayout = ViewBindings.findChildViewById(rootView, id);
       if (saludoLayout == null) {
@@ -175,15 +256,41 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvDislikeCountElena;
+      TextView tvDislikeCountElena = ViewBindings.findChildViewById(rootView, id);
+      if (tvDislikeCountElena == null) {
+        break missingId;
+      }
+
+      id = R.id.tvDislikeCountMarco;
+      TextView tvDislikeCountMarco = ViewBindings.findChildViewById(rootView, id);
+      if (tvDislikeCountMarco == null) {
+        break missingId;
+      }
+
+      id = R.id.tvLikeCountElena;
+      TextView tvLikeCountElena = ViewBindings.findChildViewById(rootView, id);
+      if (tvLikeCountElena == null) {
+        break missingId;
+      }
+
+      id = R.id.tvLikeCountMarco;
+      TextView tvLikeCountMarco = ViewBindings.findChildViewById(rootView, id);
+      if (tvLikeCountMarco == null) {
+        break missingId;
+      }
+
       id = R.id.tvSaludo;
       TextView tvSaludo = ViewBindings.findChildViewById(rootView, id);
       if (tvSaludo == null) {
         break missingId;
       }
 
-      return new FragmentHomeBinding((NestedScrollView) rootView, cardAlgebra, cardBaseDatos,
-          cardCalculo, cardElena, cardProgramacion, gridMaterias, headerLayout, materiasHeader,
-          novedadesHeader, saludoLayout, tvAvatarInitials, tvSaludo);
+      return new FragmentHomeBinding((NestedScrollView) rootView, btnDislikeElena, btnDislikeMarco,
+          btnFavoriteElena, btnFavoriteMarco, btnLikeElena, btnLikeMarco, cardElena, headerLayout,
+          ivDislikeElena, ivDislikeMarco, ivLikeElena, ivLikeMarco, materiasHeader, novedadesHeader,
+          rvSubjects, saludoLayout, tvAvatarInitials, tvDislikeCountElena, tvDislikeCountMarco,
+          tvLikeCountElena, tvLikeCountMarco, tvSaludo);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.classdrop.app-mergeDebugResources-36:/values-sr/values-sr.xml",
+            "outputFile": "com.classdrop.app-mergeDebugResources-37:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\velaz\\.gradle\\caches\\8.14.5\\transforms\\dedbaf39f599ed0379d542feef3aad12\\transformed\\core-1.12.0\\res\\values-sr\\values-sr.xml",

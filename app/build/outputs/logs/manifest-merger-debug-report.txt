@@ -1,19 +1,20 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-41:12
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:2:1-45:12
 MERGED from [androidx.databinding:viewbinding:8.7.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2bf9ef8c06a240e8bf3ccf583751a7c0\transformed\jetified-viewbinding-8.7.2\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5c19254da9f6a6095083e12f5f8a3092\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\velaz\.gradle\caches\8.14.5\transforms\b280291603ad98c2b62d2f29e4e87eb4\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\ad95f6106554336b1273a9628d3572c4\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\884848987b0ee99c4a6d6651d3d61e38\transformed\appcompat-1.6.1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bec55529b2e66a99c3b42610a3d23574\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2e60abca84ac2461b08f6136365cdcfc\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
 MERGED from [com.github.bumptech.glide:glide:4.16.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5bbd084e73f88a83cece9f415107babc\transformed\jetified-glide-4.16.0\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5d59c9099a17f9b268df21ce31bea4aa\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\velaz\.gradle\caches\8.14.5\transforms\0188ccc487a9053b8bfa09ce663726a0\transformed\fragment-1.3.6\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.6.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bd5b39b6ff216f4c385fa1d8d7660016\transformed\fragment-1.6.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment-ktx:1.6.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\8ab0a98e890ff88444b38f79576ccd8e\transformed\jetified-fragment-ktx-1.6.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bec55529b2e66a99c3b42610a3d23574\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2e60abca84ac2461b08f6136365cdcfc\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.activity:activity-ktx:1.8.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f9a6ea2597f4e2dd0047106298fcb8e\transformed\jetified-activity-ktx-1.8.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\b90ea7e1c202b0076279a75f2f1050e1\transformed\jetified-activity-1.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\50459da57c1d198455af212b3f2f34fb\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
@@ -22,11 +23,11 @@ MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\velaz\.g
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6c9f931f30bee186769e11701a3e852a\transformed\transition-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bd1f33f6088d34c2e381afaefd6580a1\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\62708f3459ae2803ee748125cd230410\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f74244069621e4c13191745936eca7f\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\31986b263722585d4695958841c15df2\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2f8331afc9ad5166c62bb6848de79318\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\f6d8d28bad3a769d91ec622fc4caf497\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\3e7f77ec8abadbf971783c12f078ad43\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f74244069621e4c13191745936eca7f\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.customview:customview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2f8331afc9ad5166c62bb6848de79318\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.12.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\dedbaf39f599ed0379d542feef3aad12\transformed\core-1.12.0\AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\fe3cda552fbec4e6c7e51a26ad3a5526\transformed\jetified-savedstate-ktx-1.2.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2031d512f5a725359d94638ff7c90c39\transformed\jetified-savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
@@ -68,9 +69,27 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:5:5-67
 	android:name
 		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:5:22-64
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:6:5-107
+	android:maxSdkVersion
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:6:78-104
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:6:22-77
+uses-permission#android.permission.READ_MEDIA_IMAGES
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:7:5-76
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:7:22-73
+uses-permission#android.permission.READ_MEDIA_VIDEO
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:8:5-75
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:8:22-72
+uses-permission#android.permission.READ_MEDIA_VISUAL_USER_SELECTED
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:9:5-90
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:9:22-87
 application
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:7:5-39:19
-INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:7:5-39:19
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:11:5-43:19
+INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:11:5-43:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5c19254da9f6a6095083e12f5f8a3092\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5c19254da9f6a6095083e12f5f8a3092\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\velaz\.gradle\caches\8.14.5\transforms\b280291603ad98c2b62d2f29e4e87eb4\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -92,89 +111,89 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ve
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\dedbaf39f599ed0379d542feef3aad12\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:12:9-35
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:16:9-35
 	android:label
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:10:9-41
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:14:9-41
 	android:roundIcon
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:11:9-54
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:15:9-54
 	android:icon
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:9:9-43
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:13:9-43
 	android:allowBackup
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:8:9-35
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:12:9-35
 	android:theme
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:13:9-47
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:17:9-47
 activity#com.classdrop.ui.auth.SplashActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:15:9-22:20
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:19:9-26:20
 	android:exported
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:17:13-36
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:21:13-36
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:16:13-51
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:20:13-51
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:18:13-21:29
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:22:13-25:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:19:17-69
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:19:25-66
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:20:17-77
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:24:17-77
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:20:27-74
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:24:27-74
 activity#com.classdrop.ui.auth.LoginActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:24:9-59
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:28:9-59
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:24:19-56
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:28:19-56
 activity#com.classdrop.ui.auth.RegisterActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:25:9-62
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:29:9-62
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:25:19-59
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:29:19-59
 activity#com.classdrop.ui.main.MainActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:26:9-58
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:30:9-58
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:26:19-55
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:30:19-55
 activity#com.classdrop.ui.explore.SubjectDetailActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:27:9-70
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:31:9-70
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:27:19-67
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:31:19-67
 activity#com.classdrop.ui.files.UploadFileActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:28:9-65
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:32:9-65
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:28:19-62
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:32:19-62
 activity#com.classdrop.ui.files.UploadUrlActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:29:9-64
-	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:29:19-61
-activity#com.classdrop.ui.files.FileDetailActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:30:9-65
-	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:30:19-62
-activity#com.classdrop.ui.files.FileStatusActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:31:9-65
-	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:31:19-62
-activity#com.classdrop.ui.comments.CommentsActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:32:9-66
-	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:32:19-63
-activity#com.classdrop.ui.admin.AdminHomeActivity
 ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:33:9-64
 	android:name
 		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:33:19-61
-activity#com.classdrop.ui.admin.ModerationActivity
+activity#com.classdrop.ui.files.FileDetailActivity
 ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:34:9-65
 	android:name
 		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:34:19-62
+activity#com.classdrop.ui.files.FileStatusActivity
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:35:9-65
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:35:19-62
+activity#com.classdrop.ui.comments.CommentsActivity
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:36:9-66
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:36:19-63
+activity#com.classdrop.ui.admin.AdminHomeActivity
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:37:9-64
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:37:19-61
+activity#com.classdrop.ui.admin.ModerationActivity
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:38:9-65
+	android:name
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:38:19-62
 activity#com.classdrop.ui.admin.ReportsActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:35:9-62
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:39:9-62
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:35:19-59
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:39:19-59
 activity#com.classdrop.ui.admin.NormsAdminActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:36:9-65
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:40:9-65
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:36:19-62
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:40:19-62
 activity#com.classdrop.ui.admin.SubjectsAdminActivity
-ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:37:9-68
+ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:41:9-68
 	android:name
-		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:37:19-65
+		ADDED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml:41:19-65
 uses-sdk
 INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\velaz\StudioProjects\CLASSDROP\app\src\main\AndroidManifest.xml
@@ -189,16 +208,18 @@ MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\velaz\.gradl
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\ad95f6106554336b1273a9628d3572c4\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\884848987b0ee99c4a6d6651d3d61e38\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\884848987b0ee99c4a6d6651d3d61e38\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bec55529b2e66a99c3b42610a3d23574\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
-MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bec55529b2e66a99c3b42610a3d23574\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
-MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2e60abca84ac2461b08f6136365cdcfc\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
-MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2e60abca84ac2461b08f6136365cdcfc\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
 MERGED from [com.github.bumptech.glide:glide:4.16.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5bbd084e73f88a83cece9f415107babc\transformed\jetified-glide-4.16.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.github.bumptech.glide:glide:4.16.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5bbd084e73f88a83cece9f415107babc\transformed\jetified-glide-4.16.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5d59c9099a17f9b268df21ce31bea4aa\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\5d59c9099a17f9b268df21ce31bea4aa\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\velaz\.gradle\caches\8.14.5\transforms\0188ccc487a9053b8bfa09ce663726a0\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\velaz\.gradle\caches\8.14.5\transforms\0188ccc487a9053b8bfa09ce663726a0\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.6.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bd5b39b6ff216f4c385fa1d8d7660016\transformed\fragment-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.6.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bd5b39b6ff216f4c385fa1d8d7660016\transformed\fragment-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.6.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\8ab0a98e890ff88444b38f79576ccd8e\transformed\jetified-fragment-ktx-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.6.2] C:\Users\velaz\.gradle\caches\8.14.5\transforms\8ab0a98e890ff88444b38f79576ccd8e\transformed\jetified-fragment-ktx-1.6.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bec55529b2e66a99c3b42610a3d23574\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bec55529b2e66a99c3b42610a3d23574\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2e60abca84ac2461b08f6136365cdcfc\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2e60abca84ac2461b08f6136365cdcfc\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
 MERGED from [androidx.activity:activity-ktx:1.8.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f9a6ea2597f4e2dd0047106298fcb8e\transformed\jetified-activity-ktx-1.8.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.activity:activity-ktx:1.8.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f9a6ea2597f4e2dd0047106298fcb8e\transformed\jetified-activity-ktx-1.8.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\b90ea7e1c202b0076279a75f2f1050e1\transformed\jetified-activity-1.8.0\AndroidManifest.xml:20:5-44
@@ -215,16 +236,16 @@ MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\vel
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\bd1f33f6088d34c2e381afaefd6580a1\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\62708f3459ae2803ee748125cd230410\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\62708f3459ae2803ee748125cd230410\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f74244069621e4c13191745936eca7f\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f74244069621e4c13191745936eca7f\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\31986b263722585d4695958841c15df2\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\31986b263722585d4695958841c15df2\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2f8331afc9ad5166c62bb6848de79318\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2f8331afc9ad5166c62bb6848de79318\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\f6d8d28bad3a769d91ec622fc4caf497\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\f6d8d28bad3a769d91ec622fc4caf497\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\3e7f77ec8abadbf971783c12f078ad43\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\3e7f77ec8abadbf971783c12f078ad43\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f74244069621e4c13191745936eca7f\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\6f74244069621e4c13191745936eca7f\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.customview:customview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2f8331afc9ad5166c62bb6848de79318\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.customview:customview:1.1.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\2f8331afc9ad5166c62bb6848de79318\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.12.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\dedbaf39f599ed0379d542feef3aad12\transformed\core-1.12.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.12.0] C:\Users\velaz\.gradle\caches\8.14.5\transforms\dedbaf39f599ed0379d542feef3aad12\transformed\core-1.12.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\velaz\.gradle\caches\8.14.5\transforms\fe3cda552fbec4e6c7e51a26ad3a5526\transformed\jetified-savedstate-ktx-1.2.1\AndroidManifest.xml:20:5-44
