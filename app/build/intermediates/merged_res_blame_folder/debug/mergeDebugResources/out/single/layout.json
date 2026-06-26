@@ -1,110 +1,106 @@
 [
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\fragment_file_status.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\fragment_file_status.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_upload_file.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_upload_file.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_search_suggestion.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_search_suggestion.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_file_card.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_file_card.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\fragment_explore.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\fragment_explore.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_comments.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_comments.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_quarter.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_quarter.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_home.xml",
+        "source": "com.classdrop.app-main-41:/layout/fragment_home.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_file_detail.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_file_detail.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_subject_detail.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_subject_detail.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_moderation.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_moderation.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_profile.xml",
+        "source": "com.classdrop.app-main-41:/layout/fragment_profile.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_upload.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_upload.xml"
-    },
-    {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\fragment_home.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\fragment_home.xml"
-    },
-    {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\layout_bottom_nav_bar.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\layout_bottom_nav_bar.xml"
-    },
-    {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\fragment_profile.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\fragment_profile.xml"
-    },
-    {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_privacy_policy.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_privacy_policy.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_file_status.xml",
+        "source": "com.classdrop.app-main-41:/layout/fragment_file_status.xml"
     },
     {
         "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_profile_files.xml",
         "source": "com.classdrop.app-main-41:/layout/activity_profile_files.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_upload_file.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_upload_file.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_file_detail.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_file_detail.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_subject_detail.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_subject_detail.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_privacy_policy.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_privacy_policy.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_profile_files.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_profile_files.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_search_suggestion.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_search_suggestion.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_community_rules.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_community_rules.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_post.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_post.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_splash.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_splash.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/layout_bottom_nav_bar.xml",
+        "source": "com.classdrop.app-main-41:/layout/layout_bottom_nav_bar.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_post.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_post.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_register.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_register.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_admin_home.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_admin_home.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_community_rules.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_community_rules.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_main.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_main.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_upload_url.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_upload_url.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_register.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_register.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_moderation.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_moderation.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_comment.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_comment.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_login.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_login.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_file_card.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_file_card.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_explore.xml",
+        "source": "com.classdrop.app-main-41:/layout/fragment_explore.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_comments.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_comments.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_admin_home.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_admin_home.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_login.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_login.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_splash.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_splash.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_upload_url.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_upload_url.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_main.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_subject_home.xml",
-        "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_subject_home.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_upload.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_upload.xml"
+    },
+    {
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_subject_home.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_subject_home.xml"
+    },
+    {
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_comment.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_comment.xml"
+    },
+    {
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_quarter.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_quarter.xml"
     }
 ]

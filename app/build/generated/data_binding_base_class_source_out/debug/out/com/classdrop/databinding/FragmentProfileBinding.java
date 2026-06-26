@@ -52,7 +52,13 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final NestedScrollView scrollViewProfile;
 
   @NonNull
+  public final RelativeLayout titleDownloads;
+
+  @NonNull
   public final RelativeLayout titleFavorites;
+
+  @NonNull
+  public final TextView titleRules;
 
   @NonNull
   public final RelativeLayout titleUploads;
@@ -67,10 +73,7 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final TextView tvHelpTitle;
 
   @NonNull
-  public final TextView tvInfoEmail;
-
-  @NonNull
-  public final TextView tvInfoName;
+  public final TextView tvSeeMoreDownloads;
 
   @NonNull
   public final TextView tvSeeMoreFavorites;
@@ -89,12 +92,13 @@ public final class FragmentProfileBinding implements ViewBinding {
       @NonNull LinearLayout btnPrivacy, @NonNull MaterialCardView cardDownloads,
       @NonNull MaterialCardView cardFavorites, @NonNull MaterialCardView cardUploads,
       @NonNull MaterialCardView ivHelpIcon, @NonNull ImageView ivNotification,
-      @NonNull NestedScrollView scrollViewProfile, @NonNull RelativeLayout titleFavorites,
+      @NonNull NestedScrollView scrollViewProfile, @NonNull RelativeLayout titleDownloads,
+      @NonNull RelativeLayout titleFavorites, @NonNull TextView titleRules,
       @NonNull RelativeLayout titleUploads, @NonNull TextView tvAvatarInitials,
       @NonNull TextView tvHelpDescription, @NonNull TextView tvHelpTitle,
-      @NonNull TextView tvInfoEmail, @NonNull TextView tvInfoName,
-      @NonNull TextView tvSeeMoreFavorites, @NonNull TextView tvSeeMoreUploads,
-      @NonNull TextView tvUserCareer, @NonNull TextView tvUserName) {
+      @NonNull TextView tvSeeMoreDownloads, @NonNull TextView tvSeeMoreFavorites,
+      @NonNull TextView tvSeeMoreUploads, @NonNull TextView tvUserCareer,
+      @NonNull TextView tvUserName) {
     this.rootView = rootView;
     this.btnLogout = btnLogout;
     this.btnNorms = btnNorms;
@@ -105,13 +109,14 @@ public final class FragmentProfileBinding implements ViewBinding {
     this.ivHelpIcon = ivHelpIcon;
     this.ivNotification = ivNotification;
     this.scrollViewProfile = scrollViewProfile;
+    this.titleDownloads = titleDownloads;
     this.titleFavorites = titleFavorites;
+    this.titleRules = titleRules;
     this.titleUploads = titleUploads;
     this.tvAvatarInitials = tvAvatarInitials;
     this.tvHelpDescription = tvHelpDescription;
     this.tvHelpTitle = tvHelpTitle;
-    this.tvInfoEmail = tvInfoEmail;
-    this.tvInfoName = tvInfoName;
+    this.tvSeeMoreDownloads = tvSeeMoreDownloads;
     this.tvSeeMoreFavorites = tvSeeMoreFavorites;
     this.tvSeeMoreUploads = tvSeeMoreUploads;
     this.tvUserCareer = tvUserCareer;
@@ -195,9 +200,21 @@ public final class FragmentProfileBinding implements ViewBinding {
 
       NestedScrollView scrollViewProfile = (NestedScrollView) rootView;
 
+      id = R.id.titleDownloads;
+      RelativeLayout titleDownloads = ViewBindings.findChildViewById(rootView, id);
+      if (titleDownloads == null) {
+        break missingId;
+      }
+
       id = R.id.titleFavorites;
       RelativeLayout titleFavorites = ViewBindings.findChildViewById(rootView, id);
       if (titleFavorites == null) {
+        break missingId;
+      }
+
+      id = R.id.titleRules;
+      TextView titleRules = ViewBindings.findChildViewById(rootView, id);
+      if (titleRules == null) {
         break missingId;
       }
 
@@ -225,15 +242,9 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvInfoEmail;
-      TextView tvInfoEmail = ViewBindings.findChildViewById(rootView, id);
-      if (tvInfoEmail == null) {
-        break missingId;
-      }
-
-      id = R.id.tvInfoName;
-      TextView tvInfoName = ViewBindings.findChildViewById(rootView, id);
-      if (tvInfoName == null) {
+      id = R.id.tvSeeMoreDownloads;
+      TextView tvSeeMoreDownloads = ViewBindings.findChildViewById(rootView, id);
+      if (tvSeeMoreDownloads == null) {
         break missingId;
       }
 
@@ -263,9 +274,9 @@ public final class FragmentProfileBinding implements ViewBinding {
 
       return new FragmentProfileBinding((NestedScrollView) rootView, btnLogout, btnNorms,
           btnPrivacy, cardDownloads, cardFavorites, cardUploads, ivHelpIcon, ivNotification,
-          scrollViewProfile, titleFavorites, titleUploads, tvAvatarInitials, tvHelpDescription,
-          tvHelpTitle, tvInfoEmail, tvInfoName, tvSeeMoreFavorites, tvSeeMoreUploads, tvUserCareer,
-          tvUserName);
+          scrollViewProfile, titleDownloads, titleFavorites, titleRules, titleUploads,
+          tvAvatarInitials, tvHelpDescription, tvHelpTitle, tvSeeMoreDownloads, tvSeeMoreFavorites,
+          tvSeeMoreUploads, tvUserCareer, tvUserName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

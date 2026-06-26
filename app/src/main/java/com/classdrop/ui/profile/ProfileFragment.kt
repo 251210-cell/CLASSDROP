@@ -38,12 +38,7 @@ class ProfileFragment : Fragment() {
 
     private fun setupUserData() {
         val userName = sessionManager.fetchUserName()
-        val userEmail = sessionManager.fetchUserEmail()
-        
         binding.tvUserName.text = userName
-        binding.tvInfoName.text = userName
-        binding.tvInfoEmail.text = userEmail
-        
         binding.tvAvatarInitials.text = userName.split(" ")
             .filter { it.isNotBlank() }
             .mapNotNull { it.firstOrNull()?.uppercase() }
@@ -54,24 +49,22 @@ class ProfileFragment : Fragment() {
     private fun setupListeners() {
         // --- Navegación por Scroll (Desplazamiento suave a la sección) ---
         
-        // Al pulsar la tarjeta de "Archivos subidos" arriba
         binding.cardUploads.setOnClickListener {
             binding.scrollViewProfile.post {
-                // Calculamos la posición y restamos un pequeño margen para que se vea bien el título
                 binding.scrollViewProfile.smoothScrollTo(0, binding.titleUploads.top - 20)
             }
         }
 
-        // Al pulsar la tarjeta de "Favoritos" arriba
+        binding.cardDownloads.setOnClickListener {
+            binding.scrollViewProfile.post {
+                binding.scrollViewProfile.smoothScrollTo(0, binding.titleDownloads.top - 20)
+            }
+        }
+
         binding.cardFavorites.setOnClickListener {
             binding.scrollViewProfile.post {
                 binding.scrollViewProfile.smoothScrollTo(0, binding.titleFavorites.top - 20)
             }
-        }
-
-        // Para descargas (puedes añadir la sección luego)
-        binding.cardDownloads.setOnClickListener {
-            Toast.makeText(context, "Próximamente sección de descargas", Toast.LENGTH_SHORT).show()
         }
 
         // --- Otros Listeners ---
@@ -99,17 +92,15 @@ class ProfileFragment : Fragment() {
         
         // Listeners para "Ver más"
         binding.tvSeeMoreUploads.setOnClickListener {
-            val intent = Intent(requireContext(), ProfileFilesActivity::class.java).apply {
-                putExtra("FILE_TYPE", "UPLOADS")
-            }
-            startActivity(intent)
+            Toast.makeText(context, "Abriendo todos tus archivos...", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.tvSeeMoreDownloads.setOnClickListener {
+            Toast.makeText(context, "Abriendo todas tus descargas...", Toast.LENGTH_SHORT).show()
         }
 
         binding.tvSeeMoreFavorites.setOnClickListener {
-            val intent = Intent(requireContext(), ProfileFilesActivity::class.java).apply {
-                putExtra("FILE_TYPE", "FAVORITES")
-            }
-            startActivity(intent)
+            Toast.makeText(context, "Abriendo todos tus favoritos...", Toast.LENGTH_SHORT).show()
         }
     }
 

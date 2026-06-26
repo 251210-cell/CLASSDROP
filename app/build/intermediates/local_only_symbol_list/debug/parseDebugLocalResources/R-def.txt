@@ -171,7 +171,9 @@ id tabContainer
 id tabFile
 id tabSelector
 id tabUrl
+id titleDownloads
 id titleFavorites
+id titleRules
 id titleUploads
 id toolbar
 id tvAvatarInitials
@@ -197,8 +199,6 @@ id tvForgotPassword
 id tvGoToRegister
 id tvHelpDescription
 id tvHelpTitle
-id tvInfoEmail
-id tvInfoName
 id tvLabelCuatrimestre
 id tvLikeCountElena
 id tvLikeCountMarco
@@ -208,6 +208,7 @@ id tvLoginLink
 id tvQuarterNumber
 id tvReadRules
 id tvSaludo
+id tvSeeMoreDownloads
 id tvSeeMoreFavorites
 id tvSeeMoreUploads
 id tvSelectedFileName
