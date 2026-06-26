@@ -88,13 +88,17 @@ class HomeFragment : Fragment() {
             )
         }
 
+        // Usamos atributos del tema para consistencia con Dark Mode
+        val typedValue = android.util.TypedValue()
+        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+        val colorActive = typedValue.data
+        
+        val colorPlaceholder = resources.getColor(com.classdrop.R.color.placeholder, null)
+
         var elenaLikes = 124
         var isElenaLiked = false
         var elenaDislikes = 45
         var isElenaDisliked = false
-
-        val colorDislike = android.graphics.Color.parseColor("#A855F7")
-        val colorPlaceholder = resources.getColor(com.classdrop.R.color.placeholder, null)
 
         binding.btnLikeElena.setOnClickListener {
             if (isElenaDisliked) {
@@ -109,7 +113,7 @@ class HomeFragment : Fragment() {
             elenaLikes += if (isElenaLiked) 1 else -1
             binding.tvLikeCountElena.text = elenaLikes.toString()
             
-            val color = if (isElenaLiked) colorDislike else colorPlaceholder
+            val color = if (isElenaLiked) colorActive else colorPlaceholder
             binding.ivLikeElena.setColorFilter(color)
             binding.tvLikeCountElena.setTextColor(color)
             
@@ -131,7 +135,7 @@ class HomeFragment : Fragment() {
             elenaDislikes += if (isElenaDisliked) 1 else -1
             binding.tvDislikeCountElena.text = elenaDislikes.toString()
             
-            val color = if (isElenaDisliked) colorDislike else colorPlaceholder
+            val color = if (isElenaDisliked) colorActive else colorPlaceholder
             binding.ivDislikeElena.setColorFilter(color)
             binding.tvDislikeCountElena.setTextColor(color)
 
@@ -171,7 +175,7 @@ class HomeFragment : Fragment() {
             marcoLikes += if (isMarcoLiked) 1 else -1
             binding.tvLikeCountMarco.text = marcoLikes.toString()
             
-            val color = if (isMarcoLiked) colorDislike else colorPlaceholder
+            val color = if (isMarcoLiked) colorActive else colorPlaceholder
             binding.ivLikeMarco.setColorFilter(color)
             binding.tvLikeCountMarco.setTextColor(color)
 
@@ -193,7 +197,7 @@ class HomeFragment : Fragment() {
             marcoDislikes += if (isMarcoDisliked) 1 else -1
             binding.tvDislikeCountMarco.text = marcoDislikes.toString()
             
-            val color = if (isMarcoDisliked) colorDislike else colorPlaceholder
+            val color = if (isMarcoDisliked) colorActive else colorPlaceholder
             binding.ivDislikeMarco.setColorFilter(color)
             binding.tvDislikeCountMarco.setTextColor(color)
 
@@ -201,6 +205,29 @@ class HomeFragment : Fragment() {
                 binding.btnDislikeMarco.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100)
             }
         }
+
+        // Navegación al detalle del archivo al hacer clic en las tarjetas de posts
+        binding.postCardElena.setOnClickListener {
+            val intent = Intent(requireContext(), com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+                putExtra("FILE_NAME", "Resumen: Derivadas Parciales v2")
+                putExtra("FILE_TYPE", "PDF")
+                putExtra("FILE_SIZE", "1.8 MB")
+            }
+            startActivity(intent)
+        }
+
+        binding.postCardMarco.setOnClickListener {
+            val intent = Intent(requireContext(), com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+                putExtra("FILE_NAME", "Guía: Recursividad en C++")
+                putExtra("FILE_TYPE", "PDF")
+                putExtra("FILE_SIZE", "2.4 MB")
+            }
+            startActivity(intent)
+        }
+
+        // Click en los iconos de archivos para ir al detalle
+        binding.ivFileIconElena.setOnClickListener { binding.postCardElena.performClick() }
+        binding.ivFileIconMarco.setOnClickListener { binding.postCardMarco.performClick() }
     }
 
     private fun navigateToSubject(subject: Subject) {

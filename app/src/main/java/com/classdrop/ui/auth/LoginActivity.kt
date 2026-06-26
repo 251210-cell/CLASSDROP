@@ -84,11 +84,15 @@ class LoginActivity : AppCompatActivity() {
                 is NetworkResult.Success -> {
                     setLoading(false)
                     val loginData = result.data
-                    val role = loginData?.user?.role ?: UserRole.STUDENT
-                    val name = loginData?.user?.name ?: "Usuario"
+                    val user = loginData?.user
+                    val role = user?.role ?: UserRole.STUDENT
+                    val name = user?.name ?: "Usuario"
+                    val email = user?.email ?: "usuario@example.com"
+                    
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
                     sessionManager.saveUserRole(role)
                     sessionManager.saveUserName(name)
+                    sessionManager.saveUserEmail(email)
                     navigateByRole(role)
                 }
                 is NetworkResult.Error -> {

@@ -43,4 +43,7 @@
     <string name="admin_normas">Gestión de normas</string>
     <string name="admin_materias">Materias y contenido</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+
+    <!-- File Detail -->
+    <string name="file_type_size_format">%1$s • %2$s</string>
 </resources>

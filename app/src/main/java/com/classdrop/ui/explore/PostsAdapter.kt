@@ -17,6 +17,7 @@ data class Post(
     val time: String,
     val fileName: String,
     val fileType: String,
+    val fileSize: String = "1.2 MB",
     var likes: Int,
     var dislikes: Int = 0,
     val downloads: Int,
@@ -47,6 +48,9 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
             tvDislikes.text = post.dislikes.toString()
             tvDownloads.text = post.downloads.toString()
             tvComments.text = post.comments.toString()
+
+            // Configurar icono y color dinámico
+            setupFileTypeIcon(holder, post.fileType)
 
             // Lógica de Like
             updateLikeUI(holder, post.isLiked)
@@ -114,6 +118,22 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
             // Lógica de Comentarios
             llComments.setOnClickListener {
                 animateButton(ivCommentIcon)
+                val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+                    putExtra("FILE_NAME", post.fileName)
+                    putExtra("FILE_TYPE", post.fileType)
+                    putExtra("FILE_SIZE", post.fileSize)
+                }
+                holder.itemView.context.startActivity(intent)
+            }
+
+            // Click en la tarjeta principal también abre el detalle
+            root.setOnClickListener {
+                val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+                    putExtra("FILE_NAME", post.fileName)
+                    putExtra("FILE_TYPE", post.fileType)
+                    putExtra("FILE_SIZE", post.fileSize)
+                }
+                holder.itemView.context.startActivity(intent)
             }
         }
     }
@@ -174,12 +194,45 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
     private fun updateDownloadUI(holder: PostViewHolder, isDownloaded: Boolean) {
         val context = holder.itemView.context
         val color = if (isDownloaded) {
-            ContextCompat.getColor(context, R.color.primary)
+            android.graphics.Color.parseColor("#A855F7")
         } else {
-            ContextCompat.getColor(context, R.color.text_secondary)
+            ContextCompat.getColor(context, R.color.placeholder)
         }
         holder.binding.ivDownloadIcon.setColorFilter(color)
         holder.binding.tvDownloads.setTextColor(color)
+    }
+
+    private fun setupFileTypeIcon(holder: PostViewHolder, fileType: String) {
+        val context = holder.itemView.context
+        val (iconRes, bgColor, textColor) = when (fileType.uppercase()) {
+            "PDF" -> Triple(
+                R.drawable.ic_mortarboard,
+                ContextCompat.getColor(context, R.color.file_pdf_bg),
+                ContextCompat.getColor(context, R.color.file_pdf_text)
+            )
+            "DOCX", "DOC" -> Triple(
+                R.drawable.ic_file_doc,
+                ContextCompat.getColor(context, R.color.file_pink_bg),
+                ContextCompat.getColor(context, R.color.file_pink_text)
+            )
+            "JPG", "PNG", "IMG" -> Triple(
+                R.drawable.ic_image,
+                ContextCompat.getColor(context, R.color.file_teal_bg),
+                ContextCompat.getColor(context, R.color.file_teal_text)
+            )
+            else -> Triple(
+                R.drawable.ic_file_doc,
+                ContextCompat.getColor(context, R.color.surface_variant),
+                ContextCompat.getColor(context, R.color.text_secondary)
+            )
+        }
+
+        holder.binding.ivFileTypeIcon.apply {
+            setImageResource(iconRes)
+            setBackgroundResource(R.drawable.bg_rounded_square_primary)
+            backgroundTintList = android.content.res.ColorStateList.valueOf(bgColor)
+            setColorFilter(textColor)
+        }
     }
 
     class PostDiffCallback : DiffUtil.ItemCallback<Post>() {

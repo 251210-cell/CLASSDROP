@@ -67,6 +67,12 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final TextView tvHelpTitle;
 
   @NonNull
+  public final TextView tvInfoEmail;
+
+  @NonNull
+  public final TextView tvInfoName;
+
+  @NonNull
   public final TextView tvSeeMoreFavorites;
 
   @NonNull
@@ -86,6 +92,7 @@ public final class FragmentProfileBinding implements ViewBinding {
       @NonNull NestedScrollView scrollViewProfile, @NonNull RelativeLayout titleFavorites,
       @NonNull RelativeLayout titleUploads, @NonNull TextView tvAvatarInitials,
       @NonNull TextView tvHelpDescription, @NonNull TextView tvHelpTitle,
+      @NonNull TextView tvInfoEmail, @NonNull TextView tvInfoName,
       @NonNull TextView tvSeeMoreFavorites, @NonNull TextView tvSeeMoreUploads,
       @NonNull TextView tvUserCareer, @NonNull TextView tvUserName) {
     this.rootView = rootView;
@@ -103,6 +110,8 @@ public final class FragmentProfileBinding implements ViewBinding {
     this.tvAvatarInitials = tvAvatarInitials;
     this.tvHelpDescription = tvHelpDescription;
     this.tvHelpTitle = tvHelpTitle;
+    this.tvInfoEmail = tvInfoEmail;
+    this.tvInfoName = tvInfoName;
     this.tvSeeMoreFavorites = tvSeeMoreFavorites;
     this.tvSeeMoreUploads = tvSeeMoreUploads;
     this.tvUserCareer = tvUserCareer;
@@ -216,6 +225,18 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvInfoEmail;
+      TextView tvInfoEmail = ViewBindings.findChildViewById(rootView, id);
+      if (tvInfoEmail == null) {
+        break missingId;
+      }
+
+      id = R.id.tvInfoName;
+      TextView tvInfoName = ViewBindings.findChildViewById(rootView, id);
+      if (tvInfoName == null) {
+        break missingId;
+      }
+
       id = R.id.tvSeeMoreFavorites;
       TextView tvSeeMoreFavorites = ViewBindings.findChildViewById(rootView, id);
       if (tvSeeMoreFavorites == null) {
@@ -243,7 +264,8 @@ public final class FragmentProfileBinding implements ViewBinding {
       return new FragmentProfileBinding((NestedScrollView) rootView, btnLogout, btnNorms,
           btnPrivacy, cardDownloads, cardFavorites, cardUploads, ivHelpIcon, ivNotification,
           scrollViewProfile, titleFavorites, titleUploads, tvAvatarInitials, tvHelpDescription,
-          tvHelpTitle, tvSeeMoreFavorites, tvSeeMoreUploads, tvUserCareer, tvUserName);
+          tvHelpTitle, tvInfoEmail, tvInfoName, tvSeeMoreFavorites, tvSeeMoreUploads, tvUserCareer,
+          tvUserName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

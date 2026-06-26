@@ -29,6 +29,13 @@ class SubjectDetailActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+
+        binding.btnUpload.setOnClickListener {
+            val intent = Intent(this, com.classdrop.ui.files.UploadFileActivity::class.java).apply {
+                putExtra("SELECTED_SUBJECT", subjectName)
+            }
+            startActivity(intent)
+        }
         
         setupHeader()
         setupPosts()
@@ -67,6 +74,7 @@ class SubjectDetailActivity : AppCompatActivity() {
                 time = "hace 30 min • Cálculo II",
                 fileName = "Resumen: Derivadas Parciales v2",
                 fileType = "PDF",
+                fileSize = "1.8 MB",
                 likes = 125,
                 dislikes = 45,
                 downloads = 128,
@@ -80,6 +88,7 @@ class SubjectDetailActivity : AppCompatActivity() {
                 time = "ayer • Programación",
                 fileName = "Guía Práctica Derivadas",
                 fileType = "DOCX",
+                fileSize = "950 KB",
                 likes = 15,
                 dislikes = 2,
                 downloads = 56,
@@ -91,6 +100,7 @@ class SubjectDetailActivity : AppCompatActivity() {
                 time = "ayer • Cálculo II",
                 fileName = "Guía de Estudio Final",
                 fileType = "PDF",
+                fileSize = "2.4 MB",
                 likes = 89,
                 dislikes = 10,
                 downloads = 210,

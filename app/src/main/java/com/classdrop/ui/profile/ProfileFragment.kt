@@ -38,7 +38,12 @@ class ProfileFragment : Fragment() {
 
     private fun setupUserData() {
         val userName = sessionManager.fetchUserName()
+        val userEmail = sessionManager.fetchUserEmail()
+        
         binding.tvUserName.text = userName
+        binding.tvInfoName.text = userName
+        binding.tvInfoEmail.text = userEmail
+        
         binding.tvAvatarInitials.text = userName.split(" ")
             .filter { it.isNotBlank() }
             .mapNotNull { it.firstOrNull()?.uppercase() }
@@ -94,11 +99,17 @@ class ProfileFragment : Fragment() {
         
         // Listeners para "Ver más"
         binding.tvSeeMoreUploads.setOnClickListener {
-            Toast.makeText(context, "Abriendo todos tus archivos...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), ProfileFilesActivity::class.java).apply {
+                putExtra("FILE_TYPE", "UPLOADS")
+            }
+            startActivity(intent)
         }
 
         binding.tvSeeMoreFavorites.setOnClickListener {
-            Toast.makeText(context, "Abriendo todos tus favoritos...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), ProfileFilesActivity::class.java).apply {
+                putExtra("FILE_TYPE", "FAVORITES")
+            }
+            startActivity(intent)
         }
     }
 

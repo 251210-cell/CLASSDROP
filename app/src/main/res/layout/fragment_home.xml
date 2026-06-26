@@ -151,7 +151,7 @@
 
         <!-- Novedad 1: Elena García -->
         <FrameLayout
-            android:id="@+id/cardElena"
+            android:id="@+id/postCardElena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -221,24 +221,31 @@
                         android:background="@drawable/bg_input_pill"
                         android:gravity="center_vertical"
                         android:padding="16dp">
+
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="#FEE2E2"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_nav_upload"
-                            app:tint="#F43F5E" />
+                            android:id="@+id/ivFileIconElena"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_rounded_square_primary"
+                            android:backgroundTint="@color/file_pink_bg"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_file_doc"
+                            app:tint="@color/file_pink_text" />
+
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Resumen: Derivadas Parciales v2"
                                 android:textColor="?attr/colorOnSurface"
                                 android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -315,11 +322,12 @@
 
         <!-- Novedad 2: Marco Soto -->
         <FrameLayout
+            android:id="@+id/postCardMarco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:paddingHorizontal="16dp"
-            app:layout_constraintTop_toBottomOf="@id/cardElena">
+            app:layout_constraintTop_toBottomOf="@id/postCardElena">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -384,24 +392,31 @@
                         android:background="@drawable/bg_input_pill"
                         android:gravity="center_vertical"
                         android:padding="16dp">
+
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="#E0F2F1"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_nav_profile"
-                            app:tint="#2DD4BF" />
+                            android:id="@+id/ivFileIconMarco"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_rounded_square_primary"
+                            android:backgroundTint="@color/file_teal_bg"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_image"
+                            app:tint="@color/file_teal_text" />
+
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Guía: Recursividad en C++"
                                 android:textColor="?attr/colorOnSurface"
                                 android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

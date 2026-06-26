@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?android:attr/colorBackground"
     android:fillViewport="true">
 
     <LinearLayout
@@ -76,10 +76,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:strokeWidth="0dp">
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -190,7 +191,7 @@
                                 android:layout_marginTop="8dp"
                                 android:progress="65"
                                 app:indicatorColor="@color/primary"
-                                app:trackColor="#EEF2FF"
+                                app:trackColor="?attr/colorSurfaceVariant"
                                 app:trackCornerRadius="8dp"
                                 app:trackThickness="8dp" />
                             <TextView
@@ -253,19 +254,25 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Step 4: Publicación -->
+        <!-- Step 4: Publicación -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
                         android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:background="@drawable/bg_input_pill"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_app_logo"
-                            app:tint="@color/placeholder" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_input_pill"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_mortarboard"
+                                app:tint="@color/placeholder" />
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -275,7 +282,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Publicación"
-                                android:textColor="@color/on_background"
+                                android:textColor="?attr/colorOnSurface"
                                 android:textStyle="bold" />
                             <TextView
                                 android:layout_width="match_parent"
@@ -298,7 +305,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="RESUMEN DEL ARCHIVO"
-            android:textColor="@color/text_secondary"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -307,10 +314,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="20dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="0dp">
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -325,13 +333,14 @@
                     <FrameLayout
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:background="#FEF2F2">
+                        android:background="@color/file_pink_bg"
+                        android:backgroundTint="@color/file_pink_bg">
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_nav_notes"
-                            app:tint="#DC2626" />
+                            app:tint="@color/file_pink_text" />
                     </FrameLayout>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -340,6 +349,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/tvFileName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Apuntes_Calculo_III_Final.pdf"
@@ -347,6 +357,7 @@
                             android:textStyle="bold"
                             android:textSize="14sp" />
                         <TextView
+                            android:id="@+id/tvFileDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="24 páginas"
@@ -374,10 +385,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
-            app:cardBackgroundColor="#F8FAFC"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:strokeColor="@color/outline"
+            app:strokeColor="?attr/colorOutline"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -394,13 +405,13 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_help"
-                        app:tint="#0F766E" />
+                        app:tint="@color/file_teal_text" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="INFORMACIÓN DE POLÍTICAS"
-                        android:textColor="#0F766E"
+                        android:textColor="@color/file_teal_text"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>

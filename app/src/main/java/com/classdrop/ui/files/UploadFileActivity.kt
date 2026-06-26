@@ -34,12 +34,22 @@ class UploadFileActivity : AppCompatActivity() {
         }
     }
 
+    private var selectedFileName: String? = null
+    private var selectedFileSize: String? = null
+
     private val pickFileLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
-            Toast.makeText(this, "Archivo seleccionado: ${data?.data?.path}", Toast.LENGTH_SHORT).show()
+            val uri = data?.data
+            uri?.let {
+                // En una app real usaríamos ContentResolver para obtener el nombre real
+                val name = it.path?.substringAfterLast('/') ?: "archivo_seleccionado.pdf"
+                selectedFileName = name
+                selectedFileSize = "1.2 MB" // Mock size
+                pagerAdapter.setSelectedFileName(name)
+            }
         }
     }
 
@@ -55,10 +65,19 @@ class UploadFileActivity : AppCompatActivity() {
         setupDropdowns()
         setupBottomNav()
         setupHeader()
+        handlePreselectedSubject()
         
         binding.btnPublish.setOnClickListener {
             val action = if (binding.viewPager.currentItem == 0) "Archivo" else "Enlace"
-            Toast.makeText(this, "¡$action publicado con éxito!", Toast.LENGTH_SHORT).show()
+            
+            // Simular el guardado de datos y navegar al estado
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SELECT_TAB", "STATUS")
+                putExtra("FILE_NAME", selectedFileName ?: "Cálculo II - Apuntes") 
+                putExtra("FILE_SIZE", if (action == "Archivo") (selectedFileSize ?: "2.4 MB") else "Enlace Externo")
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
             finish()
         }
     }
@@ -236,5 +255,13 @@ class UploadFileActivity : AppCompatActivity() {
         nav.btnNavHome.setOnClickListener { finish() }
         nav.btnNavSearch.setOnClickListener { finish() }
         nav.btnNavNotes.setOnClickListener { finish() }
+    }
+
+    private fun handlePreselectedSubject() {
+        val preselectedSubject = intent.getStringExtra("SELECTED_SUBJECT")
+        if (preselectedSubject != null) {
+            binding.tvSelectedSubject.text = preselectedSubject
+            binding.tvSelectedSubject.setTextColor(ContextCompat.getColor(this, R.color.primary))
+        }
     }
 }

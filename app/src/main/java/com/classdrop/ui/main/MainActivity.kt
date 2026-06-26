@@ -40,7 +40,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleIntent(intent: Intent?) {
         intent?.getStringExtra("SELECT_TAB")?.let {
-            if (it == "PROFILE") selectTab(Tab.PROFILE)
+            val tab = when (it) {
+                "PROFILE" -> Tab.PROFILE
+                "STATUS" -> Tab.STATUS
+                else -> Tab.HOME
+            }
+            
+            if (tab == Tab.STATUS) {
+                val fileName = intent.getStringExtra("FILE_NAME")
+                val fileSize = intent.getStringExtra("FILE_SIZE")
+                fileStatusFragment.arguments = Bundle().apply {
+                    putString("FILE_NAME", fileName)
+                    putString("FILE_SIZE", fileSize)
+                }
+            }
+            
+            selectTab(tab)
         }
     }
 

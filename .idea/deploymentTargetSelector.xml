@@ -4,10 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-<<<<<<< HEAD
-=======
         <DialogSelection />
->>>>>>> 5a79347 (Aquí pones un mensaje corto explicando qué cambiaste)
       </SelectionState>
     </selectionStates>
   </component>

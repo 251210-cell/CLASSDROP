@@ -26,6 +26,14 @@
     <color name="warning">#F59E0B</color>
     <color name="on_error">#FFFFFF</color>
 
+    <!-- ===== File Types / UI Accents ===== -->
+    <color name="file_pdf_bg">#EEF2FF</color>
+    <color name="file_pdf_text">#4F46E5</color>
+    <color name="file_pink_bg">#FFF1F2</color>
+    <color name="file_pink_text">#F43F5E</color>
+    <color name="file_teal_bg">#F0FDFA</color>
+    <color name="file_teal_text">#0D9488</color>
+
     <!-- ===== Fijos (no cambian con el tema) ===== -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

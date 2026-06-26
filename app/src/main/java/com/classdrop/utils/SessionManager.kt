@@ -23,8 +23,16 @@ class SessionManager(context: Context) {
         prefs.edit().putString("user_name", name).apply()
     }
 
+    fun saveUserEmail(email: String) {
+        prefs.edit().putString("user_email", email).apply()
+    }
+
     fun fetchUserName(): String {
         return prefs.getString("user_name", "Usuario") ?: "Usuario"
+    }
+
+    fun fetchUserEmail(): String {
+        return prefs.getString("user_email", "usuario@example.com") ?: "usuario@example.com"
     }
 
     /** Devuelve STUDENT por defecto si no hay rol guardado (ej. sesión antigua). */

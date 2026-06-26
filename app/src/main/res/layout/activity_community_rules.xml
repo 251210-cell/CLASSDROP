@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="?android:attr/colorBackground">
 
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,10 +43,10 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@drawable/bg_button_primary"
-            android:backgroundTint="#6366F1"
+            android:backgroundTint="?attr/colorPrimary"
             android:gravity="center"
             android:text="MA"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -74,11 +74,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_input_pill"
-                android:backgroundTint="#EEF2FF"
+                android:backgroundTint="?attr/colorSurfaceVariant"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
                 android:text="Compromiso Académico"
-                android:textColor="@color/primary"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -108,10 +108,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,10 +144,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -197,10 +199,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,10 +235,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -267,10 +271,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -302,10 +307,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -337,7 +343,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="#6366F1"
+                app:cardBackgroundColor="?attr/colorPrimary"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp">
@@ -353,7 +359,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/ic_warning"
-                        app:tint="@color/white" />
+                        app:tint="?attr/colorOnPrimary" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -361,7 +367,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Régimen\nSancionatorio"
                         android:gravity="center"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -371,7 +377,8 @@
                         android:layout_marginTop="12dp"
                         android:gravity="center"
                         android:text="El incumplimiento de estas normas podrá conllevar la aplicación de medidas correctivas progresivas, desde la eliminación de contenido hasta el cierre definitivo de la cuenta, garantizando siempre el debido proceso."
-                        android:textColor="#E0E7FF"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:alpha="0.9"
                         android:textSize="13sp"
                         android:lineSpacingExtra="3dp" />
                 </LinearLayout>
@@ -404,12 +411,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="#312E81"
+                android:backgroundTint="?attr/colorPrimary"
                 android:paddingHorizontal="32dp"
                 android:paddingVertical="12dp"
                 android:text="Contactar Soporte"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 app:cornerRadius="16dp" />
 
         </LinearLayout>

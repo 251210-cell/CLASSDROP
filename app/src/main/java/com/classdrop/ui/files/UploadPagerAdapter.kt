@@ -11,6 +11,13 @@ class UploadPagerAdapter(
     private val onUrlChanged: (String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var selectedFileName: String? = null
+
+    fun setSelectedFileName(name: String) {
+        selectedFileName = name
+        notifyItemChanged(0)
+    }
+
     companion object {
         private const val TYPE_FILE = 0
         private const val TYPE_URL = 1
@@ -30,6 +37,11 @@ class UploadPagerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is FileViewHolder) {
             holder.binding.uploadAreaFile.setOnClickListener { onFileClick() }
+            if (selectedFileName != null) {
+                holder.binding.tvSelectedFileName.text = selectedFileName
+            } else {
+                holder.binding.tvSelectedFileName.text = "Toca para seleccionar archivo"
+            }
         } else if (holder is UrlViewHolder) {
             // Logic for URL changes if needed
         }

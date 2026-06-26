@@ -25,6 +25,7 @@
             app:tint="@color/primary" />
 
         <TextView
+            android:id="@+id/tvSelectedFileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

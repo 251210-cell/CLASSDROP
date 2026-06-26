@@ -32,6 +32,19 @@ class FileStatusFragment : Fragment() {
 
         setupHeader()
         setupListeners()
+        updateFileData()
+    }
+
+    private fun updateFileData() {
+        val fileName = arguments?.getString("FILE_NAME")
+        val fileSize = arguments?.getString("FILE_SIZE")
+
+        if (fileName != null) {
+            binding.tvFileName.text = fileName
+        }
+        if (fileSize != null) {
+            binding.tvFileDetail.text = fileSize
+        }
     }
 
     private fun setupHeader() {
@@ -57,7 +70,12 @@ class FileStatusFragment : Fragment() {
         }
 
         binding.btnViewDetails.setOnClickListener {
-            // Lógica para ver detalles del archivo
+            val intent = Intent(requireContext(), FileDetailActivity::class.java).apply {
+                putExtra("FILE_NAME", binding.tvFileName.text.toString())
+                putExtra("FILE_TYPE", "PDF")
+                putExtra("FILE_SIZE", binding.tvFileDetail.text.toString())
+            }
+            startActivity(intent)
         }
     }
 
