@@ -22,7 +22,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_nav_upload"
-            app:tint="@color/primary" />
+            app:tint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tvSelectedFileName"
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:paddingHorizontal="32dp"
             android:text="Toca para seleccionar archivo"
-            android:textColor="@color/primary"
+            android:textColor="?attr/colorPrimary"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

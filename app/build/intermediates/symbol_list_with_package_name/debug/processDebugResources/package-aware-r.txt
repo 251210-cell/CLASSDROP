@@ -3751,7 +3751,10 @@ id tvDislikeCountMarco
 id tvDislikes
 id tvDislikesDetail
 id tvDownloads
+id tvDownloadsCount
 id tvDownloadsDetail
+id tvEmailInfo
+id tvFavoritesCount
 id tvFileCount
 id tvFileName
 id tvFileNameLarge
@@ -3770,6 +3773,7 @@ id tvLikeCountMarco
 id tvLikes
 id tvLikesDetail
 id tvLoginLink
+id tvNameInfo
 id tvQuarterNumber
 id tvReadRules
 id tvSaludo
@@ -3794,6 +3798,7 @@ id tvTitleStep2
 id tvTitleStep3
 id tvTitleStep4
 id tvToolbarTitle
+id tvUploadsCount
 id tvUserCareer
 id tvUserName
 id unchecked

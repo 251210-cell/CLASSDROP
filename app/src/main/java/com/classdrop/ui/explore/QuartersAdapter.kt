@@ -25,12 +25,21 @@ class QuartersAdapter(
         val quarter = quarters[position]
         holder.binding.tvQuarterNumber.text = quarter
 
+        val context = holder.itemView.context
+        val typedValue = android.util.TypedValue()
+
         if (position == selectedPosition) {
-            holder.binding.cardQuarter.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.primary))
-            holder.binding.tvQuarterNumber.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.white))
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            holder.binding.cardQuarter.setCardBackgroundColor(typedValue.data)
+            
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+            holder.binding.tvQuarterNumber.setTextColor(typedValue.data)
         } else {
-            holder.binding.cardQuarter.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.surface_variant))
-            holder.binding.tvQuarterNumber.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.on_surface))
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorSurfaceVariant, typedValue, true)
+            holder.binding.cardQuarter.setCardBackgroundColor(typedValue.data)
+            
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true)
+            holder.binding.tvQuarterNumber.setTextColor(typedValue.data)
         }
 
         holder.itemView.setOnClickListener {

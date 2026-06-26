@@ -155,11 +155,14 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
 
     private fun updateLikeUI(holder: PostViewHolder, isLiked: Boolean) {
         val context = holder.itemView.context
-        // Usamos el mismo morado del Dislike para el Like activo
+        val typedValue = android.util.TypedValue()
+        
         val color = if (isLiked) {
-            android.graphics.Color.parseColor("#A855F7")
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            typedValue.data
         } else {
-            ContextCompat.getColor(context, R.color.placeholder)
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
         }
         
         holder.binding.ivLikeIcon.setColorFilter(color)
@@ -168,11 +171,14 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
 
     private fun updateDislikeUI(holder: PostViewHolder, isDisliked: Boolean, count: Int) {
         val context = holder.itemView.context
-        // Color morado específico del Home para Dislike activo (#A855F7)
+        val typedValue = android.util.TypedValue()
+
         val color = if (isDisliked) {
-            android.graphics.Color.parseColor("#A855F7")
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            typedValue.data
         } else {
-            ContextCompat.getColor(context, R.color.placeholder)
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
         }
         holder.binding.ivDislikeIcon.setColorFilter(color)
         holder.binding.tvDislikes.apply {
@@ -184,19 +190,24 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
     private fun updateBookmarkUI(holder: PostViewHolder, isBookmarked: Boolean) {
         val context = holder.itemView.context
         if (isBookmarked) {
-            // Rojo brillante como en el Home
             holder.binding.btnBookmark.setColorFilter(ContextCompat.getColor(context, android.R.color.holo_red_light))
         } else {
-            holder.binding.btnBookmark.setColorFilter(ContextCompat.getColor(context, R.color.placeholder))
+            val typedValue = android.util.TypedValue()
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            holder.binding.btnBookmark.setColorFilter(typedValue.data)
         }
     }
 
     private fun updateDownloadUI(holder: PostViewHolder, isDownloaded: Boolean) {
         val context = holder.itemView.context
+        val typedValue = android.util.TypedValue()
+
         val color = if (isDownloaded) {
-            android.graphics.Color.parseColor("#A855F7")
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            typedValue.data
         } else {
-            ContextCompat.getColor(context, R.color.placeholder)
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
         }
         holder.binding.ivDownloadIcon.setColorFilter(color)
         holder.binding.tvDownloads.setTextColor(color)

@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            app:tint="@color/on_background" />
+            app:tint="?attr/colorOnBackground" />
 
         <TextView
             android:id="@+id/tvToolbarTitle"
@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif-black"
             android:text="Mis Archivos"
-            android:textColor="@color/on_background"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="18sp" />
     </RelativeLayout>
 

@@ -75,6 +75,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupInteractions() {
+        // Usamos atributos del tema para consistencia con Dark Mode
+        val typedValue = android.util.TypedValue()
+        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+        val colorActive = typedValue.data
+
+        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+        val colorPlaceholder = typedValue.data
+
+        val colorFavorite = resources.getColor(android.R.color.holo_red_light, null)
+
         // Interacciones para Elena
         var isElenaFavorited = false
         binding.btnFavoriteElena.setOnClickListener {
@@ -83,17 +93,10 @@ class HomeFragment : Fragment() {
                 binding.btnFavoriteElena.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100)
             }
             binding.btnFavoriteElena.setColorFilter(
-                if (isElenaFavorited) resources.getColor(android.R.color.holo_red_light, null)
-                else resources.getColor(com.classdrop.R.color.placeholder, null)
+                if (isElenaFavorited) colorFavorite
+                else colorPlaceholder
             )
         }
-
-        // Usamos atributos del tema para consistencia con Dark Mode
-        val typedValue = android.util.TypedValue()
-        requireContext().theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-        val colorActive = typedValue.data
-        
-        val colorPlaceholder = resources.getColor(com.classdrop.R.color.placeholder, null)
 
         var elenaLikes = 124
         var isElenaLiked = false
@@ -152,8 +155,8 @@ class HomeFragment : Fragment() {
                 binding.btnFavoriteMarco.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100)
             }
             binding.btnFavoriteMarco.setColorFilter(
-                if (isMarcoFavorited) resources.getColor(android.R.color.holo_red_light, null)
-                else resources.getColor(com.classdrop.R.color.placeholder, null)
+                if (isMarcoFavorited) colorFavorite
+                else colorPlaceholder
             )
         }
 

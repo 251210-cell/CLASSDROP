@@ -26,7 +26,7 @@
             android:layout_marginBottom="24dp"
             android:fontFamily="sans-serif"
             android:text="@string/admin_panel_subtitulo"
-            android:textColor="@color/text_secondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="14sp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -39,7 +39,7 @@
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeColor="@color/outline_variant"
+            app:strokeColor="?attr/colorOutlineVariant"
             app:strokeWidth="1dp">
 
             <TextView
@@ -63,7 +63,7 @@
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeColor="@color/outline_variant"
+            app:strokeColor="?attr/colorOutlineVariant"
             app:strokeWidth="1dp">
 
             <TextView
@@ -87,7 +87,7 @@
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeColor="@color/outline_variant"
+            app:strokeColor="?attr/colorOutlineVariant"
             app:strokeWidth="1dp">
 
             <TextView
@@ -111,7 +111,7 @@
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            app:strokeColor="@color/outline_variant"
+            app:strokeColor="?attr/colorOutlineVariant"
             app:strokeWidth="1dp">
 
             <TextView

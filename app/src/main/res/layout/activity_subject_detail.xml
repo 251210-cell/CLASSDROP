@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/primary" />
+            app:tint="?attr/colorPrimary" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="Cálculo II"
-                android:textColor="@color/primary"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="20sp" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12 archivos compartidos"
-                android:textColor="@color/text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -61,7 +61,7 @@
             android:background="@drawable/bg_button_primary"
             android:gravity="center"
             android:text="MA"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -88,16 +88,18 @@
                 android:layout_height="64dp"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/primary"
+                android:backgroundTint="?attr/colorPrimary"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="Subir a esta materia"
                 android:textAllCaps="false"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_nav_upload"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
+                app:iconTint="?attr/colorOnPrimary"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Lista de Archivos (Posts) -->

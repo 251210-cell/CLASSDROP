@@ -157,9 +157,14 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun updateLikeUI() {
-        val colorActive = Color.parseColor("#A855F7")
-        val colorInactive = ContextCompat.getColor(this, R.color.placeholder)
-        val color = if (isLiked) colorActive else colorInactive
+        val typedValue = android.util.TypedValue()
+        val color = if (isLiked) {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            typedValue.data
+        } else {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
+        }
         binding.ivLikeIconDetail.setColorFilter(color)
         binding.tvLikesDetail.apply {
             text = likesCount.toString()
@@ -168,9 +173,14 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun updateDislikeUI() {
-        val colorActive = Color.parseColor("#A855F7")
-        val colorInactive = ContextCompat.getColor(this, R.color.placeholder)
-        val color = if (isDisliked) colorActive else colorInactive
+        val typedValue = android.util.TypedValue()
+        val color = if (isDisliked) {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            typedValue.data
+        } else {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
+        }
         binding.ivDislikeIconDetail.setColorFilter(color)
         binding.tvDislikesDetail.apply {
             text = dislikesCount.toString()
@@ -179,18 +189,26 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun updateBookmarkUI() {
-        val colorActive = ContextCompat.getColor(this, android.R.color.holo_red_light)
-        val colorInactive = ContextCompat.getColor(this, R.color.placeholder)
-        val color = if (isBookmarked) colorActive else colorInactive
+        val typedValue = android.util.TypedValue()
+        val color = if (isBookmarked) {
+            ContextCompat.getColor(this, android.R.color.holo_red_light)
+        } else {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
+        }
         binding.ivBookmarkIconDetail.setColorFilter(color)
         binding.tvBookmarkLabel.setTextColor(color)
     }
 
     private fun updateDownloadUI() {
-        // As requested: same color as other active views (Purple #A855F7)
-        val colorActive = Color.parseColor("#A855F7")
-        val colorInactive = ContextCompat.getColor(this, R.color.placeholder)
-        val color = if (isDownloaded) colorActive else colorInactive
+        val typedValue = android.util.TypedValue()
+        val color = if (isDownloaded) {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
+            typedValue.data
+        } else {
+            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
+            typedValue.data
+        }
         binding.ivDownloadIconDetail.setColorFilter(color)
         binding.tvDownloadsDetail.setTextColor(color)
     }
