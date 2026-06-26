@@ -21,6 +21,7 @@ color transparent
 color warning
 color white
 drawable bg_bottom_nav
+drawable bg_splash_glow
 drawable ic_launcher_background
 drawable ic_nav_home
 drawable ic_nav_profile

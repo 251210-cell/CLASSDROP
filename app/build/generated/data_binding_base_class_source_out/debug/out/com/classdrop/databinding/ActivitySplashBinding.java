@@ -4,7 +4,7 @@ package com.classdrop.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -14,15 +14,15 @@ import java.lang.Override;
 
 public final class ActivitySplashBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final FrameLayout rootView;
 
-  private ActivitySplashBinding(@NonNull LinearLayout rootView) {
+  private ActivitySplashBinding(@NonNull FrameLayout rootView) {
     this.rootView = rootView;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public FrameLayout getRoot() {
     return rootView;
   }
 
@@ -47,6 +47,6 @@ public final class ActivitySplashBinding implements ViewBinding {
       throw new NullPointerException("rootView");
     }
 
-    return new ActivitySplashBinding((LinearLayout) rootView);
+    return new ActivitySplashBinding((FrameLayout) rootView);
   }
 }
