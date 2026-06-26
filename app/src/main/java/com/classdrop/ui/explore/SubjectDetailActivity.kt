@@ -1,18 +1,24 @@
 package com.classdrop.ui.explore
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivitySubjectDetailBinding
+import com.classdrop.ui.main.MainActivity
+import com.classdrop.utils.SessionManager
 
 class SubjectDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySubjectDetailBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubjectDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
+        sessionManager = SessionManager(this)
 
         val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: "Materia"
         val fileCount = intent.getIntExtra("FILE_COUNT", 0)
@@ -23,8 +29,30 @@ class SubjectDetailActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
-
+        
+        setupHeader()
         setupPosts()
+    }
+
+    private fun setupHeader() {
+        val userName = sessionManager.fetchUserName()
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
+        
+        binding.tvAvatarInitials.text = initials
+        
+        // Al hacer clic en el avatar, ir al perfil (en MainActivity)
+        binding.tvAvatarInitials.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SELECT_TAB", "PROFILE")
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun setupPosts() {

@@ -14,11 +14,14 @@ import com.classdrop.R
 import com.classdrop.databinding.FragmentExploreBinding
 import com.classdrop.model.Subject
 import com.classdrop.ui.home.SubjectsAdapter
+import com.classdrop.ui.main.MainActivity
+import com.classdrop.utils.SessionManager
 
 class ExploreFragment : Fragment() {
 
     private var _binding: FragmentExploreBinding? = null
     private val binding get() = _binding!!
+    private lateinit var sessionManager: SessionManager
 
     private lateinit var subjectsAdapter: SubjectsAdapter
     private lateinit var suggestionsAdapter: SuggestionsAdapter
@@ -35,10 +38,29 @@ class ExploreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sessionManager = SessionManager(requireContext())
+        
+        setupUserData()
         setupCuatrimestres()
         setupSubjects()
         setupSuggestions()
         setupSearch()
+    }
+
+    private fun setupUserData() {
+        val userName = sessionManager.fetchUserName()
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
+        
+        binding.tvAvatarInitials.text = initials
+        
+        // Al hacer clic en el avatar, abrir el Perfil
+        binding.tvAvatarInitials.setOnClickListener {
+            (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
+        }
     }
 
     private fun setupSuggestions() {

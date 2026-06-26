@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,11 +14,14 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.classdrop.R
 import com.classdrop.databinding.ActivityUploadBinding
+import com.classdrop.ui.main.MainActivity
+import com.classdrop.utils.SessionManager
 
 class UploadFileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
     private lateinit var pagerAdapter: UploadPagerAdapter
+    private lateinit var sessionManager: SessionManager
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -45,15 +47,39 @@ class UploadFileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
+        sessionManager = SessionManager(this)
 
         setupViewPager()
         setupTabs()
         setupDropdowns()
         setupBottomNav()
+        setupHeader()
         
         binding.btnPublish.setOnClickListener {
             val action = if (binding.viewPager.currentItem == 0) "Archivo" else "Enlace"
             Toast.makeText(this, "¡$action publicado con éxito!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+
+    private fun setupHeader() {
+        val userName = sessionManager.fetchUserName()
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
+        
+        binding.tvAvatarInitials.text = initials
+        
+        // Al hacer clic en el avatar, ir al perfil (en MainActivity)
+        binding.tvAvatarInitials.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("SELECT_TAB", "PROFILE")
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
             finish()
         }
     }
@@ -209,6 +235,6 @@ class UploadFileActivity : AppCompatActivity() {
 
         nav.btnNavHome.setOnClickListener { finish() }
         nav.btnNavSearch.setOnClickListener { finish() }
-        nav.btnNavProfile.setOnClickListener { finish() }
+        nav.btnNavNotes.setOnClickListener { finish() }
     }
 }

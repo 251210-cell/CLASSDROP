@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.classdrop.databinding.FragmentHomeBinding
 import com.classdrop.model.Subject
 import com.classdrop.ui.explore.SubjectDetailActivity
+import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.SubjectsViewModel
 
@@ -44,7 +45,11 @@ class HomeFragment : Fragment() {
         
         // Configurar iniciales en el avatar
         val initials = if (userName.length >= 2) {
-            userName.substring(0, 2).uppercase()
+            userName.split(" ")
+                .filter { it.isNotBlank() }
+                .mapNotNull { it.firstOrNull()?.uppercase() }
+                .take(2)
+                .joinToString("")
         } else {
             userName.take(1).uppercase()
         }
@@ -52,6 +57,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        // Al hacer clic en el avatar (MA) de la esquina superior derecha, ir al Perfil
+        binding.tvAvatarInitials.setOnClickListener {
+            (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
+        }
+
         adapter = SubjectsAdapter { subject ->
             navigateToSubject(subject)
         }
@@ -60,6 +70,7 @@ class HomeFragment : Fragment() {
         viewModel.subjects.observe(viewLifecycleOwner) { subjects ->
             adapter.submitList(subjects)
         }
+<<<<<<< Updated upstream
 
         setupInteractions()
     }
@@ -195,6 +206,8 @@ class HomeFragment : Fragment() {
                 binding.btnDislikeMarco.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100)
             }
         }
+=======
+>>>>>>> Stashed changes
     }
 
     private fun navigateToSubject(subject: Subject) {
