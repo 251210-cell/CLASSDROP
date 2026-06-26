@@ -53,8 +53,13 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
 
     // Glide
+<<<<<<< HEAD
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+=======
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+>>>>>>> 5a79347 (Aquí pones un mensaje corto explicando qué cambiaste)
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

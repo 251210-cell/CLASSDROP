@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ClassDrop</string>
+
+    <!-- BottomNavBar -->
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_explorar">Explorar</string>
+    <string name="nav_subir">Subir archivo</string>
+    <string name="nav_perfil">Perfil</string>
 </resources>

@@ -5,7 +5,12 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+<<<<<<< HEAD
+=======
+        <option name="gradleHome" value="C:\Users\velaz\Downloads\gradle-8.0" />
+>>>>>>> 5a79347 (Aquí pones un mensaje corto explicando qué cambiaste)
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>

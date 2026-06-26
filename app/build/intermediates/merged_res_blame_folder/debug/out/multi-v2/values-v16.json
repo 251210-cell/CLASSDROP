@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.classdrop.app-mergeDebugResources-33:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\velaz\\.gradle\\caches\\transforms-3\\0d94b8c33b5e34af34547c54a338a2c9\\transformed\\appcompat-1.6.1\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\velaz\\.gradle\\caches\\transforms-3\\3803cf3fa8f60ead9b05321661caef7b\\transformed\\core-1.9.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}
