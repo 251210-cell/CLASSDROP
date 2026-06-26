@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <!-- Usamos colorSurface para que se adapte a blanco en modo claro y gris en oscuro,
-         o puedes usar @color/white si lo quieres siempre blanco -->
-    <solid android:color="?attr/colorSurface" />
-    <corners android:radius="10dp" />
-</shape>
