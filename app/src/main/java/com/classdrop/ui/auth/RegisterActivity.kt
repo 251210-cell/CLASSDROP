@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
         } else {
             binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or
                     InputType.TYPE_TEXT_VARIATION_PASSWORD
-            binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_hide)
+            binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_show)
         }
         binding.etPassword.setSelection(binding.etPassword.text.length)
     }
