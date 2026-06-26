@@ -11,16 +11,8 @@ buildscript {
     }
 }
 
-<<<<<<< HEAD
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-=======
 
 
 task clean(type: Delete) {
     delete rootProject.buildDir
->>>>>>> 5a79347 (Aquí pones un mensaje corto explicando qué cambiaste)
 }
