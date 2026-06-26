@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.classdrop.R
 import com.classdrop.databinding.ActivityLoginBinding
 import com.classdrop.model.UserRole
 import com.classdrop.network.NetworkResult
@@ -47,8 +48,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
+        // Recuperar contraseña interna
         binding.tvForgotPassword.setOnClickListener {
-            Toast.makeText(this, "Próximamente", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 
@@ -57,20 +59,18 @@ class LoginActivity : AppCompatActivity() {
         if (isPasswordVisible) {
             binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            binding.btnTogglePassword.setImageResource(com.classdrop.R.drawable.ic_eye_hide)
+            binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_hide)
         } else {
             binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or
                     InputType.TYPE_TEXT_VARIATION_PASSWORD
-            binding.btnTogglePassword.setImageResource(com.classdrop.R.drawable.ic_eye_show)
+            binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_show)
         }
         binding.etPassword.setSelection(binding.etPassword.text.length)
     }
 
     private fun observeViewModel() {
         viewModel.validationError.observe(this) { error ->
-            error?.let {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            }
+            error?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
         }
 
         viewModel.loginState.observe(this) { result ->
@@ -81,13 +81,9 @@ class LoginActivity : AppCompatActivity() {
                     val loginData = result.data
                     val user = loginData?.user
                     val role = user?.role ?: UserRole.STUDENT
-                    val name = user?.name ?: "Usuario"
-                    val email = user?.email ?: "usuario@example.com"
-                    
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
                     sessionManager.saveUserRole(role)
-                    sessionManager.saveUserName(name)
-                    sessionManager.saveUserEmail(email)
+                    sessionManager.saveUserName(user?.name ?: "Usuario")
                     navigateByRole(role)
                 }
                 is NetworkResult.Error -> {
@@ -99,10 +95,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateByRole(role: UserRole) {
-        val destination = when (role) {
-            UserRole.ADMIN -> AdminHomeActivity::class.java
-            UserRole.STUDENT -> MainActivity::class.java
-        }
+        val destination = if (role == UserRole.ADMIN) AdminHomeActivity::class.java else MainActivity::class.java
         startActivity(Intent(this, destination))
         finish()
     }

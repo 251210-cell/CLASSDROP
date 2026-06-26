@@ -1,106 +1,118 @@
 [
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_upload_file.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_upload_file.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/fragment_explore.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/fragment_explore.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_file_card.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_file_card.xml"
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_forgot_password.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_forgot_password.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_comments.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_comments.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/layout_bottom_nav_bar.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/layout_bottom_nav_bar.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_home.xml",
-        "source": "com.classdrop.app-main-41:/layout/fragment_home.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_subject_home.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_subject_home.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_subject_detail.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_subject_detail.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_admin_home.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_admin_home.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_profile.xml",
-        "source": "com.classdrop.app-main-41:/layout/fragment_profile.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_community_rules.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_community_rules.xml"
+    },
+    {
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_reset_password.xml",
+        "source": "com.classdrop.app-main-41:/layout/activity_reset_password.xml"
+    },
+    {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_search_suggestion.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_search_suggestion.xml"
+    },
+    {
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_quarter.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_quarter.xml"
     },
     {
         "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_file_status.xml",
         "source": "com.classdrop.app-main-41:/layout/fragment_file_status.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_profile_files.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_profile_files.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_upload_file.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_upload_file.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_file_detail.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_file_detail.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_upload_url.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_upload_url.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_privacy_policy.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_privacy_policy.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/fragment_home.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/fragment_home.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_search_suggestion.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_search_suggestion.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_splash.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_splash.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_post.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_post.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_comment.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_comment.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/layout_bottom_nav_bar.xml",
-        "source": "com.classdrop.app-main-41:/layout/layout_bottom_nav_bar.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/fragment_file_status.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/fragment_file_status.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_register.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_register.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_file_detail.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_file_detail.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_community_rules.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_community_rules.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_profile_files.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_profile_files.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_upload_url.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_upload_url.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_post.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_post.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_moderation.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_moderation.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_upload.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_upload.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_login.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_login.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_login.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_login.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/fragment_explore.xml",
-        "source": "com.classdrop.app-main-41:/layout/fragment_explore.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/fragment_profile.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/fragment_profile.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_admin_home.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_admin_home.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_comments.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_comments.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_splash.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_splash.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/item_file_card.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/item_file_card.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_main.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_main.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_privacy_policy.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_privacy_policy.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_upload.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_upload.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_register.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_register.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_subject_home.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_subject_home.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_moderation.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_moderation.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_comment.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_comment.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_subject_detail.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_subject_detail.xml"
     },
     {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_quarter.xml",
-        "source": "com.classdrop.app-main-41:/layout/item_quarter.xml"
+        "merged": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-mergeDebugResources-38:/layout/activity_main.xml",
+        "source": "/Users/karlacruz/.gradle/daemon/8.14.5/com.classdrop.app-main-41:/layout/activity_main.xml"
     }
 ]

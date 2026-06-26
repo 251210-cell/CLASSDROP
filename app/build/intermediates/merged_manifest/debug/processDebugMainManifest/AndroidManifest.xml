@@ -44,6 +44,8 @@
         </activity>
         <activity android:name="com.classdrop.ui.auth.LoginActivity" />
         <activity android:name="com.classdrop.ui.auth.RegisterActivity" />
+        <activity android:name="com.classdrop.ui.auth.ForgotPasswordActivity" />
+        <activity android:name="com.classdrop.ui.auth.ResetPasswordActivity" />
         <activity android:name="com.classdrop.ui.main.MainActivity" />
         <activity android:name="com.classdrop.ui.explore.SubjectDetailActivity" />
         <activity android:name="com.classdrop.ui.files.UploadFileActivity" />

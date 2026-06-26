@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-48:12
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-48:12
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-48:12
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-48:12
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
 MERGED from [androidx.databinding:viewbinding:8.7.2] /Users/karlacruz/.gradle/caches/8.14.5/transforms/2bf9ef8c06a240e8bf3ccf583751a7c0/transformed/jetified-viewbinding-8.7.2/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] /Users/karlacruz/.gradle/caches/8.14.5/transforms/5c19254da9f6a6095083e12f5f8a3092/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/karlacruz/.gradle/caches/8.14.5/transforms/b280291603ad98c2b62d2f29e4e87eb4/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
@@ -88,8 +88,8 @@ ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/Android
 	android:name
 		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:9:22-87
 application
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-46:19
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-46:19
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-48:19
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-48:19
 MERGED from [com.google.android.material:material:1.11.0] /Users/karlacruz/.gradle/caches/8.14.5/transforms/5c19254da9f6a6095083e12f5f8a3092/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] /Users/karlacruz/.gradle/caches/8.14.5/transforms/5c19254da9f6a6095083e12f5f8a3092/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/karlacruz/.gradle/caches/8.14.5/transforms/b280291603ad98c2b62d2f29e4e87eb4/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -146,66 +146,74 @@ activity#com.classdrop.ui.auth.RegisterActivity
 ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:29:9-62
 	android:name
 		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:29:19-59
+activity#com.classdrop.ui.auth.ForgotPasswordActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:30:9-68
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:30:19-65
+activity#com.classdrop.ui.auth.ResetPasswordActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:31:9-67
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:31:19-64
 activity#com.classdrop.ui.main.MainActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:30:9-58
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:32:9-58
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:30:19-55
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:32:19-55
 activity#com.classdrop.ui.explore.SubjectDetailActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:31:9-70
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:33:9-70
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:31:19-67
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:33:19-67
 activity#com.classdrop.ui.files.UploadFileActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:32:9-65
-	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:32:19-62
-activity#com.classdrop.ui.files.UploadUrlActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:33:9-64
-	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:33:19-61
-activity#com.classdrop.ui.files.FileDetailActivity
 ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:34:9-65
 	android:name
 		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:34:19-62
+activity#com.classdrop.ui.files.UploadUrlActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:35:9-64
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:35:19-61
+activity#com.classdrop.ui.files.FileDetailActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:36:9-65
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:36:19-62
 activity#com.classdrop.ui.files.FileStatusActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:35:9-65
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:37:9-65
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:35:19-62
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:37:19-62
 activity#com.classdrop.ui.comments.CommentsActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:36:9-66
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:38:9-66
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:36:19-63
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:38:19-63
 activity#com.classdrop.ui.admin.AdminHomeActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:37:9-64
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:39:9-64
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:37:19-61
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:39:19-61
 activity#com.classdrop.ui.admin.ModerationActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:38:9-65
-	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:38:19-62
-activity#com.classdrop.ui.admin.ReportsActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:39:9-62
-	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:39:19-59
-activity#com.classdrop.ui.admin.NormsAdminActivity
 ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:40:9-65
 	android:name
 		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:40:19-62
+activity#com.classdrop.ui.admin.ReportsActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:41:9-62
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:41:19-59
+activity#com.classdrop.ui.admin.NormsAdminActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:42:9-65
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:42:19-62
 activity#com.classdrop.ui.admin.SubjectsAdminActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:41:9-68
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:43:9-68
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:41:19-65
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:43:19-65
 activity#com.classdrop.ui.profile.PrivacyPolicyActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:42:9-70
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:44:9-70
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:42:19-67
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:44:19-67
 activity#com.classdrop.ui.profile.CommunityRulesActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:43:9-71
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:45:9-71
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:43:19-68
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:45:19-68
 activity#com.classdrop.ui.profile.ProfileFilesActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:44:9-69
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:46:9-69
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:44:19-66
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:46:19-66
 uses-sdk
 INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml

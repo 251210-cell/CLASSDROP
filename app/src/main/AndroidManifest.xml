@@ -27,6 +27,8 @@
 
         <activity android:name=".ui.auth.LoginActivity" />
         <activity android:name=".ui.auth.RegisterActivity" />
+        <activity android:name=".ui.auth.ForgotPasswordActivity" />
+        <activity android:name=".ui.auth.ResetPasswordActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.explore.SubjectDetailActivity" />
         <activity android:name=".ui.files.UploadFileActivity" />
