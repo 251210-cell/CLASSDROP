@@ -2998,6 +2998,7 @@ int drawable bg_purple_glow 0x7f07007f
 int drawable bg_quarter_selected 0x7f070080
 int drawable bg_screen_glow 0x7f070081
 int drawable bg_splash_glow 0x7f070082
+int drawable bg_tab_slider 0x7f070100
 int drawable btn_checkbox_checked_mtrl 0x7f070083
 int drawable btn_checkbox_checked_to_unchecked_mtrl_animation 0x7f070084
 int drawable btn_checkbox_unchecked_mtrl 0x7f070085
@@ -3388,8 +3389,11 @@ int id invisible 0x7f080100
 int id inward 0x7f080101
 int id italic 0x7f080102
 int id item_touch_helper_previous_elevation 0x7f080103
+int id ivCommentIcon 0x7f080251
 int id ivDislikeElena 0x7f080104
+int id ivDislikeIcon 0x7f080252
 int id ivDislikeMarco 0x7f080105
+int id ivDownloadIcon 0x7f080253
 int id ivFileTypeIcon 0x7f080106
 int id ivIcon 0x7f08023b
 int id ivLikeElena 0x7f080107
@@ -3410,6 +3414,9 @@ int id line3 0x7f080113
 int id linear 0x7f080114
 int id listMode 0x7f080115
 int id list_item 0x7f080116
+int id llComments 0x7f08024f
+int id llDislike 0x7f080254
+int id llDownload 0x7f080250
 int id llLike 0x7f080239
 int id m3_side_sheet 0x7f080117
 int id marquee 0x7f080118
@@ -3663,6 +3670,7 @@ int id tvCerrarSesion 0x7f08020a
 int id tvComments 0x7f08020b
 int id tvDislikeCountElena 0x7f08020c
 int id tvDislikeCountMarco 0x7f08020d
+int id tvDislikes 0x7f080255
 int id tvDownloads 0x7f08020e
 int id tvFileCount 0x7f08020f
 int id tvFileName 0x7f080210

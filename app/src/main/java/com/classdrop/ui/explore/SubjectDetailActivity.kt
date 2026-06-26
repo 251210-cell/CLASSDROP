@@ -33,9 +33,41 @@ class SubjectDetailActivity : AppCompatActivity() {
         binding.rvPosts.adapter = adapter
 
         val mockPosts = listOf(
-            Post("1", "Elena García", "hace 2 horas", "Resumen Integrales Triples", "PDF", 42, 128, 8),
-            Post("2", "Marcos Ruiz", "hace 5 horas", "Guía Práctica Derivadas", "DOCX", 15, 56, 5),
-            Post("3", "Sofia Alva", "ayer", "Guía de Estudio Final", "PDF", 89, 210, 12)
+            Post(
+                id = "1",
+                userName = "Elena García",
+                time = "hace 30 min • Cálculo II",
+                fileName = "Resumen: Derivadas Parciales v2",
+                fileType = "PDF",
+                likes = 125,
+                dislikes = 45,
+                downloads = 128,
+                comments = 8,
+                isLiked = true,
+                isBookmarked = true
+            ),
+            Post(
+                id = "2",
+                userName = "Marco Soto",
+                time = "ayer • Programación",
+                fileName = "Guía Práctica Derivadas",
+                fileType = "DOCX",
+                likes = 15,
+                dislikes = 2,
+                downloads = 56,
+                comments = 5
+            ),
+            Post(
+                id = "3",
+                userName = "Sofia Alva",
+                time = "ayer • Cálculo II",
+                fileName = "Guía de Estudio Final",
+                fileType = "PDF",
+                likes = 89,
+                dislikes = 10,
+                downloads = 210,
+                comments = 12
+            )
         )
         adapter.submitList(mockPosts)
     }

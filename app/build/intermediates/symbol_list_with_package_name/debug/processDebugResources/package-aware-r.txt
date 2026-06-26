@@ -2999,6 +2999,7 @@ drawable bg_purple_glow
 drawable bg_quarter_selected
 drawable bg_screen_glow
 drawable bg_splash_glow
+drawable bg_tab_slider
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3389,8 +3390,11 @@ id invisible
 id inward
 id italic
 id item_touch_helper_previous_elevation
+id ivCommentIcon
 id ivDislikeElena
+id ivDislikeIcon
 id ivDislikeMarco
+id ivDownloadIcon
 id ivFileTypeIcon
 id ivIcon
 id ivLikeElena
@@ -3411,6 +3415,9 @@ id line3
 id linear
 id listMode
 id list_item
+id llComments
+id llDislike
+id llDownload
 id llLike
 id m3_side_sheet
 id marquee
@@ -3664,6 +3671,7 @@ id tvCerrarSesion
 id tvComments
 id tvDislikeCountElena
 id tvDislikeCountMarco
+id tvDislikes
 id tvDownloads
 id tvFileCount
 id tvFileName

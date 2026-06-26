@@ -72,13 +72,18 @@ class UploadFileActivity : AppCompatActivity() {
                 // Mover el selector físicamente mientras el usuario desliza
                 val containerWidth = binding.tabContainer.width
                 if (containerWidth > 0) {
-                    val padding = 8 // Total padding (4dp a cada lado)
-                    val totalWidth = containerWidth - (padding * resources.displayMetrics.density).toInt()
+                    val padding = (12 * resources.displayMetrics.density).toInt() // 6dp de cada lado
+                    val totalWidth = containerWidth - padding
                     val halfWidth = totalWidth / 2f
                     
-                    binding.tabSelector.layoutParams.width = halfWidth.toInt()
+                    // Ajustar el ancho solo una vez
+                    if (binding.tabSelector.width != halfWidth.toInt()) {
+                        binding.tabSelector.layoutParams.width = halfWidth.toInt()
+                        binding.tabSelector.requestLayout()
+                    }
+                    
+                    // Desplazamiento suave (translationX)
                     binding.tabSelector.translationX = (position + positionOffset) * halfWidth
-                    binding.tabSelector.requestLayout()
                 }
             }
 
@@ -101,12 +106,13 @@ class UploadFileActivity : AppCompatActivity() {
 
     private fun ViewPager2.smoothScrollTo(item: Int) {
         val containerWidth = binding.tabContainer.width
-        val padding = (8 * resources.displayMetrics.density).toInt()
+        val padding = (12 * resources.displayMetrics.density).toInt()
         val halfWidth = (containerWidth - padding) / 2f
         
         binding.tabSelector.animate()
             .translationX(item * halfWidth)
             .setDuration(250)
+            .setInterpolator(android.view.animation.DecelerateInterpolator())
             .start()
             
         this.setCurrentItem(item, true)

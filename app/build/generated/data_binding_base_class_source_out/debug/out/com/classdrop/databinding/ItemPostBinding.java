@@ -25,6 +25,15 @@ public final class ItemPostBinding implements ViewBinding {
   public final ImageView btnBookmark;
 
   @NonNull
+  public final ImageView ivCommentIcon;
+
+  @NonNull
+  public final ImageView ivDislikeIcon;
+
+  @NonNull
+  public final ImageView ivDownloadIcon;
+
+  @NonNull
   public final ImageView ivFileTypeIcon;
 
   @NonNull
@@ -34,10 +43,22 @@ public final class ItemPostBinding implements ViewBinding {
   public final View ivUserAvatar;
 
   @NonNull
+  public final LinearLayout llComments;
+
+  @NonNull
+  public final LinearLayout llDislike;
+
+  @NonNull
+  public final LinearLayout llDownload;
+
+  @NonNull
   public final LinearLayout llLike;
 
   @NonNull
   public final TextView tvComments;
+
+  @NonNull
+  public final TextView tvDislikes;
 
   @NonNull
   public final TextView tvDownloads;
@@ -58,17 +79,28 @@ public final class ItemPostBinding implements ViewBinding {
   public final TextView tvUserName;
 
   private ItemPostBinding(@NonNull MaterialCardView rootView, @NonNull ImageView btnBookmark,
-      @NonNull ImageView ivFileTypeIcon, @NonNull ImageView ivLikeIcon, @NonNull View ivUserAvatar,
-      @NonNull LinearLayout llLike, @NonNull TextView tvComments, @NonNull TextView tvDownloads,
-      @NonNull TextView tvFileName, @NonNull TextView tvFileTypeLabel, @NonNull TextView tvLikes,
-      @NonNull TextView tvTime, @NonNull TextView tvUserName) {
+      @NonNull ImageView ivCommentIcon, @NonNull ImageView ivDislikeIcon,
+      @NonNull ImageView ivDownloadIcon, @NonNull ImageView ivFileTypeIcon,
+      @NonNull ImageView ivLikeIcon, @NonNull View ivUserAvatar, @NonNull LinearLayout llComments,
+      @NonNull LinearLayout llDislike, @NonNull LinearLayout llDownload,
+      @NonNull LinearLayout llLike, @NonNull TextView tvComments, @NonNull TextView tvDislikes,
+      @NonNull TextView tvDownloads, @NonNull TextView tvFileName,
+      @NonNull TextView tvFileTypeLabel, @NonNull TextView tvLikes, @NonNull TextView tvTime,
+      @NonNull TextView tvUserName) {
     this.rootView = rootView;
     this.btnBookmark = btnBookmark;
+    this.ivCommentIcon = ivCommentIcon;
+    this.ivDislikeIcon = ivDislikeIcon;
+    this.ivDownloadIcon = ivDownloadIcon;
     this.ivFileTypeIcon = ivFileTypeIcon;
     this.ivLikeIcon = ivLikeIcon;
     this.ivUserAvatar = ivUserAvatar;
+    this.llComments = llComments;
+    this.llDislike = llDislike;
+    this.llDownload = llDownload;
     this.llLike = llLike;
     this.tvComments = tvComments;
+    this.tvDislikes = tvDislikes;
     this.tvDownloads = tvDownloads;
     this.tvFileName = tvFileName;
     this.tvFileTypeLabel = tvFileTypeLabel;
@@ -110,6 +142,24 @@ public final class ItemPostBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.ivCommentIcon;
+      ImageView ivCommentIcon = ViewBindings.findChildViewById(rootView, id);
+      if (ivCommentIcon == null) {
+        break missingId;
+      }
+
+      id = R.id.ivDislikeIcon;
+      ImageView ivDislikeIcon = ViewBindings.findChildViewById(rootView, id);
+      if (ivDislikeIcon == null) {
+        break missingId;
+      }
+
+      id = R.id.ivDownloadIcon;
+      ImageView ivDownloadIcon = ViewBindings.findChildViewById(rootView, id);
+      if (ivDownloadIcon == null) {
+        break missingId;
+      }
+
       id = R.id.ivFileTypeIcon;
       ImageView ivFileTypeIcon = ViewBindings.findChildViewById(rootView, id);
       if (ivFileTypeIcon == null) {
@@ -128,6 +178,24 @@ public final class ItemPostBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.llComments;
+      LinearLayout llComments = ViewBindings.findChildViewById(rootView, id);
+      if (llComments == null) {
+        break missingId;
+      }
+
+      id = R.id.llDislike;
+      LinearLayout llDislike = ViewBindings.findChildViewById(rootView, id);
+      if (llDislike == null) {
+        break missingId;
+      }
+
+      id = R.id.llDownload;
+      LinearLayout llDownload = ViewBindings.findChildViewById(rootView, id);
+      if (llDownload == null) {
+        break missingId;
+      }
+
       id = R.id.llLike;
       LinearLayout llLike = ViewBindings.findChildViewById(rootView, id);
       if (llLike == null) {
@@ -137,6 +205,12 @@ public final class ItemPostBinding implements ViewBinding {
       id = R.id.tvComments;
       TextView tvComments = ViewBindings.findChildViewById(rootView, id);
       if (tvComments == null) {
+        break missingId;
+      }
+
+      id = R.id.tvDislikes;
+      TextView tvDislikes = ViewBindings.findChildViewById(rootView, id);
+      if (tvDislikes == null) {
         break missingId;
       }
 
@@ -176,9 +250,10 @@ public final class ItemPostBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemPostBinding((MaterialCardView) rootView, btnBookmark, ivFileTypeIcon,
-          ivLikeIcon, ivUserAvatar, llLike, tvComments, tvDownloads, tvFileName, tvFileTypeLabel,
-          tvLikes, tvTime, tvUserName);
+      return new ItemPostBinding((MaterialCardView) rootView, btnBookmark, ivCommentIcon,
+          ivDislikeIcon, ivDownloadIcon, ivFileTypeIcon, ivLikeIcon, ivUserAvatar, llComments,
+          llDislike, llDownload, llLike, tvComments, tvDislikes, tvDownloads, tvFileName,
+          tvFileTypeLabel, tvLikes, tvTime, tvUserName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

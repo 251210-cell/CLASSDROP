@@ -83,7 +83,6 @@ class HomeFragment : Fragment() {
         var elenaDislikes = 45
         var isElenaDisliked = false
 
-        val colorPrimary = resources.getColor(com.classdrop.R.color.primary, null)
         val colorDislike = android.graphics.Color.parseColor("#A855F7")
         val colorPlaceholder = resources.getColor(com.classdrop.R.color.placeholder, null)
 
@@ -101,7 +100,8 @@ class HomeFragment : Fragment() {
             elenaLikes += if (isElenaLiked) 1 else -1
             binding.tvLikeCountElena.text = elenaLikes.toString()
             
-            val color = if (isElenaLiked) colorPrimary else colorPlaceholder
+            // Usamos el morado del dislike (#A855F7) para el like también
+            val color = if (isElenaLiked) colorDislike else colorPlaceholder
             binding.ivLikeElena.setColorFilter(color)
             binding.tvLikeCountElena.setTextColor(color)
             
@@ -164,7 +164,8 @@ class HomeFragment : Fragment() {
             marcoLikes += if (isMarcoLiked) 1 else -1
             binding.tvLikeCountMarco.text = marcoLikes.toString()
             
-            val color = if (isMarcoLiked) colorPrimary else colorPlaceholder
+            // Usamos el morado del dislike (#A855F7) para el like también
+            val color = if (isMarcoLiked) colorDislike else colorPlaceholder
             binding.ivLikeMarco.setColorFilter(color)
             binding.tvLikeCountMarco.setTextColor(color)
 

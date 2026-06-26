@@ -31,6 +31,7 @@ drawable bg_purple_glow
 drawable bg_quarter_selected
 drawable bg_screen_glow
 drawable bg_splash_glow
+drawable bg_tab_slider
 drawable ic_app_logo
 drawable ic_arrow_back
 drawable ic_chevron_down
@@ -86,8 +87,11 @@ id formCard
 id fragmentContainer
 id headerLayout
 id includeBottomNav
+id ivCommentIcon
 id ivDislikeElena
+id ivDislikeIcon
 id ivDislikeMarco
+id ivDownloadIcon
 id ivFileTypeIcon
 id ivIcon
 id ivLikeElena
@@ -96,6 +100,9 @@ id ivLikeMarco
 id ivNotification
 id ivSubjectIcon
 id ivUserAvatar
+id llComments
+id llDislike
+id llDownload
 id llLike
 id materiasHeader
 id novedadesHeader
@@ -116,6 +123,7 @@ id tvCerrarSesion
 id tvComments
 id tvDislikeCountElena
 id tvDislikeCountMarco
+id tvDislikes
 id tvDownloads
 id tvFileCount
 id tvFileName

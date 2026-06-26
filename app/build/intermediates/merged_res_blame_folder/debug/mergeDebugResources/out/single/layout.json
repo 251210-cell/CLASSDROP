@@ -64,6 +64,10 @@
         "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_file_card.xml"
     },
     {
+        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/item_post.xml",
+        "source": "com.classdrop.app-main-41:/layout/item_post.xml"
+    },
+    {
         "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\activity_comments.xml",
         "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\activity_comments.xml"
     },
@@ -82,9 +86,5 @@
     {
         "merged": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-mergeDebugResources-38:\\layout\\item_subject_home.xml",
         "source": "C:\\Users\\velaz\\.gradle\\daemon\\8.14.5\\com.classdrop.app-main-41:\\layout\\item_subject_home.xml"
-    },
-    {
-        "merged": "com.classdrop.app-mergeDebugResources-38:/layout/activity_upload.xml",
-        "source": "com.classdrop.app-main-41:/layout/activity_upload.xml"
     }
 ]
