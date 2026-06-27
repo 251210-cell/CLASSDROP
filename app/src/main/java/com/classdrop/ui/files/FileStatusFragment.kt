@@ -142,6 +142,15 @@ class FileStatusFragment : Fragment() {
         binding.tvReadRules.setOnClickListener {
             startActivity(Intent(requireContext(), CommunityRulesActivity::class.java))
         }
+
+        binding.btnViewDetails.setOnClickListener {
+            val intent = Intent(requireContext(), FileDetailActivity::class.java).apply {
+                putExtra("FILE_NAME", binding.tvFileNameStatus.text.toString())
+                putExtra("FILE_TYPE", "PDF")
+                putExtra("FILE_SIZE", "2.4 MB")
+            }
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {

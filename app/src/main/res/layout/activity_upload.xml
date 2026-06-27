@@ -106,15 +106,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-            <!-- Tab Switcher (Estilo Pasador) -->
+            <!-- Tab Switcher (Estilo Pasador Corredizo) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/tabContainer"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginHorizontal="24dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                app:cardCornerRadius="14dp"
+                app:cardBackgroundColor="@color/surface_variant"
+                app:cardCornerRadius="15dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
                 app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
@@ -122,20 +122,20 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="6dp">
+                    android:padding="4dp">
 
-                    <!-- El "Pasador" blanco -->
+                    <!-- El "Pasador" blanco que se desplaza -->
                     <View
                         android:id="@+id/tabSelector"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_tab_slider"
-                        android:elevation="4dp" />
+                        android:elevation="2dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:elevation="5dp"
+                        android:elevation="3dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -146,10 +146,11 @@
                             android:gravity="center"
                             android:text="Archivo"
                             android:textColor="?attr/colorPrimary"
+                            android:textSize="14sp"
                             android:textStyle="bold"
                             android:clickable="true"
                             android:focusable="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"/>
+                            android:background="@android:color/transparent"/>
 
                         <TextView
                             android:id="@+id/tabUrl"
@@ -159,9 +160,10 @@
                             android:gravity="center"
                             android:text="URL"
                             android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="14sp"
                             android:clickable="true"
                             android:focusable="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"/>
+                            android:background="@android:color/transparent"/>
                     </LinearLayout>
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>

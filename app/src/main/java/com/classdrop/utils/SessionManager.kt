@@ -47,4 +47,39 @@ class SessionManager(context: Context) {
     fun clearSession() {
         prefs.edit().clear().apply()
     }
+
+    // --- FAVORITOS SYNC ---
+    fun toggleFavorite(postId: String) {
+        val favorites = fetchFavorites().toMutableSet()
+        if (favorites.contains(postId)) {
+            favorites.remove(postId)
+        } else {
+            favorites.add(postId)
+        }
+        prefs.edit().putStringSet("favorite_ids", favorites).apply()
+    }
+
+    fun isFavorite(postId: String): Boolean {
+        return fetchFavorites().contains(postId)
+    }
+
+    fun addFavorite(postId: String) {
+        val favorites = fetchFavorites().toMutableSet()
+        if (!favorites.contains(postId)) {
+            favorites.add(postId)
+            prefs.edit().putStringSet("favorite_ids", favorites).apply()
+        }
+    }
+
+    fun removeFavorite(postId: String) {
+        val favorites = fetchFavorites().toMutableSet()
+        if (favorites.contains(postId)) {
+            favorites.remove(postId)
+            prefs.edit().putStringSet("favorite_ids", favorites).apply()
+        }
+    }
+
+    fun fetchFavorites(): Set<String> {
+        return prefs.getStringSet("favorite_ids", emptySet()) ?: emptySet()
+    }
 }

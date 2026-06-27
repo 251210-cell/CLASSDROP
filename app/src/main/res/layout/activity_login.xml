@@ -7,7 +7,8 @@
     android:background="?android:attr/colorBackground"
     tools:context=".ui.auth.LoginActivity">
 
-    <!-- Purple Glow Decor -->
+    <!-- Removed Purple Glow Decor to eliminate the shadow on the right -->
+    <!--
     <View
         android:layout_width="400dp"
         android:layout_height="400dp"
@@ -16,6 +17,7 @@
         android:background="@drawable/bg_purple_glow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    -->
 
     <ScrollView
         android:layout_width="match_parent"

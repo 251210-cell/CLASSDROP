@@ -63,13 +63,13 @@ class SubjectDetailActivity : AppCompatActivity() {
     }
 
     private fun setupPosts() {
-        val adapter = PostsAdapter()
+        val adapter = PostsAdapter(sessionManager)
         binding.rvPosts.layoutManager = LinearLayoutManager(this)
         binding.rvPosts.adapter = adapter
 
         val mockPosts = listOf(
             Post(
-                id = "1",
+                id = "post_elena_derivadas", // ID consistente con el Home
                 userName = "Elena García",
                 time = "hace 30 min • Cálculo II",
                 fileName = "Resumen: Derivadas Parciales v2",
@@ -78,12 +78,10 @@ class SubjectDetailActivity : AppCompatActivity() {
                 likes = 125,
                 dislikes = 45,
                 downloads = 128,
-                comments = 8,
-                isLiked = true,
-                isBookmarked = true
+                comments = 8
             ),
             Post(
-                id = "2",
+                id = "post_marco_recursividad", // ID consistente con el Home
                 userName = "Marco Soto",
                 time = "ayer • Programación",
                 fileName = "Guía Práctica Derivadas",

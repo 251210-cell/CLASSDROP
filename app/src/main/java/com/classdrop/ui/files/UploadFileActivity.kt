@@ -53,6 +53,8 @@ class UploadFileActivity : AppCompatActivity() {
         }
     }
 
+    private var selectedUrl: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -68,12 +70,30 @@ class UploadFileActivity : AppCompatActivity() {
         handlePreselectedSubject()
         
         binding.btnPublish.setOnClickListener {
-            val action = if (binding.viewPager.currentItem == 0) "Archivo" else "Enlace"
+            val isUrlTab = binding.viewPager.currentItem == 1
+            
+            if (isUrlTab) {
+                if (selectedUrl.isNullOrBlank()) {
+                    Toast.makeText(this, "Por favor, ingresa una URL válida", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (!android.util.Patterns.WEB_URL.matcher(selectedUrl ?: "").matches()) {
+                    Toast.makeText(this, "El formato de la URL no es válido", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            } else {
+                if (selectedFileName == null) {
+                    Toast.makeText(this, "Por favor, selecciona un archivo", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
+            val action = if (!isUrlTab) "Archivo" else "Enlace"
             
             // Simular el guardado de datos y navegar al estado
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SELECT_TAB", "STATUS")
-                putExtra("FILE_NAME", selectedFileName ?: "Cálculo II - Apuntes") 
+                putExtra("FILE_NAME", if (isUrlTab) selectedUrl else (selectedFileName ?: "Cálculo II - Apuntes")) 
                 putExtra("FILE_SIZE", if (action == "Archivo") (selectedFileSize ?: "2.4 MB") else "Enlace Externo")
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
@@ -106,7 +126,7 @@ class UploadFileActivity : AppCompatActivity() {
     private fun setupViewPager() {
         pagerAdapter = UploadPagerAdapter(
             onFileClick = { checkPermissionsAndOpenFile() },
-            onUrlChanged = { /* Handle URL logic */ }
+            onUrlChanged = { url -> selectedUrl = url }
         )
         binding.viewPager.adapter = pagerAdapter
         
@@ -117,7 +137,7 @@ class UploadFileActivity : AppCompatActivity() {
                 // Mover el selector físicamente mientras el usuario desliza
                 val containerWidth = binding.tabContainer.width
                 if (containerWidth > 0) {
-                    val padding = (12 * resources.displayMetrics.density).toInt() // 6dp de cada lado
+                    val padding = (8 * resources.displayMetrics.density).toInt() // 4dp de cada lado (ajustado al nuevo diseño)
                     val totalWidth = containerWidth - padding
                     val halfWidth = totalWidth / 2f
                     
@@ -151,7 +171,7 @@ class UploadFileActivity : AppCompatActivity() {
 
     private fun ViewPager2.smoothScrollTo(item: Int) {
         val containerWidth = binding.tabContainer.width
-        val padding = (12 * resources.displayMetrics.density).toInt()
+        val padding = (8 * resources.displayMetrics.density).toInt()
         val halfWidth = (containerWidth - padding) / 2f
         
         binding.tabSelector.animate()

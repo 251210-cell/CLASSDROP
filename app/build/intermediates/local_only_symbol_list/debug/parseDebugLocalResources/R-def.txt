@@ -26,6 +26,7 @@ color text_secondary
 color transparent
 color warning
 color white
+drawable bg_admin_gradient
 drawable bg_bottom_nav
 drawable bg_button_glow
 drawable bg_button_primary
@@ -71,6 +72,8 @@ drawable ic_thumb_down
 drawable ic_thumb_up
 drawable ic_user_rights
 drawable ic_warning
+id adminBannerCard
+id adminToolsLayout
 id appBar
 id bottomNavBar
 id btnBack
@@ -103,8 +106,8 @@ id btnUpload
 id btnViewDetails
 id cardDownloads
 id cardFavorites
-id cardMaterias
 id cardModeracion
+id cardModerar
 id cardNormas
 id cardQuarter
 id cardReportes
@@ -163,6 +166,7 @@ id llDownload
 id llDownloadDetail
 id llLike
 id llLikeDetail
+id materiasCardsLayout
 id materiasHeader
 id novedadesHeader
 id postCardElena

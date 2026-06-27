@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.classdrop.databinding.FragmentHomeBinding
+import com.classdrop.R
+import com.classdrop.model.UserRole
 import com.classdrop.model.Subject
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
@@ -41,7 +43,29 @@ class HomeFragment : Fragment() {
 
     private fun setupUI() {
         val userName = sessionManager.fetchUserName()
-        binding.tvSaludo.text = "¡Hola, $userName!"
+        val userRole = sessionManager.fetchUserRole()
+
+        if (userRole == UserRole.ADMIN) {
+            // UI para Admin
+            binding.adminBannerCard.visibility = View.VISIBLE
+            binding.adminToolsLayout.visibility = View.VISIBLE
+            
+            binding.saludoLayout.visibility = View.GONE
+            binding.novedadesHeader.visibility = View.GONE
+            binding.postCardElena.visibility = View.GONE
+            binding.postCardMarco.visibility = View.GONE
+        } else {
+            // UI para Estudiante (Default)
+            binding.adminBannerCard.visibility = View.GONE
+            binding.adminToolsLayout.visibility = View.GONE
+            
+            binding.saludoLayout.visibility = View.VISIBLE
+            binding.novedadesHeader.visibility = View.VISIBLE
+            binding.postCardElena.visibility = View.VISIBLE
+            binding.postCardMarco.visibility = View.VISIBLE
+            
+            binding.tvSaludo.text = "¡Hola, $userName!"
+        }
         
         // Configurar iniciales en el avatar
         val initials = if (userName.length >= 2) {
@@ -50,8 +74,10 @@ class HomeFragment : Fragment() {
                 .mapNotNull { it.firstOrNull()?.uppercase() }
                 .take(2)
                 .joinToString("")
-        } else {
+        } else if (userName.isNotEmpty()) {
             userName.take(1).uppercase()
+        } else {
+            "?"
         }
         binding.tvAvatarInitials.text = initials
     }
@@ -78,10 +104,95 @@ class HomeFragment : Fragment() {
         }
 
         setupInteractions()
+        setupReactionListeners()
+    }
+
+    private fun setupReactionListeners() {
+        // IDs for Elena and Marco posts to persist state
+        val elenaPostId = "post_elena_derivadas"
+        val marcoPostId = "post_marco_recursividad"
+
+        // Initial states from SessionManager
+        var isFavoritedElena = sessionManager.isFavorite(elenaPostId)
+        var isFavoritedMarco = sessionManager.isFavorite(marcoPostId)
+        
+        // Update UI with initial states
+        updateElenaReactions(false, false, isFavoritedElena)
+        updateMarcoReactions(false, false, isFavoritedMarco)
+
+        var isLikedElena = false
+        var isDislikedElena = false
+
+        binding.btnLikeElena.setOnClickListener {
+            isLikedElena = !isLikedElena
+            if (isLikedElena) isDislikedElena = false
+            updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
+        }
+
+        binding.btnDislikeElena.setOnClickListener {
+            isDislikedElena = !isDislikedElena
+            if (isDislikedElena) isLikedElena = false
+            updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
+        }
+
+        binding.btnFavoriteElena.setOnClickListener {
+            isFavoritedElena = !isFavoritedElena
+            sessionManager.toggleFavorite(elenaPostId)
+            updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
+        }
+
+        // Similar for Marco
+        var isLikedMarco = false
+        var isDislikedMarco = false
+
+        binding.btnLikeMarco.setOnClickListener {
+            isLikedMarco = !isLikedMarco
+            if (isLikedMarco) isDislikedMarco = false
+            updateMarcoReactions(isLikedMarco, isDislikedMarco, isFavoritedMarco)
+        }
+
+        binding.btnDislikeMarco.setOnClickListener {
+            isDislikedMarco = !isDislikedMarco
+            if (isDislikedMarco) isLikedMarco = false
+            updateMarcoReactions(isLikedMarco, isDislikedMarco, isFavoritedMarco)
+        }
+
+        binding.btnFavoriteMarco.setOnClickListener {
+            isFavoritedMarco = !isFavoritedMarco
+            sessionManager.toggleFavorite(marcoPostId)
+            updateMarcoReactions(isLikedMarco, isDislikedMarco, isFavoritedMarco)
+        }
+    }
+
+    private fun updateElenaReactions(liked: Boolean, disliked: Boolean, favorited: Boolean) {
+        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.primary)
+        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.placeholder)
+        val favoriteColor = androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
+
+        binding.ivLikeElena.imageTintList = android.content.res.ColorStateList.valueOf(if (liked) primaryColor else placeholderColor)
+        binding.tvLikeCountElena.setTextColor(if (liked) primaryColor else placeholderColor)
+        
+        binding.ivDislikeElena.imageTintList = android.content.res.ColorStateList.valueOf(if (disliked) primaryColor else placeholderColor)
+        binding.tvDislikeCountElena.setTextColor(if (disliked) primaryColor else placeholderColor)
+
+        binding.btnFavoriteElena.imageTintList = android.content.res.ColorStateList.valueOf(if (favorited) favoriteColor else placeholderColor)
+    }
+
+    private fun updateMarcoReactions(liked: Boolean, disliked: Boolean, favorited: Boolean) {
+        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.primary)
+        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.placeholder)
+        val favoriteColor = androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
+
+        binding.ivLikeMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (liked) primaryColor else placeholderColor)
+        binding.tvLikeCountMarco.setTextColor(if (liked) primaryColor else placeholderColor)
+        
+        binding.ivDislikeMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (disliked) primaryColor else placeholderColor)
+        binding.tvDislikeCountMarco.setTextColor(if (disliked) primaryColor else placeholderColor)
+
+        binding.btnFavoriteMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (favorited) favoriteColor else placeholderColor)
     }
 
     private fun setupInteractions() {
-        // ... (Se mantiene la lógica de interacciones de Elena y Marco)
         binding.postCardElena.setOnClickListener {
             val intent = Intent(requireContext(), com.classdrop.ui.files.FileDetailActivity::class.java).apply {
                 putExtra("FILE_NAME", "Resumen: Derivadas Parciales v2")

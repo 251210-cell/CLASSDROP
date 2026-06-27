@@ -31,7 +31,7 @@ class AdminHomeActivity : AppCompatActivity() {
         binding.cardNormas.setOnClickListener {
             startActivity(Intent(this, NormsAdminActivity::class.java))
         }
-        binding.cardMaterias.setOnClickListener {
+        binding.tvSeeAllSubjects.setOnClickListener {
             startActivity(Intent(this, SubjectsAdminActivity::class.java))
         }
         binding.tvCerrarSesion.setOnClickListener {

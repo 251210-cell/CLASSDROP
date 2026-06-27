@@ -43,7 +43,13 @@ class UploadPagerAdapter(
                 holder.binding.tvSelectedFileName.text = "Toca para seleccionar archivo"
             }
         } else if (holder is UrlViewHolder) {
-            // Logic for URL changes if needed
+            holder.binding.etUrl.addTextChangedListener(object : android.text.TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    onUrlChanged(s.toString())
+                }
+                override fun afterTextChanged(s: android.text.Editable?) {}
+            })
         }
     }
 

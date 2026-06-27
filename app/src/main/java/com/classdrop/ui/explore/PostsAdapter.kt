@@ -28,7 +28,10 @@ data class Post(
     var isDownloaded: Boolean = false
 )
 
-class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
+class PostsAdapter(
+    private val sessionManager: com.classdrop.utils.SessionManager? = null,
+    private val onBookmarkChanged: ((Post) -> Unit)? = null
+) : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
 
     inner class PostViewHolder(val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -92,11 +95,16 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCall
             }
 
             // Lógica de Favoritos (Bookmark) en ROJO
+            val isCurrentlyBookmarked = sessionManager?.isFavorite(post.id) ?: post.isBookmarked
+            post.isBookmarked = isCurrentlyBookmarked
             updateBookmarkUI(holder, post.isBookmarked)
+            
             btnBookmark.setOnClickListener {
                 post.isBookmarked = !post.isBookmarked
+                sessionManager?.toggleFavorite(post.id)
                 updateBookmarkUI(holder, post.isBookmarked)
                 animateButton(btnBookmark)
+                onBookmarkChanged?.invoke(post)
             }
 
             // Lógica de Descarga con Alerta y cambio de color

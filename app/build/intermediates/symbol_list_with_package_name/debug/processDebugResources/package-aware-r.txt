@@ -2994,6 +2994,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable bg_admin_gradient
 drawable bg_bottom_nav
 drawable bg_button_glow
 drawable bg_button_primary
@@ -3216,6 +3217,8 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id adminBannerCard
+id adminToolsLayout
 id alertTitle
 id aligned
 id all
@@ -3279,8 +3282,8 @@ id callMeasure
 id cancel_button
 id cardDownloads
 id cardFavorites
-id cardMaterias
 id cardModeracion
+id cardModerar
 id cardNormas
 id cardQuarter
 id cardReportes
@@ -3501,6 +3504,7 @@ id material_timepicker_mode_button
 id material_timepicker_ok_button
 id material_timepicker_view
 id material_value_index
+id materiasCardsLayout
 id materiasHeader
 id matrix
 id message
