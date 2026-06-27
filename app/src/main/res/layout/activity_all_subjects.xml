@@ -38,6 +38,17 @@
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/ivNotification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvAvatarInitials"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
         <TextView
             android:id="@+id/tvAvatarInitials"
             android:layout_width="36dp"

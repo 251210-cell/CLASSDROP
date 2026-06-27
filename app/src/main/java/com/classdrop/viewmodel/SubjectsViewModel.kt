@@ -16,10 +16,10 @@ class SubjectsViewModel : ViewModel() {
 
     private fun loadSubjects() {
         _subjects.value = listOf(
-            Subject("1", "Cálculo II", 12, R.drawable.ic_nav_search, "#F3E8FF", "#A855F7"),
-            Subject("2", "Programación", 8, R.drawable.ic_nav_upload, "#E0F2F1", "#2DD4BF"),
-            Subject("3", "Base de Datos", 15, R.drawable.ic_nav_profile, "#E0E7FF", "#6366F1"),
-            Subject("4", "Álgebra", 4, R.drawable.ic_nav_home, "#FFE4E6", "#F43F5E")
+            Subject("1", "Cálculo Integral", 12, R.drawable.ic_mortarboard, "#EEF2FF", "#4F46E5", "1 Cuatrimestre"),
+            Subject("2", "Algoritmos Avanzados", 8, R.drawable.ic_nav_notes, "#F0FDFA", "#0D9488", "7 Cuatrimestre"),
+            Subject("3", "Ética Profesional", 15, R.drawable.ic_mortarboard, "#F5F3FF", "#8B5CF6", "3 Cuatrimestre"),
+            Subject("4", "Bases de Datos I", 20, R.drawable.ic_nav_notes, "#EFF6FF", "#3B82F6", "3 Cuatrimestre")
         )
     }
 }

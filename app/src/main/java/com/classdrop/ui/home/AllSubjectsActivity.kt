@@ -33,12 +33,26 @@ class AllSubjectsActivity : AppCompatActivity() {
 
     private fun setupHeader() {
         val userName = sessionManager.fetchUserName()
-        val initials = userName.split(" ")
-            .filter { it.isNotBlank() }
-            .mapNotNull { it.firstOrNull()?.uppercase() }
-            .take(2)
-            .joinToString("")
+        val initials = if (userName.length >= 2) {
+            userName.split(" ")
+                .filter { it.isNotBlank() }
+                .mapNotNull { it.firstOrNull()?.uppercase() }
+                .take(2)
+                .joinToString("")
+        } else if (userName.isNotEmpty()) {
+            userName.take(1).uppercase()
+        } else {
+            "?"
+        }
         binding.tvAvatarInitials.text = initials
+
+        binding.ivNotification.setOnClickListener {
+            // Acción para notificaciones
+        }
+
+        binding.tvAvatarInitials.setOnClickListener {
+            // Podrías navegar al perfil o mostrar un menú
+        }
     }
 
     private fun setupRecyclerView() {

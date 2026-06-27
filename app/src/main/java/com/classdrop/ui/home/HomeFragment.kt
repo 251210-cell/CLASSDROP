@@ -49,6 +49,7 @@ class HomeFragment : Fragment() {
             // UI para Admin
             binding.adminBannerCard.visibility = View.VISIBLE
             binding.adminToolsLayout.visibility = View.VISIBLE
+            binding.ivNotification.visibility = View.GONE
             
             binding.saludoLayout.visibility = View.GONE
             binding.novedadesHeader.visibility = View.GONE
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
             // UI para Estudiante (Default)
             binding.adminBannerCard.visibility = View.GONE
             binding.adminToolsLayout.visibility = View.GONE
+            binding.ivNotification.visibility = View.VISIBLE
             
             binding.saludoLayout.visibility = View.VISIBLE
             binding.novedadesHeader.visibility = View.VISIBLE
@@ -90,8 +92,13 @@ class HomeFragment : Fragment() {
 
         // Navegar a "Ver todas las materias"
         binding.tvSeeAllSubjects.setOnClickListener {
-            val intent = Intent(requireContext(), AllSubjectsActivity::class.java)
-            startActivity(intent)
+            val userRole = sessionManager.fetchUserRole()
+            val activityClass = if (userRole == com.classdrop.model.UserRole.ADMIN) {
+                com.classdrop.ui.admin.SubjectsAdminActivity::class.java
+            } else {
+                AllSubjectsActivity::class.java
+            }
+            startActivity(Intent(requireContext(), activityClass))
         }
 
         adapter = SubjectsAdapter { subject ->

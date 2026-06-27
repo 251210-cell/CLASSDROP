@@ -3038,7 +3038,9 @@ drawable ic_clock_black_24dp
 drawable ic_comment
 drawable ic_data_protection
 drawable ic_data_usage
+drawable ic_delete
 drawable ic_download
+drawable ic_edit
 drawable ic_eye_hide
 drawable ic_eye_show
 drawable ic_favorite
@@ -3251,8 +3253,10 @@ id bounceStart
 id btnBack
 id btnBookmark
 id btnContactSupport
+id btnDelete
 id btnDislikeElena
 id btnDislikeMarco
+id btnEdit
 id btnFavoriteElena
 id btnFavoriteMarco
 id btnLikeElena
@@ -3383,6 +3387,7 @@ id etUrl
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id fabAddSubject
 id fade
 id fill
 id fill_horizontal
@@ -3618,6 +3623,7 @@ id rvCuatrimestres
 id rvFiles
 id rvPosts
 id rvSubjects
+id rvSubjectsAdmin
 id rvSubjectsExplore
 id rvSuggestions
 id saludoLayout
@@ -3788,6 +3794,7 @@ id tvSelectedMateria
 id tvSelectedQuarter
 id tvSelectedSubject
 id tvSubjectName
+id tvSubjectSubtitle
 id tvSubjectTitle
 id tvSubtitle
 id tvSuggestionTitle
@@ -3959,6 +3966,7 @@ layout activity_register
 layout activity_reset_password
 layout activity_splash
 layout activity_subject_detail
+layout activity_subjects_admin
 layout activity_upload
 layout custom_dialog
 layout design_bottom_navigation_item
@@ -3987,6 +3995,7 @@ layout item_file_card
 layout item_post
 layout item_quarter
 layout item_search_suggestion
+layout item_subject_admin
 layout item_subject_home
 layout item_upload_file
 layout item_upload_url

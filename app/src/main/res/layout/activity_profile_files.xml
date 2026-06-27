@@ -31,6 +31,35 @@
             android:text="Mis Archivos"
             android:textColor="?attr/colorOnBackground"
             android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivNotification"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="16dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_notification"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvAvatarInitials"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_button_primary"
+                android:gravity="center"
+                android:text="MA"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

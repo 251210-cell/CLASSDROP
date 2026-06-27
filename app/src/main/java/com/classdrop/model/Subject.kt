@@ -6,5 +6,6 @@ data class Subject(
     val fileCount: Int,
     val iconRes: Int,
     val iconBgColor: String,
-    val iconTintColor: String
+    val iconTintColor: String,
+    val cuatrimestre: String = "1 Cuatrimestre"
 )
