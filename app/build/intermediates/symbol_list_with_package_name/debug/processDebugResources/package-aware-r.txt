@@ -3372,11 +3372,13 @@ id enterAlwaysCollapsed
 id etCode
 id etComment
 id etConfirmPassword
+id etDescription
 id etEmail
 id etName
 id etNewPassword
 id etPassword
 id etSearch
+id etTitle
 id etUrl
 id exitUntilCollapsed
 id expand_activities_button

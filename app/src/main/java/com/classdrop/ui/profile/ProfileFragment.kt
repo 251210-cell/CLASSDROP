@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.classdrop.databinding.FragmentProfileBinding
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ProfileFragment : Fragment() {
 
@@ -90,10 +92,7 @@ class ProfileFragment : Fragment() {
 
         // --- Otros Listeners ---
         binding.btnLogout.setOnClickListener {
-            sessionManager.clearSession()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            showLogoutConfirmation()
         }
 
         binding.btnPrivacy.setOnClickListener {
@@ -109,6 +108,20 @@ class ProfileFragment : Fragment() {
         binding.tvHelpDescription.setOnClickListener {
             sendEmail()
         }
+    }
+
+    private fun showLogoutConfirmation() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Cerrar sesión")
+            .setMessage("¿Estás seguro de que deseas salir de ClassDrop?")
+            .setPositiveButton("Cerrar sesión") { _, _ ->
+                sessionManager.clearSession()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun sendEmail() {

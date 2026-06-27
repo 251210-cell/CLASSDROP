@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -23,6 +24,10 @@ class UploadFileActivity : AppCompatActivity() {
     private lateinit var pagerAdapter: UploadPagerAdapter
     private lateinit var sessionManager: SessionManager
 
+    private var selectedFileName: String? = null
+    private var selectedFileSize: String? = null
+    private var enteredUrl: String? = null
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -34,9 +39,6 @@ class UploadFileActivity : AppCompatActivity() {
         }
     }
 
-    private var selectedFileName: String? = null
-    private var selectedFileSize: String? = null
-
     private val pickFileLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -44,16 +46,13 @@ class UploadFileActivity : AppCompatActivity() {
             val data: Intent? = result.data
             val uri = data?.data
             uri?.let {
-                // En una app real usaríamos ContentResolver para obtener el nombre real
                 val name = it.path?.substringAfterLast('/') ?: "archivo_seleccionado.pdf"
                 selectedFileName = name
-                selectedFileSize = "1.2 MB" // Mock size
+                selectedFileSize = "1.2 MB" 
                 pagerAdapter.setSelectedFileName(name)
             }
         }
     }
-
-    private var selectedUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,36 +69,83 @@ class UploadFileActivity : AppCompatActivity() {
         handlePreselectedSubject()
         
         binding.btnPublish.setOnClickListener {
-            val isUrlTab = binding.viewPager.currentItem == 1
-            
-            if (isUrlTab) {
-                if (selectedUrl.isNullOrBlank()) {
-                    Toast.makeText(this, "Por favor, ingresa una URL válida", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-                if (!android.util.Patterns.WEB_URL.matcher(selectedUrl ?: "").matches()) {
-                    Toast.makeText(this, "El formato de la URL no es válido", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-            } else {
-                if (selectedFileName == null) {
-                    Toast.makeText(this, "Por favor, selecciona un archivo", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-            }
-
-            val action = if (!isUrlTab) "Archivo" else "Enlace"
-            
-            // Simular el guardado de datos y navegar al estado
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("SELECT_TAB", "STATUS")
-                putExtra("FILE_NAME", if (isUrlTab) selectedUrl else (selectedFileName ?: "Cálculo II - Apuntes")) 
-                putExtra("FILE_SIZE", if (action == "Archivo") (selectedFileSize ?: "2.4 MB") else "Enlace Externo")
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            }
-            startActivity(intent)
-            finish()
+            validateAndPublish()
         }
+    }
+
+    private fun validateAndPublish() {
+        val title = binding.etTitle.text.toString().trim()
+        val description = binding.etDescription.text.toString().trim()
+        val quarter = binding.tvSelectedQuarter.text.toString()
+        val subject = binding.tvSelectedSubject.text.toString()
+        val isFileTab = binding.viewPager.currentItem == 0
+
+        // 1. Validar Título (No números ni símbolos, solo letras y espacios)
+        val nameRegex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$".toRegex()
+        
+        if (title.isEmpty()) {
+            showAlert("Título requerido", "Por favor ingresa un título para tu apunte.")
+            return
+        }
+        
+        if (!title.matches(nameRegex)) {
+            showAlert("Título inválido", "El título no debe contener números ni símbolos especiales.")
+            return
+        }
+
+        // 2. Validar Descripción
+        if (description.isEmpty()) {
+            showAlert("Descripción requerida", "Cuéntanos un poco de qué trata tu apunte.")
+            return
+        }
+
+        // 3. Validar Selección de Cuatrimestre y Materia
+        if (quarter == "Selecciona tu cuatrimestre") {
+            showAlert("Selección pendiente", "Por favor selecciona un cuatrimestre.")
+            return
+        }
+
+        if (subject == "Selecciona una materia") {
+            showAlert("Selección pendiente", "Por favor selecciona una materia.")
+            return
+        }
+
+        // 4. Validar Archivo o URL
+        if (isFileTab) {
+            if (selectedFileName == null) {
+                showAlert("Archivo no seleccionado", "Debes seleccionar un archivo para publicar.")
+                return
+            }
+        } else {
+            if (enteredUrl.isNullOrBlank()) {
+                showAlert("URL requerida", "Por favor ingresa el enlace de tu apunte.")
+                return
+            }
+            if (!android.util.Patterns.WEB_URL.matcher(enteredUrl!!).matches()) {
+                showAlert("URL inválida", "Por favor ingresa un enlace válido (ej. https://...)")
+                return
+            }
+        }
+
+        // Si todo está correcto, proceder
+        val action = if (isFileTab) "Archivo" else "Enlace"
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("SELECT_TAB", "STATUS")
+            putExtra("FILE_NAME", title) 
+            putExtra("FILE_SIZE", if (action == "Archivo") (selectedFileSize ?: "2.4 MB") else "Enlace Externo")
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
+        Toast.makeText(this, "¡Publicación exitosa!", Toast.LENGTH_SHORT).show()
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showAlert(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Entendido", null)
+            .show()
     }
 
     private fun setupHeader() {
@@ -111,8 +157,6 @@ class UploadFileActivity : AppCompatActivity() {
             .joinToString("")
         
         binding.tvAvatarInitials.text = initials
-        
-        // Al hacer clic en el avatar, ir al perfil (en MainActivity)
         binding.tvAvatarInitials.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SELECT_TAB", "PROFILE")
@@ -126,28 +170,21 @@ class UploadFileActivity : AppCompatActivity() {
     private fun setupViewPager() {
         pagerAdapter = UploadPagerAdapter(
             onFileClick = { checkPermissionsAndOpenFile() },
-            onUrlChanged = { url -> selectedUrl = url }
+            onUrlChanged = { enteredUrl = it }
         )
         binding.viewPager.adapter = pagerAdapter
         
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                
-                // Mover el selector físicamente mientras el usuario desliza
                 val containerWidth = binding.tabContainer.width
                 if (containerWidth > 0) {
-                    val padding = (8 * resources.displayMetrics.density).toInt() // 4dp de cada lado (ajustado al nuevo diseño)
+                    val padding = (12 * resources.displayMetrics.density).toInt()
                     val totalWidth = containerWidth - padding
                     val halfWidth = totalWidth / 2f
-                    
-                    // Ajustar el ancho solo una vez
                     if (binding.tabSelector.width != halfWidth.toInt()) {
                         binding.tabSelector.layoutParams.width = halfWidth.toInt()
                         binding.tabSelector.requestLayout()
                     }
-                    
-                    // Desplazamiento suave (translationX)
                     binding.tabSelector.translationX = (position + positionOffset) * halfWidth
                 }
             }
@@ -160,26 +197,19 @@ class UploadFileActivity : AppCompatActivity() {
     }
 
     private fun setupTabs() {
-        binding.tabFile.setOnClickListener {
-            binding.viewPager.smoothScrollTo(0)
-        }
-
-        binding.tabUrl.setOnClickListener {
-            binding.viewPager.smoothScrollTo(1)
-        }
+        binding.tabFile.setOnClickListener { binding.viewPager.smoothScrollTo(0) }
+        binding.tabUrl.setOnClickListener { binding.viewPager.smoothScrollTo(1) }
     }
 
     private fun ViewPager2.smoothScrollTo(item: Int) {
         val containerWidth = binding.tabContainer.width
-        val padding = (8 * resources.displayMetrics.density).toInt()
+        val padding = (12 * resources.displayMetrics.density).toInt()
         val halfWidth = (containerWidth - padding) / 2f
-        
         binding.tabSelector.animate()
             .translationX(item * halfWidth)
             .setDuration(250)
             .setInterpolator(android.view.animation.DecelerateInterpolator())
             .start()
-            
         this.setCurrentItem(item, true)
     }
 
@@ -211,23 +241,17 @@ class UploadFileActivity : AppCompatActivity() {
 
     private fun checkPermissionsAndOpenFile() {
         val permissions = mutableListOf<String>()
-        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.READ_MEDIA_IMAGES)
             permissions.add(Manifest.permission.READ_MEDIA_VIDEO)
         } else {
             permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
-
         val allGranted = permissions.all {
             ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
         }
-
-        if (allGranted) {
-            openFilePicker()
-        } else {
-            requestPermissionLauncher.launch(permissions.toTypedArray())
-        }
+        if (allGranted) openFilePicker()
+        else requestPermissionLauncher.launch(permissions.toTypedArray())
     }
 
     private fun openFilePicker() {
@@ -243,7 +267,6 @@ class UploadFileActivity : AppCompatActivity() {
             val popup = PopupMenu(this, view)
             val quarters = (1..10).map { "$it° Cuatrimestre" }
             quarters.forEachIndexed { index, s -> popup.menu.add(0, index, index, s) }
-            
             popup.setOnMenuItemClickListener { item ->
                 binding.tvSelectedQuarter.text = quarters[item.itemId]
                 binding.tvSelectedQuarter.setTextColor(ContextCompat.getColor(this, R.color.primary))
@@ -256,7 +279,6 @@ class UploadFileActivity : AppCompatActivity() {
             val popup = PopupMenu(this, view)
             val subjects = listOf("Cálculo II", "Programación", "Base de Datos", "Álgebra", "Física")
             subjects.forEachIndexed { index, s -> popup.menu.add(0, index, index, s) }
-
             popup.setOnMenuItemClickListener { item ->
                 binding.tvSelectedSubject.text = subjects[item.itemId]
                 binding.tvSelectedSubject.setTextColor(ContextCompat.getColor(this, R.color.primary))
@@ -271,7 +293,6 @@ class UploadFileActivity : AppCompatActivity() {
         nav.btnNavUpload.getChildAt(0).apply {
             (this as android.widget.ImageView).setColorFilter(ContextCompat.getColor(context, R.color.primary))
         }
-
         nav.btnNavHome.setOnClickListener { finish() }
         nav.btnNavSearch.setOnClickListener { finish() }
         nav.btnNavNotes.setOnClickListener { finish() }

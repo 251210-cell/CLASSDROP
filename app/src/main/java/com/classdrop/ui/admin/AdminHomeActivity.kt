@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.databinding.ActivityAdminHomeBinding
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.utils.SessionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
  * Punto de entrada del panel de administración. A diferencia de MainActivity
@@ -35,9 +36,22 @@ class AdminHomeActivity : AppCompatActivity() {
             startActivity(Intent(this, SubjectsAdminActivity::class.java))
         }
         binding.tvCerrarSesion.setOnClickListener {
-            SessionManager(this).clearSession()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finishAffinity()
+            showLogoutConfirmation()
         }
+    }
+
+    private fun showLogoutConfirmation() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Cerrar sesión")
+            .setMessage("¿Estás seguro de que deseas salir del panel de administración?")
+            .setPositiveButton("Cerrar sesión") { _, _ ->
+                SessionManager(this).clearSession()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finishAffinity()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 }
