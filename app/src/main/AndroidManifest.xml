@@ -43,7 +43,8 @@
         <activity android:name=".ui.admin.SubjectsAdminActivity" />
         <activity android:name=".ui.profile.PrivacyPolicyActivity" />
         <activity android:name=".ui.profile.CommunityRulesActivity" />
-        <activity android:name=".ui.profile.ProfileFilesActivity" />
+        <activity android:name=".ui.profile.AllFilesActivity" />
+        <activity android:name=".ui.home.AllSubjectsActivity" />
 
     </application>
 

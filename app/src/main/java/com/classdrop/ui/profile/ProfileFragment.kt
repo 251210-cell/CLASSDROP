@@ -47,8 +47,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // --- Navegación por Scroll (Desplazamiento suave a la sección) ---
-        
+        // --- Navegación por Scroll ---
         binding.cardUploads.setOnClickListener {
             binding.scrollViewProfile.post {
                 binding.scrollViewProfile.smoothScrollTo(0, binding.titleUploads.top - 20)
@@ -67,8 +66,29 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        // --- Navegación a Vistas Completas (Ver más) ---
+        binding.tvSeeMoreUploads.setOnClickListener {
+            val intent = Intent(requireContext(), AllFilesActivity::class.java).apply {
+                putExtra("FILE_TYPE", "Mis Archivos")
+            }
+            startActivity(intent)
+        }
+
+        binding.tvSeeMoreDownloads.setOnClickListener {
+            val intent = Intent(requireContext(), AllFilesActivity::class.java).apply {
+                putExtra("FILE_TYPE", "Descargas")
+            }
+            startActivity(intent)
+        }
+
+        binding.tvSeeMoreFavorites.setOnClickListener {
+            val intent = Intent(requireContext(), AllFilesActivity::class.java).apply {
+                putExtra("FILE_TYPE", "Favoritos")
+            }
+            startActivity(intent)
+        }
+
         // --- Otros Listeners ---
-        
         binding.btnLogout.setOnClickListener {
             sessionManager.clearSession()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -88,19 +108,6 @@ class ProfileFragment : Fragment() {
 
         binding.tvHelpDescription.setOnClickListener {
             sendEmail()
-        }
-        
-        // Listeners para "Ver más"
-        binding.tvSeeMoreUploads.setOnClickListener {
-            Toast.makeText(context, "Abriendo todos tus archivos...", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.tvSeeMoreDownloads.setOnClickListener {
-            Toast.makeText(context, "Abriendo todas tus descargas...", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.tvSeeMoreFavorites.setOnClickListener {
-            Toast.makeText(context, "Abriendo todos tus favoritos...", Toast.LENGTH_SHORT).show()
         }
     }
 

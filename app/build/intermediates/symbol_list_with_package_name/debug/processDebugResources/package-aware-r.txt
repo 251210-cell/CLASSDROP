@@ -3751,10 +3751,7 @@ id tvDislikeCountMarco
 id tvDislikes
 id tvDislikesDetail
 id tvDownloads
-id tvDownloadsCount
 id tvDownloadsDetail
-id tvEmailInfo
-id tvFavoritesCount
 id tvFileCount
 id tvFileName
 id tvFileNameLarge
@@ -3773,10 +3770,10 @@ id tvLikeCountMarco
 id tvLikes
 id tvLikesDetail
 id tvLoginLink
-id tvNameInfo
 id tvQuarterNumber
 id tvReadRules
 id tvSaludo
+id tvSeeAllSubjects
 id tvSeeMoreDownloads
 id tvSeeMoreFavorites
 id tvSeeMoreUploads
@@ -3798,7 +3795,6 @@ id tvTitleStep2
 id tvTitleStep3
 id tvTitleStep4
 id tvToolbarTitle
-id tvUploadsCount
 id tvUserCareer
 id tvUserName
 id unchecked
@@ -3942,6 +3938,8 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_admin_home
+layout activity_all_files
+layout activity_all_subjects
 layout activity_comments
 layout activity_community_rules
 layout activity_file_detail

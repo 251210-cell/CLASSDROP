@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-50:12
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-51:12
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-51:12
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-51:12
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:2:1-51:12
 MERGED from [androidx.databinding:viewbinding:8.7.2] /Users/karlacruz/.gradle/caches/8.14.5/transforms/2bf9ef8c06a240e8bf3ccf583751a7c0/transformed/jetified-viewbinding-8.7.2/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] /Users/karlacruz/.gradle/caches/8.14.5/transforms/5c19254da9f6a6095083e12f5f8a3092/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/karlacruz/.gradle/caches/8.14.5/transforms/b280291603ad98c2b62d2f29e4e87eb4/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
@@ -88,8 +88,8 @@ ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/Android
 	android:name
 		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:9:22-87
 application
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-48:19
-INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-48:19
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-49:19
+INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:11:5-49:19
 MERGED from [com.google.android.material:material:1.11.0] /Users/karlacruz/.gradle/caches/8.14.5/transforms/5c19254da9f6a6095083e12f5f8a3092/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] /Users/karlacruz/.gradle/caches/8.14.5/transforms/5c19254da9f6a6095083e12f5f8a3092/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/karlacruz/.gradle/caches/8.14.5/transforms/b280291603ad98c2b62d2f29e4e87eb4/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -210,10 +210,14 @@ activity#com.classdrop.ui.profile.CommunityRulesActivity
 ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:45:9-71
 	android:name
 		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:45:19-68
-activity#com.classdrop.ui.profile.ProfileFilesActivity
-ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:46:9-69
+activity#com.classdrop.ui.profile.AllFilesActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:46:9-65
 	android:name
-		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:46:19-66
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:46:19-62
+activity#com.classdrop.ui.home.AllSubjectsActivity
+ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:47:9-65
+	android:name
+		ADDED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml:47:19-62
 uses-sdk
 INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/src/main/AndroidManifest.xml

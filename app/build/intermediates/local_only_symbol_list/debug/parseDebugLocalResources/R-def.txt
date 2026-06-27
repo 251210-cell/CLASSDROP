@@ -227,6 +227,7 @@ id tvLoginLink
 id tvQuarterNumber
 id tvReadRules
 id tvSaludo
+id tvSeeAllSubjects
 id tvSeeMoreDownloads
 id tvSeeMoreFavorites
 id tvSeeMoreUploads
@@ -254,6 +255,8 @@ id uploadAreaFile
 id uploadAreaUrl
 id viewPager
 layout activity_admin_home
+layout activity_all_files
+layout activity_all_subjects
 layout activity_comments
 layout activity_community_rules
 layout activity_file_detail

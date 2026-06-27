@@ -52,6 +52,7 @@
                 android:layout_weight="1" />
 
             <ImageView
+                android:id="@+id/ivNotification"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"
@@ -116,13 +117,16 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:id="@+id/tvSeeAllSubjects"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="Ver todas"
                 android:textColor="@color/primary"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"/>
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -229,7 +233,7 @@
                             android:background="@drawable/bg_rounded_square_primary"
                             android:backgroundTint="@color/file_pink_bg"
                             android:padding="12dp"
-                            android:src="@drawable/ic_file_doc"
+                            android:src="@drawable/ic_nav_notes"
                             app:tint="@color/file_pink_text" />
 
                         <LinearLayout
@@ -400,7 +404,7 @@
                             android:background="@drawable/bg_rounded_square_primary"
                             android:backgroundTint="@color/file_teal_bg"
                             android:padding="12dp"
-                            android:src="@drawable/ic_image"
+                            android:src="@drawable/ic_nav_notes"
                             app:tint="@color/file_teal_text" />
 
                         <LinearLayout
