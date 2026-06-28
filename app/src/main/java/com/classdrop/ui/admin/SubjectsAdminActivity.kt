@@ -1,13 +1,17 @@
 package com.classdrop.ui.admin
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.classdrop.R
 import com.classdrop.databinding.ActivitySubjectsAdminBinding
+import com.classdrop.model.Subject
+import com.classdrop.repository.SubjectRepository
+import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.viewmodel.SubjectsViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SubjectsAdminActivity : AppCompatActivity() {
 
@@ -46,10 +50,21 @@ class SubjectsAdminActivity : AppCompatActivity() {
 
         adapter = SubjectsAdminAdapter(
             onEditClick = { subject ->
-                Toast.makeText(this, "Editar: ${subject.name}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, CreateSubjectActivity::class.java).apply {
+                    putExtra("SUBJECT_ID", subject.id)
+                }
+                startActivity(intent)
             },
             onDeleteClick = { subject ->
-                Toast.makeText(this, "Eliminar: ${subject.name}", Toast.LENGTH_SHORT).show()
+                showDeleteConfirmation(subject)
+            },
+            onSubjectClick = { subject ->
+                // Al pulsar la tarjeta, el admin ve los archivos de los usuarios
+                val intent = Intent(this, SubjectDetailActivity::class.java).apply {
+                    putExtra("SUBJECT_NAME", subject.name)
+                    putExtra("FILE_COUNT", subject.fileCount)
+                }
+                startActivity(intent)
             }
         )
 
@@ -58,7 +73,6 @@ class SubjectsAdminActivity : AppCompatActivity() {
             adapter = this@SubjectsAdminActivity.adapter
         }
 
-        // Lógica de búsqueda corregida
         binding.etSearch.addTextChangedListener(object : android.text.TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -71,8 +85,20 @@ class SubjectsAdminActivity : AppCompatActivity() {
         })
 
         binding.fabAddSubject.setOnClickListener {
-            Toast.makeText(this, "Agregar nueva materia", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, CreateSubjectActivity::class.java))
         }
+    }
+
+    private fun showDeleteConfirmation(subject: Subject) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("¿Eliminar materia?")
+            .setMessage("¿Estás seguro de que deseas eliminar '${subject.name}'? Todos los archivos asociados se perderán.")
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Eliminar") { _, _ ->
+                SubjectRepository.deleteSubject(subject.id)
+                Toast.makeText(this, "Materia eliminada", Toast.LENGTH_SHORT).show()
+            }
+            .show()
     }
 
     private fun setupViewModel() {

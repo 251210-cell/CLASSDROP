@@ -1,5 +1,6 @@
 package com.classdrop.ui.home
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -40,9 +41,10 @@ class SubjectsAdapter(
             binding.tvSubjectName.text = subject.name
             binding.tvFileCount.text = "${subject.fileCount} archivos"
             
+            // Aplicar icono y colores dinámicos elegidos por el admin
             binding.ivSubjectIcon.setImageResource(subject.iconRes)
-            binding.ivSubjectIcon.setBackgroundColor(Color.parseColor(subject.iconBgColor))
-            binding.ivSubjectIcon.setColorFilter(Color.parseColor(subject.iconTintColor))
+            binding.ivSubjectIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor(subject.iconBgColor))
+            binding.ivSubjectIcon.imageTintList = ColorStateList.valueOf(Color.parseColor(subject.iconTintColor))
             
             binding.cardSubject.setOnClickListener { onSubjectClick(subject) }
         }

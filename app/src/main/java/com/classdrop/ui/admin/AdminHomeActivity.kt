@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.databinding.ActivityAdminHomeBinding
 import com.classdrop.ui.auth.LoginActivity
+import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.utils.SessionManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -23,6 +24,38 @@ class AdminHomeActivity : AppCompatActivity() {
         binding = ActivityAdminHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupSubjectCards()
+        setupAdminTools()
+        
+        binding.tvCerrarSesion.setOnClickListener {
+            showLogoutConfirmation()
+        }
+    }
+
+    private fun setupSubjectCards() {
+        // Al pulsar una materia, el admin puede ver los archivos subidos por los usuarios
+        binding.cardCalculo.setOnClickListener {
+            val intent = Intent(this, SubjectDetailActivity::class.java).apply {
+                putExtra("SUBJECT_NAME", "Cálculo II")
+                putExtra("FILE_COUNT", 12)
+            }
+            startActivity(intent)
+        }
+
+        binding.cardProgramacion.setOnClickListener {
+            val intent = Intent(this, SubjectDetailActivity::class.java).apply {
+                putExtra("SUBJECT_NAME", "Programación")
+                putExtra("FILE_COUNT", 8)
+            }
+            startActivity(intent)
+        }
+
+        binding.tvSeeAllSubjects.setOnClickListener {
+            startActivity(Intent(this, SubjectsAdminActivity::class.java))
+        }
+    }
+
+    private fun setupAdminTools() {
         binding.cardModeracion.setOnClickListener {
             startActivity(Intent(this, ModerationActivity::class.java))
         }
@@ -31,12 +64,6 @@ class AdminHomeActivity : AppCompatActivity() {
         }
         binding.cardNormas.setOnClickListener {
             startActivity(Intent(this, NormsAdminActivity::class.java))
-        }
-        binding.tvSeeAllSubjects.setOnClickListener {
-            startActivity(Intent(this, SubjectsAdminActivity::class.java))
-        }
-        binding.tvCerrarSesion.setOnClickListener {
-            showLogoutConfirmation()
         }
     }
 

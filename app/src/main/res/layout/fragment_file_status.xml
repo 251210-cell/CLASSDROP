@@ -127,6 +127,8 @@
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:orientation="vertical">
                             <TextView android:id="@+id/tvTitleStep3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Revisión de Calidad" android:textColor="@color/placeholder" android:textStyle="bold" />
                             <TextView android:id="@+id/tvLabelStep3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pendiente de escaneo previo" android:textColor="@color/placeholder" android:textSize="11sp" />
+                            <!-- SE AGREGÓ ESTE TEXTVIEW -->
+                            <TextView android:id="@+id/tvDescriptionStep3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="El archivo será revisado manualmente por un administrador." android:textColor="@color/text_secondary" android:textSize="13sp" />
                         </LinearLayout>
                     </LinearLayout>
 

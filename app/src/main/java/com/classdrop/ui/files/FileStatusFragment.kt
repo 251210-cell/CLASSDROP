@@ -3,8 +3,6 @@ package com.classdrop.ui.files
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.classdrop.R
 import com.classdrop.databinding.FragmentFileStatusBinding
+import com.classdrop.model.ModerationStatus
+import com.classdrop.repository.ModerationRepository
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.ui.profile.CommunityRulesActivity
 import com.classdrop.utils.SessionManager
@@ -21,8 +21,6 @@ class FileStatusFragment : Fragment() {
     private var _binding: FragmentFileStatusBinding? = null
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
-
-    enum class DocumentStatus { RECEIVED, SCANNING, QUALITY_CHECK, PUBLISHED }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,33 +37,53 @@ class FileStatusFragment : Fragment() {
 
         setupHeader()
         setupListeners()
-        
-        // Simulación: Iniciar en RECEIVED y avanzar después de unos segundos
-        simulateApiProgress()
+        observeModerationStatus()
     }
 
-    private fun simulateApiProgress() {
-        updateStatusUI(DocumentStatus.RECEIVED)
-        
-        Handler(Looper.getMainLooper()).postDelayed({
-            updateStatusUI(DocumentStatus.SCANNING, progress = 40)
-        }, 2000)
+    private fun observeModerationStatus() {
+        ModerationRepository.userFileStatus.observe(viewLifecycleOwner) { task ->
+            if (task == null) {
+                updateStatusUI(DocumentStatus.RECEIVED)
+                binding.tvFileNameStatus.text = "Sin archivos pendientes"
+                return@observe
+            }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            updateStatusUI(DocumentStatus.SCANNING, progress = 100)
-        }, 4000)
+            binding.tvFileNameStatus.text = task.fileName
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            updateStatusUI(DocumentStatus.QUALITY_CHECK)
-        }, 6000)
+            when (task.status) {
+                ModerationStatus.PENDING -> {
+                    // El archivo está siendo revisado por el Admin (después del OCR)
+                    updateStatusUI(DocumentStatus.QUALITY_CHECK)
+                }
+                ModerationStatus.APPROVED -> {
+                    updateStatusUI(DocumentStatus.PUBLISHED)
+                }
+                ModerationStatus.REJECTED -> {
+                    showRejectionUI()
+                }
+            }
+        }
     }
 
-    private fun updateStatusUI(status: DocumentStatus, progress: Int = 0) {
+    private fun showRejectionUI() {
+        val colorError = ContextCompat.getColor(requireContext(), R.color.error)
+        binding.tvLabelStep3.text = "Archivo Rechazado"
+        binding.tvLabelStep3.setTextColor(colorError)
+        binding.ivStep3.setImageResource(R.drawable.ic_warning)
+        binding.ivStep3.backgroundTintList = ColorStateList.valueOf(colorError)
+        
+        // Corrección del ID tvDescriptionStep3
+        binding.tvDescriptionStep3.text = "Tu archivo no cumple con las normas académicas tras la revisión manual."
+        binding.tvDescriptionStep3.visibility = View.VISIBLE
+    }
+
+    enum class DocumentStatus { RECEIVED, SCANNING, QUALITY_CHECK, PUBLISHED }
+
+    private fun updateStatusUI(status: DocumentStatus) {
         if (_binding == null) return
         
         val colorPrimary = ContextCompat.getColor(requireContext(), R.color.primary)
         val colorPlaceholder = ContextCompat.getColor(requireContext(), R.color.placeholder)
-        val colorOnSurface = ContextCompat.getColor(requireContext(), R.color.on_background)
 
         resetAllSteps(colorPlaceholder)
 
@@ -76,14 +94,13 @@ class FileStatusFragment : Fragment() {
             DocumentStatus.SCANNING -> {
                 setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
                 setActiveStep(binding.ivStep2, binding.tvTitleStep2, colorPrimary)
-                binding.statusProgressBar.visibility = View.VISIBLE
-                binding.statusProgressBar.progress = progress
             }
             DocumentStatus.QUALITY_CHECK -> {
                 setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
                 setCompletedStep(binding.ivStep2, binding.line2, colorPrimary)
                 setActiveStep(binding.ivStep3, binding.tvTitleStep3, colorPrimary)
-                binding.tvLabelStep3.setTextColor(colorOnSurface)
+                binding.tvLabelStep3.text = "En revisión por administrador"
+                binding.tvDescriptionStep3.visibility = View.VISIBLE
             }
             DocumentStatus.PUBLISHED -> {
                 setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
@@ -110,10 +127,12 @@ class FileStatusFragment : Fragment() {
     private fun resetAllSteps(color: Int) {
         val textColor = ContextCompat.getColor(requireContext(), R.color.placeholder)
         binding.ivStep1.backgroundTintList = ColorStateList.valueOf(color)
+        binding.ivStep1.setImageResource(R.drawable.ic_check_circle)
         binding.line1.backgroundTintList = ColorStateList.valueOf(color)
         binding.ivStep2.backgroundTintList = ColorStateList.valueOf(color)
         binding.line2.backgroundTintList = ColorStateList.valueOf(color)
         binding.ivStep3.backgroundTintList = ColorStateList.valueOf(color)
+        binding.ivStep3.setImageResource(R.drawable.ic_status_shield)
         binding.line3.backgroundTintList = ColorStateList.valueOf(color)
         binding.ivStep4.backgroundTintList = ColorStateList.valueOf(color)
         
@@ -121,8 +140,7 @@ class FileStatusFragment : Fragment() {
         binding.tvTitleStep2.setTextColor(textColor)
         binding.tvTitleStep3.setTextColor(textColor)
         binding.tvTitleStep4.setTextColor(textColor)
-        
-        binding.statusProgressBar.visibility = View.GONE
+        binding.tvDescriptionStep3.visibility = View.GONE
     }
 
     private fun setupHeader() {
@@ -132,10 +150,6 @@ class FileStatusFragment : Fragment() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
-        binding.tvAvatarInitials.setOnClickListener {
-            (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
-        }
     }
 
     private fun setupListeners() {

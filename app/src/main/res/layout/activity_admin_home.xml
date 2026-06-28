@@ -52,6 +52,17 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
+            <ImageView
+                android:id="@+id/ivNotificationAdmin"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_notification"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/primary" />
+
             <TextView
                 android:id="@+id/tvAvatarInitials"
                 android:layout_width="40dp"
@@ -126,7 +137,9 @@
                 android:layout_centerVertical="true"
                 android:text="Ver todas"
                 android:textColor="@color/primary"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
         </RelativeLayout>
 
         <LinearLayout
@@ -140,10 +153,13 @@
 
             <!-- Cálculo II -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCalculo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
@@ -179,10 +195,13 @@
 
             <!-- Programación -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardProgramacion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"

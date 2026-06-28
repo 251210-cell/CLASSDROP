@@ -58,6 +58,7 @@
         <activity android:name="com.classdrop.ui.admin.ReportsActivity" />
         <activity android:name="com.classdrop.ui.admin.NormsAdminActivity" />
         <activity android:name="com.classdrop.ui.admin.SubjectsAdminActivity" />
+        <activity android:name="com.classdrop.ui.admin.CreateSubjectActivity" />
         <activity android:name="com.classdrop.ui.profile.PrivacyPolicyActivity" />
         <activity android:name="com.classdrop.ui.profile.CommunityRulesActivity" />
         <activity android:name="com.classdrop.ui.profile.AllFilesActivity" />

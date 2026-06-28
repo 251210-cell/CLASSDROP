@@ -8,7 +8,8 @@ import com.classdrop.model.Subject
 
 class SubjectsAdminAdapter(
     private val onEditClick: (Subject) -> Unit,
-    private val onDeleteClick: (Subject) -> Unit
+    private val onDeleteClick: (Subject) -> Unit,
+    private val onSubjectClick: (Subject) -> Unit
 ) : RecyclerView.Adapter<SubjectsAdminAdapter.SubjectViewHolder>() {
 
     private var subjects: List<Subject> = emptyList()
@@ -38,21 +39,22 @@ class SubjectsAdminAdapter(
 
         fun bind(subject: Subject) {
             binding.tvSubjectName.text = subject.name
-            // Simulamos el cuatrimestre basado en el ID o un valor aleatorio para el ejemplo visual
-            binding.tvSubjectSubtitle.text = "${(1..9).random()} Cuatrimestre"
+            binding.tvSubjectSubtitle.text = subject.cuatrimestre
             
             binding.ivSubjectIcon.setImageResource(subject.iconRes)
             
-            // Aplicar colores dinámicos si están disponibles
             try {
                 binding.ivSubjectIcon.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(subject.iconBgColor))
                 binding.ivSubjectIcon.imageTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(subject.iconTintColor))
             } catch (e: Exception) {
-                // Colores por defecto si fallara el parseo
+                // Fallback colors
             }
             
             binding.btnEdit.setOnClickListener { onEditClick(subject) }
             binding.btnDelete.setOnClickListener { onDeleteClick(subject) }
+            
+            // Navegación al detalle al pulsar la tarjeta
+            binding.root.setOnClickListener { onSubjectClick(subject) }
         }
     }
 }

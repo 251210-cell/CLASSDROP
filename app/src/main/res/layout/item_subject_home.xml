@@ -9,9 +9,8 @@
     android:focusable="true"
     app:cardBackgroundColor="?attr/colorSurface"
     app:cardCornerRadius="24dp"
-    app:cardElevation="0dp"
-    app:strokeColor="?attr/colorOutlineVariant"
-    app:strokeWidth="1dp">
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,22 +20,27 @@
 
         <ImageView
             android:id="@+id/ivSubjectIcon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_rounded_square_primary"
+            android:padding="12dp"
+            android:src="@drawable/ic_mortarboard" />
 
         <TextView
             android:id="@+id/tvSubjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Materia"
             android:textColor="?attr/colorOnSurface"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvFileCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="0 archivos"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="11sp" />
     </LinearLayout>
