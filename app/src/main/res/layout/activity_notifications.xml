@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/background">
 
     <!-- Header -->
     <LinearLayout
@@ -21,9 +21,8 @@
             android:id="@+id/btnBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_chevron_down"
-            android:rotation="90"
-            app:tint="#4F46E5" />
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/primary" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -32,7 +31,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-black"
             android:text="Notificaciones"
-            android:textColor="#4F46E5"
+            android:textColor="@color/primary"
             android:textSize="24sp" />
     </LinearLayout>
 

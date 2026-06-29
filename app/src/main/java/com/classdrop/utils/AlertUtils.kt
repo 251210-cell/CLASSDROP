@@ -36,7 +36,10 @@ object AlertUtils {
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         
+<<<<<<< Updated upstream
         // Forzamos el ancho a 350dp
+=======
+>>>>>>> Stashed changes
         val width = (350 * context.resources.displayMetrics.density).toInt()
         dialog.show() // Es necesario llamar a show() antes de ajustar el layout del window
         dialog.window?.setLayout(
@@ -48,6 +51,7 @@ object AlertUtils {
         binding.tvAlertMessage.text = message
         binding.btnPrimary.text = primaryButtonText
 
+<<<<<<< Updated upstream
         // Configuración de colores basada en el tipo (independiente de si hay icono)
         val color = when (type) {
             AlertType.SUCCESS -> ContextCompat.getColor(context, R.color.primary)
@@ -61,6 +65,15 @@ object AlertUtils {
             if (type == AlertType.ERROR) color else ContextCompat.getColor(context, R.color.primary)
         )
 
+=======
+        // Color según el tipo (Rojo para ERROR, Morado para el resto)
+        val accentColor = if (type == AlertType.ERROR) {
+            ContextCompat.getColor(context, R.color.error)
+        } else {
+            ContextCompat.getColor(context, R.color.primary)
+        }
+
+>>>>>>> Stashed changes
         // Control de visibilidad del icono
         binding.flIconContainer.visibility = if (showIcon) View.VISIBLE else View.GONE
 
@@ -73,9 +86,20 @@ object AlertUtils {
             }
 
             binding.ivAlertIcon.setImageResource(iconRes)
+<<<<<<< Updated upstream
             binding.ivAlertIcon.imageTintList = ColorStateList.valueOf(color)
             binding.vIconBg.backgroundTintList = ColorStateList.valueOf(color)
+=======
+            binding.ivAlertIcon.imageTintList = ColorStateList.valueOf(accentColor)
+            binding.vIconBg.backgroundTintList = ColorStateList.valueOf(accentColor)
+            binding.tvAlertTitle.setTextColor(accentColor)
+        } else {
+            binding.tvAlertTitle.setTextColor(ContextCompat.getColor(context, R.color.on_background))
+>>>>>>> Stashed changes
         }
+
+        // El botón principal ahora siempre sigue el color del tipo (Rojo si es ERROR)
+        binding.btnPrimary.backgroundTintList = ColorStateList.valueOf(accentColor)
 
         // Botón secundario
         if (secondaryButtonText != null) {

@@ -12,9 +12,20 @@ import com.classdrop.databinding.ItemNotificationBinding
 import com.classdrop.model.Notification
 import com.classdrop.model.NotificationType
 
-class NotificationsAdapter : ListAdapter<Notification, NotificationsAdapter.ViewHolder>(NotificationDiffCallback()) {
+class NotificationsAdapter(
+    private val onNotificationClick: (Notification) -> Unit
+) : ListAdapter<Notification, NotificationsAdapter.ViewHolder>(NotificationDiffCallback()) {
 
-    inner class ViewHolder(val binding: ItemNotificationBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemNotificationBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onNotificationClick(getItem(position))
+                }
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)

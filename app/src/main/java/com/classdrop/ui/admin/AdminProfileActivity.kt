@@ -2,10 +2,10 @@ package com.classdrop.ui.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.databinding.ActivityAdminProfileBinding
 import com.classdrop.ui.auth.LoginActivity
+import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
 
 class AdminProfileActivity : AppCompatActivity() {
@@ -28,7 +28,6 @@ class AdminProfileActivity : AppCompatActivity() {
         val userName = sessionManager.fetchUserName()
         var userEmail = sessionManager.fetchUserEmail()
         
-        // Si el correo está vacío, usamos el predeterminado de administración
         if (userEmail.isBlank()) {
             userEmail = "admin.classdrop@gmail.com"
         }
@@ -46,7 +45,6 @@ class AdminProfileActivity : AppCompatActivity() {
         
         binding.tvAvatarLarge.text = initials
         
-        // Mock stats for display
         binding.tvModeratedCount.text = "156"
         binding.tvReportsResolved.text = "42"
     }
@@ -57,6 +55,7 @@ class AdminProfileActivity : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
+<<<<<<< Updated upstream
             showLogoutOverlay()
         }
     }
@@ -76,6 +75,25 @@ class AdminProfileActivity : AppCompatActivity() {
 
     private fun hideLogoutOverlay() {
         // No es necesario con AlertUtils
+=======
+            showLogoutConfirmation()
+        }
+    }
+
+    private fun showLogoutConfirmation() {
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Cerrar Sesión?",
+            message = "¿Estás seguro de que deseas salir del panel de administración?",
+            type = AlertUtils.AlertType.ERROR,
+            primaryButtonText = "Salir",
+            secondaryButtonText = "Cancelar",
+            showIcon = false,
+            onPrimaryClick = {
+                logout()
+            }
+        )
+>>>>>>> Stashed changes
     }
 
     private fun logout() {

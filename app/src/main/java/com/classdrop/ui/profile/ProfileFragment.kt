@@ -115,9 +115,9 @@ class ProfileFragment : Fragment() {
     private fun showLogoutConfirmation() {
         com.classdrop.utils.AlertUtils.showCustomAlert(
             context = requireContext(),
-            title = "Cerrar sesión",
+            title = "¿Cerrar Sesión?",
             message = "¿Estás seguro de que deseas salir de ClassDrop?",
-            type = com.classdrop.utils.AlertUtils.AlertType.WARNING,
+            type = com.classdrop.utils.AlertUtils.AlertType.ERROR, // Ahora con ERROR para que el botón sea rojo
             primaryButtonText = "Cerrar sesión",
             secondaryButtonText = "Cancelar",
             showIcon = false,

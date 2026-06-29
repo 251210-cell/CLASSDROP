@@ -13,6 +13,7 @@ import com.classdrop.model.UserRole
 import com.classdrop.model.Subject
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
+import com.classdrop.ui.notifications.NotificationsActivity
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.SubjectsViewModel
 
@@ -88,6 +89,11 @@ class HomeFragment : Fragment() {
         // Al hacer clic en el avatar (MA) de la esquina superior derecha, ir al Perfil
         binding.tvAvatarInitials.setOnClickListener {
             (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
+        }
+
+        // Al hacer clic en la campana de notificaciones
+        binding.ivNotification.setOnClickListener {
+            startActivity(Intent(requireContext(), NotificationsActivity::class.java))
         }
 
         // Navegar a "Ver todas las materias"
