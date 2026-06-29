@@ -27,7 +27,34 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.btnRegister.setOnClickListener {
-            // Lógica de registro aquí
+            val name = binding.etName.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString()
+
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                android.widget.Toast.makeText(this, "Por favor completa todos los campos", android.widget.Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Validar dominios permitidos
+            val allowedDomains = listOf("@it2id.upchiapas.edu.mx", "@ids.upchiapas.edu.mx", "@classdrop.com")
+            if (allowedDomains.none { email.endsWith(it, ignoreCase = true) }) {
+                android.widget.Toast.makeText(this, "El dominio del correo no está autorizado", android.widget.Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Simulación: Guardamos los datos para que el Perfil los use después del Login
+            val sessionManager = com.classdrop.utils.SessionManager(this)
+            sessionManager.saveUserName(name)
+            sessionManager.saveUserEmail(email)
+            
+            android.widget.Toast.makeText(this, "Registro exitoso. Por favor inicia sesión.", android.widget.Toast.LENGTH_LONG).show()
+            
+            // Redirigir al Login en lugar de entrar directamente
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
 
         // Volver al Login

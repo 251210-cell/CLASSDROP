@@ -135,7 +135,7 @@
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_nav_profile" app:tint="@color/primary" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nombre" android:textColor="@color/text_secondary" android:textSize="11sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fernanda Velazquez" android:textColor="@color/on_background" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvUserInfoName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fernanda Velazquez" android:textColor="@color/on_background" android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -149,7 +149,7 @@
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_google_logo" app:tint="@color/primary" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Correo" android:textColor="@color/text_secondary" android:textSize="11sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="231285@ids.upchiapas.edu.mx" android:textColor="@color/on_background" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvUserInfoEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="231285@ids.upchiapas.edu.mx" android:textColor="@color/on_background" android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

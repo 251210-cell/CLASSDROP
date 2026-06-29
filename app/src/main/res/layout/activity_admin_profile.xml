@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
+        <TextView
+            android:id="@+id/tvHeaderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Perfil Admin"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
+
+            <!-- Profile Info -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="24dp">
+
+                <TextView
+                    android:id="@+id/tvAvatarLarge"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/bg_button_primary"
+                    android:backgroundTint="@color/primary"
+                    android:gravity="center"
+                    android:text="AD"
+                    android:textColor="@color/white"
+                    android:textSize="44sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvAdminName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Admin User"
+                    android:textColor="@color/on_background"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvAdminEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="admin@classdrop.com"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Administrador General"
+                    android:textColor="@color/primary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- INFORMACIÓN Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:text="INFORMACIÓN"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Nombre -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_nav_profile" app:tint="@color/primary" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nombre Completo" android:textColor="@color/text_secondary" android:textSize="11sp" />
+                            <TextView android:id="@+id/tvDetailName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Administrador" android:textColor="@color/on_background" android:textSize="14sp" android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="@color/outline_variant" />
+
+                    <!-- Correo -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_google_logo" app:tint="@color/primary" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Correo Electrónico" android:textColor="@color/text_secondary" android:textSize="11sp" />
+                            <TextView android:id="@+id/tvDetailEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="admin.classdrop@gmail.com" android:textColor="@color/on_background" android:textSize="14sp" android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ESTADÍSTICAS Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:text="GESTIÓN"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="20dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_file_doc" app:tint="@color/primary" />
+                        <TextView android:id="@+id/tvModeratedCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="156" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Archivos\nModerados" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_status_shield" app:tint="#F43F5E" />
+                        <TextView android:id="@+id/tvReportsResolved" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="42" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reportes\nResueltos" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Logout Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogout"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="40dp"
+                android:backgroundTint="@color/file_pink_bg"
+                android:text="Cerrar sesión"
+                android:textAllCaps="false"
+                android:textColor="@color/error"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_logout"
+                app:iconTint="@color/error"
+                app:iconGravity="textStart" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Logout Overlay (Standardized) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            app:cardBackgroundColor="#1C1C24"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.2"
+                        android:background="@drawable/bg_input_pill"
+                        android:backgroundTint="#EF4444" />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_logout"
+                        app:tint="#EF4444" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvLogoutTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="¿Cerrar Sesión?"
+                    android:textColor="#EF4444"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvLogoutMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.8"
+                    android:gravity="center"
+                    android:text="¿Estás seguro de que deseas salir del panel de administración?"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelLogout"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="54dp"
+                        android:layout_weight="1"
+                        android:text="Cancelar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnConfirmLogout"
+                        android:layout_width="0dp"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#EF4444"
+                        android:text="Salir"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:cornerRadius="18dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

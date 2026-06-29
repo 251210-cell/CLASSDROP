@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
+        <TextView
+            android:id="@+id/tvHeaderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Normas"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivNotificationAdmin"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvAvatarInitials"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
+        <TextView
+            android:id="@+id/tvAvatarInitials"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_button_primary"
+            android:backgroundTint="@color/primary"
+            android:gravity="center"
+            android:text="AD"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="Normas de la Comunidad\nClassDrop"
+                android:textColor="@color/primary_dark"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="El presente reglamento establece las normas de convivencia, integridad y ética que rigen a todos los miembros de ClassDrop. Nuestra misión es garantizar un entorno de aprendizaje colaborativo, ético y seguro para todos los estudiantes."
+                android:textColor="@color/on_surface_variant"
+                android:textSize="13sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNorms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_rule_admin" />
+
+            <!-- Special Section: Régimen Sancionatorio -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/primary"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Régimen Sancionatorio"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tvSanctionsDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:lineSpacingExtra="3dp"
+                        android:text="El incumplimiento de estas normas podrá resultar en la aplicación de medidas correctivas proporcionales a la gravedad de la falta, garantizando siempre el debido proceso."
+                        android:textColor="#E0E7FF"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditSanctions"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="20dp"
+                        android:backgroundTint="#26FFFFFF"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Editar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="16dp"
+                        app:icon="@drawable/ic_edit"
+                        app:iconGravity="textStart"
+                        app:iconPadding="12dp"
+                        app:iconSize="20dp"
+                        app:iconTint="@color/white" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Support Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="¿Tienes dudas sobre un material?"
+                    android:textColor="@color/on_background"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="Nuestro Centro de Ayuda está disponible 24/7 para resolver cualquier inquietud académica."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSupport"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Contactar Soporte"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary"
+                    app:cornerRadius="16dp" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddRule"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/primary"
+                android:text="+ Crear Nueva Norma"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:cornerRadius="16dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Overlay Edit Card -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clEditOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardEditForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/tvOverlayTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="Editar Norma"
+                    android:textColor="@color/primary"
+                    android:textSize="22sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditRuleTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_rounded"
+                        android:hint="Título de la norma"
+                        android:inputType="text"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="18dp"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditRuleDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_rounded"
+                        android:gravity="top"
+                        android:hint="Descripción detallada de la norma..."
+                        android:inputType="textMultiLine"
+                        android:minLines="6"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="20dp"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelEdit"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cancelar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_secondary" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/primary"
+                        android:text="Guardar"
+                        android:textAllCaps="false"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Delete Confirmation View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardDeleteConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="#1C1C24"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.2"
+                        android:background="@drawable/bg_input_pill"
+                        android:backgroundTint="#EF4444" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_delete"
+                        app:tint="#EF4444" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvDeleteTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="¿Eliminar Norma?"
+                    android:textColor="#EF4444"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvDeleteMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.8"
+                    android:gravity="center"
+                    android:text="Esta acción eliminará la norma permanentemente y se notificará a los usuarios."
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelDelete"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="0dp"
+                        android:layout_height="54dp"
+                        android:layout_weight="1"
+                        android:text="Cancelar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnConfirmDelete"
+                        android:layout_width="0dp"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#EF4444"
+                        android:text="Eliminar"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:cornerRadius="18dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Success View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSuccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="#1C1C24"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.3"
+                        android:background="@drawable/bg_input_pill"
+                        android:backgroundTint="#8B85F5" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_check_circle"
+                        app:tint="#8B85F5" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvSuccessTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="¡Operación Exitosa!"
+                    android:textColor="#8B85F5"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvSuccessMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.8"
+                    android:gravity="center"
+                    android:text="La norma ha sido actualizada y los usuarios han sido notificados."
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSuccessDone"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="#6366F1"
+                    android:text="Continuar"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:cornerRadius="18dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Error View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="#1C1C24"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.2"
+                        android:background="@drawable/bg_input_pill"
+                        android:backgroundTint="#EF4444" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_warning"
+                        app:tint="#EF4444" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvErrorTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Error en la Operación"
+                    android:textColor="#EF4444"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvErrorMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.8"
+                    android:gravity="center"
+                    android:text="No se pudo procesar la solicitud. Por favor, intenta de nuevo."
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnErrorRetry"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="#EF4444"
+                    android:text="Reintentar"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:cornerRadius="18dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

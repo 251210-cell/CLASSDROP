@@ -15,8 +15,8 @@ class AuthRepository(private val authService: AuthService) {
         // Simulamos un retraso de red para que se vea el ProgressBar
         delay(1000)
 
-        // MODO OFFLINE: Si el correo contiene "admin", entra como Admin. Si no, como Estudiante.
-        return if (cleanEmail.contains("admin")) {
+        // MODO OFFLINE: Si el dominio es @classdrop.com, entra como Admin. Si no, como Estudiante.
+        return if (cleanEmail.endsWith("@classdrop.com")) {
             NetworkResult.Success(
                 LoginResponse("token-falso-admin", User("1", "Administrador", cleanEmail, UserRole.ADMIN))
             )

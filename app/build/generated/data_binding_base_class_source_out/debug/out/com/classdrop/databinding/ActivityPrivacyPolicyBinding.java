@@ -9,10 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.classdrop.R;
-import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -25,26 +25,35 @@ public final class ActivityPrivacyPolicyBinding implements ViewBinding {
   public final ImageButton btnBack;
 
   @NonNull
-  public final MaterialCardView cardSupport;
-
-  @NonNull
   public final ConstraintLayout clHeader;
 
   @NonNull
   public final LayoutBottomNavBarBinding includeBottomNav;
 
   @NonNull
+  public final RecyclerView rvPrivacyRules;
+
+  @NonNull
+  public final TextView tvAvatarInitials;
+
+  @NonNull
+  public final TextView tvPrivacyHeaderDesc;
+
+  @NonNull
   public final TextView tvSupportEmail;
 
   private ActivityPrivacyPolicyBinding(@NonNull ConstraintLayout rootView,
-      @NonNull ImageButton btnBack, @NonNull MaterialCardView cardSupport,
-      @NonNull ConstraintLayout clHeader, @NonNull LayoutBottomNavBarBinding includeBottomNav,
+      @NonNull ImageButton btnBack, @NonNull ConstraintLayout clHeader,
+      @NonNull LayoutBottomNavBarBinding includeBottomNav, @NonNull RecyclerView rvPrivacyRules,
+      @NonNull TextView tvAvatarInitials, @NonNull TextView tvPrivacyHeaderDesc,
       @NonNull TextView tvSupportEmail) {
     this.rootView = rootView;
     this.btnBack = btnBack;
-    this.cardSupport = cardSupport;
     this.clHeader = clHeader;
     this.includeBottomNav = includeBottomNav;
+    this.rvPrivacyRules = rvPrivacyRules;
+    this.tvAvatarInitials = tvAvatarInitials;
+    this.tvPrivacyHeaderDesc = tvPrivacyHeaderDesc;
     this.tvSupportEmail = tvSupportEmail;
   }
 
@@ -81,12 +90,6 @@ public final class ActivityPrivacyPolicyBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.cardSupport;
-      MaterialCardView cardSupport = ViewBindings.findChildViewById(rootView, id);
-      if (cardSupport == null) {
-        break missingId;
-      }
-
       id = R.id.clHeader;
       ConstraintLayout clHeader = ViewBindings.findChildViewById(rootView, id);
       if (clHeader == null) {
@@ -100,14 +103,33 @@ public final class ActivityPrivacyPolicyBinding implements ViewBinding {
       }
       LayoutBottomNavBarBinding binding_includeBottomNav = LayoutBottomNavBarBinding.bind(includeBottomNav);
 
+      id = R.id.rvPrivacyRules;
+      RecyclerView rvPrivacyRules = ViewBindings.findChildViewById(rootView, id);
+      if (rvPrivacyRules == null) {
+        break missingId;
+      }
+
+      id = R.id.tvAvatarInitials;
+      TextView tvAvatarInitials = ViewBindings.findChildViewById(rootView, id);
+      if (tvAvatarInitials == null) {
+        break missingId;
+      }
+
+      id = R.id.tvPrivacyHeaderDesc;
+      TextView tvPrivacyHeaderDesc = ViewBindings.findChildViewById(rootView, id);
+      if (tvPrivacyHeaderDesc == null) {
+        break missingId;
+      }
+
       id = R.id.tvSupportEmail;
       TextView tvSupportEmail = ViewBindings.findChildViewById(rootView, id);
       if (tvSupportEmail == null) {
         break missingId;
       }
 
-      return new ActivityPrivacyPolicyBinding((ConstraintLayout) rootView, btnBack, cardSupport,
-          clHeader, binding_includeBottomNav, tvSupportEmail);
+      return new ActivityPrivacyPolicyBinding((ConstraintLayout) rootView, btnBack, clHeader,
+          binding_includeBottomNav, rvPrivacyRules, tvAvatarInitials, tvPrivacyHeaderDesc,
+          tvSupportEmail);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

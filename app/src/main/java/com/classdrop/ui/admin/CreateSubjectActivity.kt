@@ -1,18 +1,26 @@
 package com.classdrop.ui.admin
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.classdrop.R
 import com.classdrop.databinding.ActivityCreateSubjectBinding
 import com.classdrop.model.Subject
 import com.classdrop.repository.SubjectRepository
+import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.SubjectsViewModel
+import kotlinx.coroutines.launch
 
 class CreateSubjectActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateSubjectBinding
+    private lateinit var sessionManager: SessionManager
+    private val viewModel: SubjectsViewModel by viewModels()
+    private lateinit var subjectRepository: SubjectRepository
     private var selectedQuarter: Int? = null
     
     // Valores por defecto
@@ -27,15 +35,37 @@ class CreateSubjectActivity : AppCompatActivity() {
         binding = ActivityCreateSubjectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sessionManager = SessionManager(this)
+        subjectRepository = SubjectRepository(this)
+
         val subjectId = intent.getStringExtra("SUBJECT_ID")
         if (subjectId != null) {
-            subjectToEdit = SubjectRepository.getSubjectById(subjectId)
+            lifecycleScope.launch {
+                subjectToEdit = subjectRepository.getSubjectById(subjectId)
+                subjectToEdit?.let { loadSubjectData(it) }
+            }
         }
 
         setupUI()
+        setupHeader()
+    }
+
+    private fun setupHeader() {
+        val userName = sessionManager.fetchUserName() ?: "Admin"
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
         
-        if (subjectToEdit != null) {
-            loadSubjectData(subjectToEdit!!)
+        binding.tvAvatarInitials.text = initials
+        binding.tvAvatarInitials.setOnClickListener {
+            startActivity(Intent(this, AdminProfileActivity::class.java))
+        }
+
+        binding.ivNotificationAdmin.setOnClickListener {
+            val intent = Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -75,36 +105,84 @@ class CreateSubjectActivity : AppCompatActivity() {
             val name = binding.etSubjectName.text.toString().trim()
             
             if (name.isEmpty() || selectedQuarter == null) {
-                Toast.makeText(this, "Completa el nombre y cuatrimestre", Toast.LENGTH_SHORT).show()
+                showErrorOverlay()
                 return@setOnClickListener
             }
 
-            if (subjectToEdit == null) {
-                // Crear nueva materia
-                val newSubject = Subject(
-                    id = System.currentTimeMillis().toString(),
-                    name = name,
-                    fileCount = 0,
-                    iconRes = selectedIconRes,
-                    iconBgColor = selectedBgColor,
-                    iconTintColor = selectedTintColor,
-                    cuatrimestre = "$selectedQuarter Cuatrimestre"
-                )
-                SubjectRepository.addSubject(newSubject)
-                Toast.makeText(this, "¡Materia creada!", Toast.LENGTH_SHORT).show()
-            } else {
-                // Actualizar materia existente
-                val updatedSubject = subjectToEdit!!.copy(
-                    name = name,
-                    iconRes = selectedIconRes,
-                    iconBgColor = selectedBgColor,
-                    cuatrimestre = "$selectedQuarter Cuatrimestre"
-                )
-                SubjectRepository.updateSubject(updatedSubject)
-                Toast.makeText(this, "¡Materia actualizada!", Toast.LENGTH_SHORT).show()
+            try {
+                lifecycleScope.launch {
+                    if (subjectToEdit == null) {
+                        // Crear nueva materia
+                        val newSubject = Subject(
+                            id = System.currentTimeMillis().toString(),
+                            name = name,
+                            fileCount = 0,
+                            iconRes = selectedIconRes,
+                            iconBgColor = selectedBgColor,
+                            iconTintColor = "#6366F1", // Valor base para tint, el adaptador debe manejar el modo oscuro
+                            cuatrimestre = "$selectedQuarter Cuatrimestre"
+                        )
+                        subjectRepository.addSubject(newSubject)
+                    } else {
+                        // Actualizar materia existente
+                        val updatedSubject = subjectToEdit!!.copy(
+                            name = name,
+                            iconRes = selectedIconRes,
+                            iconBgColor = selectedBgColor,
+                            cuatrimestre = "$selectedQuarter Cuatrimestre"
+                        )
+                        subjectRepository.updateSubject(updatedSubject)
+                    }
+                    showSuccessOverlay()
+                }
+            } catch (e: Exception) {
+                showErrorOverlay()
             }
-            
+        }
+
+        binding.btnSuccessDone.setOnClickListener {
             finish()
+        }
+
+        binding.btnErrorRetry.setOnClickListener {
+            hideOverlays()
+        }
+    }
+
+    private fun showSuccessOverlay() {
+        binding.clOverlay.visibility = android.view.View.VISIBLE
+        binding.cardSuccess.visibility = android.view.View.VISIBLE
+        binding.cardError.visibility = android.view.View.GONE
+        
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
+        binding.cardSuccess.startAnimation(animation)
+    }
+
+    private fun showErrorOverlay() {
+        binding.clOverlay.visibility = android.view.View.VISIBLE
+        binding.cardError.visibility = android.view.View.VISIBLE
+        binding.cardSuccess.visibility = android.view.View.GONE
+        
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
+        binding.cardError.startAnimation(animation)
+    }
+
+    private fun hideOverlays() {
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_out_down)
+        animation.setAnimationListener(object : android.view.animation.Animation.AnimationListener {
+            override fun onAnimationStart(animation: android.view.animation.Animation?) {}
+            override fun onAnimationEnd(animation: android.view.animation.Animation?) {
+                binding.clOverlay.visibility = android.view.View.GONE
+            }
+            override fun onAnimationRepeat(animation: android.view.animation.Animation?) {}
+        })
+
+        if (binding.cardSuccess.visibility == android.view.View.VISIBLE) {
+            binding.cardSuccess.startAnimation(animation)
+        } else if (binding.cardError.visibility == android.view.View.VISIBLE) {
+            binding.cardError.startAnimation(animation)
+        } else {
+            binding.clOverlay.visibility = android.view.View.GONE
         }
     }
 
@@ -113,24 +191,28 @@ class CreateSubjectActivity : AppCompatActivity() {
         selectedBgColor = bgColor
         allCards.forEach { it.strokeWidth = 0 }
         card.strokeWidth = 4
-        card.strokeColor = Color.parseColor("#4F46E5")
+        card.strokeColor = getColor(R.color.primary)
     }
 
     private fun selectQuarter(quarter: Int, card: com.google.android.material.card.MaterialCardView, allCards: List<com.google.android.material.card.MaterialCardView>) {
         selectedQuarter = quarter
+        
+        // Colores reactivos al tema para los botones de cuatrimestre
+        val defaultBg = ColorStateList.valueOf(getColor(R.color.surface_variant))
+        val defaultText = getColor(R.color.on_surface)
+        val selectedBg = ColorStateList.valueOf(getColor(R.color.primary))
+        val selectedText = Color.WHITE
+
         allCards.forEach { 
-            it.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#F1F5F9"))) 
-            (it.getChildAt(0) as android.widget.TextView).setTextColor(Color.parseColor("#1E293B"))
+            it.setCardBackgroundColor(defaultBg) 
+            (it.getChildAt(0) as android.widget.TextView).setTextColor(defaultText)
         }
-        card.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor("#4F46E5")))
-        (card.getChildAt(0) as android.widget.TextView).setTextColor(Color.WHITE)
+        card.setCardBackgroundColor(selectedBg)
+        (card.getChildAt(0) as android.widget.TextView).setTextColor(selectedText)
     }
 
     private fun loadSubjectData(subject: Subject) {
-        // Cambiar título de la vista
-        // Nota: asumo que el ID del TextView de título en el header es dinámico o puedo encontrarlo. 
-        // En el layout es el segundo hijo del headerLayout LinearLayout.
-        (binding.headerLayout.getChildAt(1) as? android.widget.TextView)?.text = "Editar Materia"
+        binding.tvHeaderTitle.text = "Editar Materia"
         
         binding.etSubjectName.setText(subject.name)
         

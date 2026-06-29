@@ -7,7 +7,6 @@ import com.classdrop.databinding.ActivityAdminHomeBinding
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.utils.SessionManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
  * Punto de entrada del panel de administración. A diferencia de MainActivity
@@ -18,17 +17,37 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class AdminHomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminHomeBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sessionManager = SessionManager(this)
+
         setupSubjectCards()
         setupAdminTools()
+        setupHeader()
+    }
+
+    private fun setupHeader() {
+        val userName = sessionManager.fetchUserName() ?: "Admin"
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
         
-        binding.tvCerrarSesion.setOnClickListener {
-            showLogoutConfirmation()
+        binding.tvAvatarInitials.text = initials
+
+        binding.tvAvatarInitials.setOnClickListener {
+            startActivity(Intent(this, AdminProfileActivity::class.java))
+        }
+
+        binding.ivNotificationAdmin.setOnClickListener {
+            val intent = Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -65,20 +84,8 @@ class AdminHomeActivity : AppCompatActivity() {
         binding.cardNormas.setOnClickListener {
             startActivity(Intent(this, NormsAdminActivity::class.java))
         }
-    }
-
-    private fun showLogoutConfirmation() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Cerrar sesión")
-            .setMessage("¿Estás seguro de que deseas salir del panel de administración?")
-            .setPositiveButton("Cerrar sesión") { _, _ ->
-                SessionManager(this).clearSession()
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finishAffinity()
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        binding.cardPrivacidad.setOnClickListener {
+            startActivity(Intent(this, PrivacyAdminActivity::class.java))
+        }
     }
 }

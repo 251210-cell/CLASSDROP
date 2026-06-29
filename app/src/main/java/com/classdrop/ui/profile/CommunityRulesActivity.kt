@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.databinding.ActivityCommunityRulesBinding
+import com.classdrop.repository.NormsRepository
 import com.classdrop.utils.SessionManager
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class CommunityRulesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCommunityRulesBinding
     private lateinit var sessionManager: SessionManager
+    private lateinit var normsRepository: NormsRepository
+    private lateinit var adapter: UserNormsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +23,26 @@ class CommunityRulesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this)
+        normsRepository = NormsRepository(this)
 
         setupHeader()
+        setupRecyclerView()
+        loadData()
         setupListeners()
+    }
+
+    private fun setupRecyclerView() {
+        adapter = UserNormsAdapter(emptyList())
+        binding.rvUserNorms.layoutManager = LinearLayoutManager(this)
+        binding.rvUserNorms.adapter = adapter
+    }
+
+    private fun loadData() {
+        val rules = normsRepository.getRules()
+        if (rules.isNotEmpty()) {
+            adapter.updateData(rules)
+        }
+        binding.tvSanctionsDescription.text = normsRepository.getSanctions()
     }
 
     private fun setupHeader() {

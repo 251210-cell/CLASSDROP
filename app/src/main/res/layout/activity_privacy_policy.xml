@@ -31,13 +31,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="sans-serif-black"
-            android:text="Políticas de privacidad"
+            android:text="Políticas de\nPrivacidad"
             android:textColor="@color/primary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvAvatarInitials"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_button_primary"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="MA"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -58,261 +72,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_input_pill"
+                android:backgroundTint="@color/file_pdf_bg"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:text="Protección de Datos"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
-                android:text="Políticas de\nPrivacidad"
-                android:textColor="@color/primary"
-                android:textSize="28sp" />
+                android:text="Privacidad y\nTransparencia\nClassDrop"
+                android:textColor="@color/on_background"
+                android:textSize="26sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:text="En ClassDrop, nos tomamos en serio tu privacidad. Nos comprometemos a proteger tus datos personales bajo la legislación mexicana (LFPDPPP), asegurando un entorno colaborativo transparente y seguro para la comunidad universitaria."
-                    android:textColor="@color/on_background"
-                    android:textSize="13sp"
-                    android:lineSpacingExtra="4dp"
-                    android:gravity="center" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Recopilación de Datos -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
+                app:cardBackgroundColor="@color/primary"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/bg_input_pill"
-                            android:backgroundTint="?attr/colorSurfaceVariant">
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_nav_notes"
-                                app:tint="@color/primary" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="Recopilación de\nDatos"
-                            android:textColor="@color/on_background"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                    android:padding="24dp">
 
                     <TextView
+                        android:id="@+id/tvPrivacyHeaderDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Únicamente recabamos tu nombre completo y tu correo electrónico institucional de la UPChiapas al registrarte. Te garantizamos que The Sync no solicita ni trata ningún tipo de datos personales sensibles."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
+                        android:lineSpacingExtra="4dp"
+                        android:text="Cargando mensaje..."
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Uso de la Información -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Dynamic Rules List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPrivacyRules"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/bg_input_pill"
-                            android:backgroundTint="?attr/colorSurfaceVariant">
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_data_usage"
-                                app:tint="#7C3AED" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="Uso de la Información"
-                            android:textColor="@color/on_background"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Utilizamos tus datos exclusivamente para crear tu cuenta, identificarte dentro de la plataforma y hacer visible tu nombre ante los demás miembros al momento de compartir y autorizar tus apuntes, documentos o imágenes. Tu correo electrónico siempre permanecerá privado."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Protección de Datos -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/bg_input_pill"
-                            android:backgroundTint="?attr/colorSurfaceVariant">
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_data_protection"
-                                app:tint="#16A34A" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="Protección de Datos"
-                            android:textColor="@color/on_background"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Tus datos están protegidos por el equipo de The Sync. Nos comprometemos firmemente a no transferir ni compartir tu información con terceros, con la única excepción de servicios tecnológicos de confianza (Google Cloud Messaging) para gestionar tus alertas y notificaciones push esenciales en la app."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Tus Derechos -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/bg_input_pill"
-                            android:backgroundTint="?attr/colorSurfaceVariant">
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_user_rights"
-                                app:tint="#DC2626" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="Tus Derechos"
-                            android:textColor="@color/on_background"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Como titular de tus datos, tienes derecho a Acceder, Rectificar, Cancelar u Oponerte (Derechos ARCO) al uso de tu información en cualquier momento. Puedes ejercer estos derechos enviando una solicitud digital con tu credencial de la UPChiapas."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_rule_user" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -321,32 +135,44 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="sans-serif-black"
                 android:text="¿Tienes dudas adicionales?"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="16sp" />
+                android:gravity="center"
+                android:textColor="@color/primary"
+                android:textSize="18sp" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSupport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
-                app:strokeWidth="0dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:id="@+id/tvSupportEmail"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:text="Si tienes alguna duda o quieres ejercer tus derechos ARCO, comunícate con el equipo de The Sync a través de nuestro correo oficial de atención:\nsoporte.classdrop@gmail.com"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp"
-                    android:lineSpacingExtra="2dp"
-                    android:gravity="center" />
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Si tienes alguna duda o quieres ejercer tus derechos ARCO, comunícate con el equipo de The Sync a través de nuestro correo oficial de atención:"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvSupportEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="soporte.classdrop@gmail.com"
+                        android:textColor="#B91C1C"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

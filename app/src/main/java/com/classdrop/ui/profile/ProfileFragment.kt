@@ -40,7 +40,12 @@ class ProfileFragment : Fragment() {
 
     private fun setupUserData() {
         val userName = sessionManager.fetchUserName()
+        val userEmail = sessionManager.fetchUserEmail()
+        
         binding.tvUserName.text = userName
+        binding.tvUserInfoName.text = userName
+        binding.tvUserInfoEmail.text = userEmail
+
         binding.tvAvatarInitials.text = userName.split(" ")
             .filter { it.isNotBlank() }
             .mapNotNull { it.firstOrNull()?.uppercase() }

@@ -27,14 +27,16 @@
             app:tint="@color/primary" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="sans-serif-black"
-            android:text="Reglamento de la\nComunidad"
+            android:text="Reglamento de la Comunidad"
             android:textColor="@color/primary"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvAvatarInitials"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,243 +105,17 @@
                 android:textSize="13sp"
                 android:lineSpacingExtra="4dp" />
 
-            <!-- Propósito y Alcance -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Dynamic Rules List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvUserNorms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Propósito y Alcance"
-                        android:textColor="@color/on_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="ClassDrop es una plataforma diseñada para el intercambio de conocimiento. Este reglamento es vinculante para todo usuario registrado y se aplica a todas las interacciones dentro del ecosistema digital de la plataforma."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Uso de la Plataforma -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Uso de la Plataforma"
-                        android:textColor="@color/on_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Los usuarios son responsables por el uso y seguridad de sus credenciales de acceso. Se prohíbe la creación de cuentas múltiples para evadir sanciones o manipular sistemas de reputación."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_check_circle" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Veracidad de la información y perfil" android:textColor="@color/text_secondary" android:textSize="12sp" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_check_circle" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Uso para fines estrictamente educativos" android:textColor="@color/text_secondary" android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Integridad Académica -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Integridad Académica"
-                        android:textColor="@color/on_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Queda estrictamente prohibido el intercambio de material que fomente el fraude académico, incluyendo pero no limitado a: exámenes vigentes, respuestas de evaluaciones o cualquier método de suplantación."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Propiedad Intelectual -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Propiedad Intelectual"
-                        android:textColor="@color/on_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Al subir contenido, el usuario garantiza poseer los derechos necesarios o contar con autorización. ClassDrop respetará las leyes de Copyright, el material que infrinja derechos de autor será removido tras una notificación válida."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Comportamiento Social -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Comportamiento Social"
-                        android:textColor="@color/on_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Se exige un trato respetuoso: no se tolera el acoso, la discriminación por cualquier motivo, ni el lenguaje de odio. Las discusiones deben mantenerse en un marco de crítica constructiva."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Moderación y Apelaciones -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutline"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Moderación y Apelaciones"
-                        android:textColor="@color/on_background"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="El equipo de moderación tiene la facultad de retirar contenido y suspender cuentas. Los usuarios afectados tienen derecho a una sola apelación formal a través del Centro de Soporte dentro de las 72hs posteriores a la sanción."
-                        android:textColor="@color/on_background"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_rule_user" />
 
             <!-- Régimen Sancionatorio -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSanctions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -355,16 +131,9 @@
                     android:orientation="vertical"
                     android:padding="24dp">
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_warning"
-                        app:tint="?attr/colorOnPrimary" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         android:text="Régimen\nSancionatorio"
                         android:gravity="center"
                         android:textColor="?attr/colorOnPrimary"
@@ -372,6 +141,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSanctionsDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"

@@ -84,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
                     sessionManager.saveUserRole(role)
                     sessionManager.saveUserName(user?.name ?: "Usuario")
+                    sessionManager.saveUserEmail(user?.email ?: "")
                     navigateByRole(role)
                 }
                 is NetworkResult.Error -> {

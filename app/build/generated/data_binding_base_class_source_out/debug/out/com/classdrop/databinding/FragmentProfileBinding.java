@@ -85,6 +85,12 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final TextView tvUserCareer;
 
   @NonNull
+  public final TextView tvUserInfoEmail;
+
+  @NonNull
+  public final TextView tvUserInfoName;
+
+  @NonNull
   public final TextView tvUserName;
 
   private FragmentProfileBinding(@NonNull NestedScrollView rootView,
@@ -98,6 +104,7 @@ public final class FragmentProfileBinding implements ViewBinding {
       @NonNull TextView tvHelpDescription, @NonNull TextView tvHelpTitle,
       @NonNull TextView tvSeeMoreDownloads, @NonNull TextView tvSeeMoreFavorites,
       @NonNull TextView tvSeeMoreUploads, @NonNull TextView tvUserCareer,
+      @NonNull TextView tvUserInfoEmail, @NonNull TextView tvUserInfoName,
       @NonNull TextView tvUserName) {
     this.rootView = rootView;
     this.btnLogout = btnLogout;
@@ -120,6 +127,8 @@ public final class FragmentProfileBinding implements ViewBinding {
     this.tvSeeMoreFavorites = tvSeeMoreFavorites;
     this.tvSeeMoreUploads = tvSeeMoreUploads;
     this.tvUserCareer = tvUserCareer;
+    this.tvUserInfoEmail = tvUserInfoEmail;
+    this.tvUserInfoName = tvUserInfoName;
     this.tvUserName = tvUserName;
   }
 
@@ -266,6 +275,18 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvUserInfoEmail;
+      TextView tvUserInfoEmail = ViewBindings.findChildViewById(rootView, id);
+      if (tvUserInfoEmail == null) {
+        break missingId;
+      }
+
+      id = R.id.tvUserInfoName;
+      TextView tvUserInfoName = ViewBindings.findChildViewById(rootView, id);
+      if (tvUserInfoName == null) {
+        break missingId;
+      }
+
       id = R.id.tvUserName;
       TextView tvUserName = ViewBindings.findChildViewById(rootView, id);
       if (tvUserName == null) {
@@ -276,7 +297,7 @@ public final class FragmentProfileBinding implements ViewBinding {
           btnPrivacy, cardDownloads, cardFavorites, cardUploads, ivHelpIcon, ivNotification,
           scrollViewProfile, titleDownloads, titleFavorites, titleRules, titleUploads,
           tvAvatarInitials, tvHelpDescription, tvHelpTitle, tvSeeMoreDownloads, tvSeeMoreFavorites,
-          tvSeeMoreUploads, tvUserCareer, tvUserName);
+          tvSeeMoreUploads, tvUserCareer, tvUserInfoEmail, tvUserInfoName, tvUserName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

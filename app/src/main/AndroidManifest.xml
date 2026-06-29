@@ -40,8 +40,10 @@
         <activity android:name=".ui.admin.ModerationActivity" />
         <activity android:name=".ui.admin.ReportsActivity" />
         <activity android:name=".ui.admin.NormsAdminActivity" />
+        <activity android:name=".ui.admin.PrivacyAdminActivity" />
         <activity android:name=".ui.admin.SubjectsAdminActivity" />
         <activity android:name=".ui.admin.CreateSubjectActivity" />
+        <activity android:name=".ui.admin.AdminProfileActivity" />
         <activity android:name=".ui.profile.PrivacyPolicyActivity" />
         <activity android:name=".ui.profile.CommunityRulesActivity" />
         <activity android:name=".ui.profile.AllFilesActivity" />

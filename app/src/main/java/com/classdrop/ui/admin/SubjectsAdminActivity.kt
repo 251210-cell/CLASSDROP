@@ -2,7 +2,6 @@ package com.classdrop.ui.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +10,6 @@ import com.classdrop.model.Subject
 import com.classdrop.repository.SubjectRepository
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.viewmodel.SubjectsViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SubjectsAdminActivity : AppCompatActivity() {
 
@@ -34,19 +32,21 @@ class SubjectsAdminActivity : AppCompatActivity() {
         }
 
         val sessionManager = com.classdrop.utils.SessionManager(this)
-        val userName = sessionManager.fetchUserName()
-        val initials = if (userName.length >= 2) {
-            userName.split(" ")
-                .filter { it.isNotBlank() }
-                .mapNotNull { it.firstOrNull()?.uppercase() }
-                .take(2)
-                .joinToString("")
-        } else if (userName.isNotEmpty()) {
-            userName.take(1).uppercase()
-        } else {
-            "AD"
-        }
+        val userName = sessionManager.fetchUserName() ?: "Admin"
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
+
         binding.tvAvatarInitials.text = initials
+        binding.tvAvatarInitials.setOnClickListener {
+            startActivity(Intent(this, AdminProfileActivity::class.java))
+        }
+        
+        binding.ivNotificationAdmin.setOnClickListener {
+            startActivity(Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java))
+        }
 
         adapter = SubjectsAdminAdapter(
             onEditClick = { subject ->
@@ -90,15 +90,56 @@ class SubjectsAdminActivity : AppCompatActivity() {
     }
 
     private fun showDeleteConfirmation(subject: Subject) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("¿Eliminar materia?")
-            .setMessage("¿Estás seguro de que deseas eliminar '${subject.name}'? Todos los archivos asociados se perderán.")
-            .setNegativeButton("Cancelar", null)
-            .setPositiveButton("Eliminar") { _, _ ->
-                SubjectRepository.deleteSubject(subject.id)
-                Toast.makeText(this, "Materia eliminada", Toast.LENGTH_SHORT).show()
+        binding.clOverlay.visibility = android.view.View.VISIBLE
+        binding.cardDeleteConfirm.visibility = android.view.View.VISIBLE
+        binding.cardSuccess.visibility = android.view.View.GONE
+        
+        binding.tvDeleteTitle.text = "¿Eliminar ${subject.name}?"
+        
+        // Animation
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
+        binding.cardDeleteConfirm.startAnimation(animation)
+
+        binding.btnConfirmDelete.setOnClickListener {
+            viewModel.deleteSubject(subject)
+            showDeleteSuccess()
+        }
+        
+        binding.btnCancelDelete.setOnClickListener {
+            hideOverlay()
+        }
+    }
+
+    private fun showDeleteSuccess() {
+        binding.cardDeleteConfirm.visibility = android.view.View.GONE
+        binding.cardSuccess.visibility = android.view.View.VISIBLE
+        
+        // Animation
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
+        binding.cardSuccess.startAnimation(animation)
+
+        binding.btnSuccessDone.setOnClickListener {
+            hideOverlay()
+        }
+    }
+
+    private fun hideOverlay() {
+        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_out_down)
+        animation.setAnimationListener(object : android.view.animation.Animation.AnimationListener {
+            override fun onAnimationStart(animation: android.view.animation.Animation?) {}
+            override fun onAnimationEnd(animation: android.view.animation.Animation?) {
+                binding.clOverlay.visibility = android.view.View.GONE
             }
-            .show()
+            override fun onAnimationRepeat(animation: android.view.animation.Animation?) {}
+        })
+
+        if (binding.cardDeleteConfirm.visibility == android.view.View.VISIBLE) {
+            binding.cardDeleteConfirm.startAnimation(animation)
+        } else if (binding.cardSuccess.visibility == android.view.View.VISIBLE) {
+            binding.cardSuccess.startAnimation(animation)
+        } else {
+            binding.clOverlay.visibility = android.view.View.GONE
+        }
     }
 
     private fun setupViewModel() {
