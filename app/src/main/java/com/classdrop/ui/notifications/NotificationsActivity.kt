@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityNotificationsBinding
 import com.classdrop.model.NotificationType
 import com.classdrop.repository.NotificationRepository
+import com.classdrop.ui.admin.ModerationActivity
+import com.classdrop.ui.admin.ReportsActivity
 import com.classdrop.ui.files.FileRejectedActivity
 import com.classdrop.ui.files.FileSuccessActivity
 
@@ -29,21 +31,23 @@ class NotificationsActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
 
         adapter = NotificationsAdapter { notification ->
-            when (notification.type) {
-                NotificationType.SUCCESS -> {
-                    // Si es éxito de publicación, mostrar pantalla de éxito
-                    if (notification.title.contains("Archivo Publicado", ignoreCase = true)) {
-                        startActivity(Intent(this, FileSuccessActivity::class.java))
-                    }
+            when {
+                // --- Navegación de Administrador ---
+                notification.title.contains("archivo pendiente", ignoreCase = true) -> {
+                    startActivity(Intent(this, ModerationActivity::class.java))
                 }
-                NotificationType.ERROR -> {
-                    // Si es error de publicación, mostrar pantalla de rechazo
-                    if (notification.title.contains("Archivo Rechazado", ignoreCase = true)) {
-                        startActivity(Intent(this, FileRejectedActivity::class.java))
-                    }
+                notification.title.contains("Reporte", ignoreCase = true) -> {
+                    startActivity(Intent(this, ReportsActivity::class.java))
                 }
-                else -> {
-                    // Otras notificaciones
+                
+                // --- Navegación de Estudiante ---
+                notification.type == NotificationType.SUCCESS && 
+                notification.title.contains("Archivo Publicado", ignoreCase = true) -> {
+                    startActivity(Intent(this, FileSuccessActivity::class.java))
+                }
+                notification.type == NotificationType.ERROR && 
+                notification.title.contains("Archivo Rechazado", ignoreCase = true) -> {
+                    startActivity(Intent(this, FileRejectedActivity::class.java))
                 }
             }
         }

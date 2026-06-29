@@ -83,7 +83,6 @@ class UploadFileActivity : AppCompatActivity() {
         val subject = binding.tvSelectedSubject.text.toString()
         val isFileTab = binding.viewPager.currentItem == 0
 
-        // 1. Validar Título (No números ni símbolos, solo letras y espacios)
         val nameRegex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$".toRegex()
         
         if (title.isEmpty()) {
@@ -96,13 +95,11 @@ class UploadFileActivity : AppCompatActivity() {
             return
         }
 
-        // 2. Validar Descripción
         if (description.isEmpty()) {
             showAlert("Descripción requerida", "Cuéntanos un poco de qué trata tu apunte.")
             return
         }
 
-        // 3. Validar Selección de Cuatrimestre y Materia
         if (quarter == "Selecciona tu cuatrimestre") {
             showAlert("Selección pendiente", "Por favor selecciona un cuatrimestre.")
             return
@@ -113,7 +110,6 @@ class UploadFileActivity : AppCompatActivity() {
             return
         }
 
-        // 4. Validar Archivo o URL
         if (isFileTab) {
             if (selectedFileName == null) {
                 showAlert("Archivo no seleccionado", "Debes seleccionar un archivo para publicar.")
@@ -130,25 +126,37 @@ class UploadFileActivity : AppCompatActivity() {
             }
         }
 
-        // Si todo está correcto, proceder
-        val action = if (isFileTab) "Archivo" else "Enlace"
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("SELECT_TAB", "STATUS")
-            putExtra("FILE_NAME", title) 
-            putExtra("FILE_SIZE", if (action == "Archivo") (selectedFileSize ?: "2.4 MB") else "Enlace Externo")
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
+        // --- SIMULACIÓN PARA LA DEMO ---
+        // Si el título es exactamente "RECHAZAR", mostramos la pantalla de error.
+        // En cualquier otro caso, mostramos la de éxito.
         
-        com.classdrop.utils.AlertUtils.showCustomAlert(
-            context = this,
-            title = "¡Publicación Exitosa!",
-            message = "Tu $action se ha guardado correctamente.",
-            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
-            onPrimaryClick = {
-                startActivity(intent)
-                finish()
-            }
-        )
+        if (title.uppercase() == "RECHAZAR") {
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "Procesando archivo",
+                message = "Tu archivo está siendo analizado por nuestro sistema de seguridad...",
+                type = com.classdrop.utils.AlertUtils.AlertType.CONFIRMATION,
+                onPrimaryClick = {
+                    val intent = Intent(this, FileRejectedActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            )
+        } else {
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "¡Publicación Exitosa!",
+                message = "Tu material se ha guardado y validado correctamente.",
+                type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                onPrimaryClick = {
+                    val intent = Intent(this, FileSuccessActivity::class.java).apply {
+                        putExtra("FILE_NAME", title)
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+            )
+        }
     }
 
     private fun showAlert(title: String, message: String) {

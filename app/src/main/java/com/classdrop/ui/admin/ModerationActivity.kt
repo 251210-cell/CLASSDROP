@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityModerationBinding
 import com.classdrop.model.ModerationStatus
 import com.classdrop.model.ModerationTask
+import com.classdrop.model.NotificationType
+import com.classdrop.repository.NotificationRepository
 import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
 
@@ -120,7 +122,21 @@ class ModerationActivity : AppCompatActivity() {
     }
 
     private fun processTask(task: ModerationTask, newStatus: ModerationStatus) {
-        // En una app real, aquí llamarías a la API
+        // Simular envío de notificación al repositorio central
+        if (newStatus == ModerationStatus.APPROVED) {
+            NotificationRepository.addNotification(
+                "¡Archivo Publicado!",
+                "Tu material '${task.fileName}' ha sido aprobado y ya es público.",
+                NotificationType.SUCCESS
+            )
+        } else {
+            NotificationRepository.addNotification(
+                "Archivo Rechazado",
+                "Tu material '${task.fileName}' fue rechazado por no cumplir las normas académicas.",
+                NotificationType.ERROR
+            )
+        }
+
         taskList.remove(task)
         adapter.submitList(taskList.toList())
     }

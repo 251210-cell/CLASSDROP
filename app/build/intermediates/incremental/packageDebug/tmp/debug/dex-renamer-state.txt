@@ -1,21 +1,4 @@
-<<<<<<< Updated upstream
-#Mon Jun 29 00:18:57 CST 2026
-base.0=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.10=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\4\\classes.dex
-base.11=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-base.12=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
-base.13=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
-base.2=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
-base.3=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
-base.4=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
-base.5=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\13\\classes.dex
-base.6=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
-base.7=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
-base.8=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.9=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
-=======
-#Mon Jun 29 00:43:15 CST 2026
+#Mon Jun 29 00:53:34 CST 2026
 base.0=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.10=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/dex/debug/mergeProjectDexDebug/4/classes.dex
@@ -30,7 +13,6 @@ base.6=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/
 base.7=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/dex/debug/mergeProjectDexDebug/14/classes.dex
 base.8=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/dex/debug/mergeProjectDexDebug/2/classes.dex
 base.9=/Users/karlacruz/AndroidStudioProjects/CLASSDROP/app/build/intermediates/dex/debug/mergeProjectDexDebug/3/classes.dex
->>>>>>> Stashed changes
 path.0=classes.dex
 path.1=0/classes.dex
 path.10=4/classes.dex

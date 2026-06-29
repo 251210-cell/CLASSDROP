@@ -55,27 +55,6 @@ class AdminProfileActivity : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
-<<<<<<< Updated upstream
-            showLogoutOverlay()
-        }
-    }
-
-    private fun showLogoutOverlay() {
-        com.classdrop.utils.AlertUtils.showCustomAlert(
-            context = this,
-            title = "¿Cerrar Sesión?",
-            message = "¿Estás seguro de que deseas salir del panel de administración?",
-            type = com.classdrop.utils.AlertUtils.AlertType.ERROR,
-            primaryButtonText = "Salir",
-            secondaryButtonText = "Cancelar",
-            showIcon = false,
-            onPrimaryClick = { logout() }
-        )
-    }
-
-    private fun hideLogoutOverlay() {
-        // No es necesario con AlertUtils
-=======
             showLogoutConfirmation()
         }
     }
@@ -93,7 +72,6 @@ class AdminProfileActivity : AppCompatActivity() {
                 logout()
             }
         )
->>>>>>> Stashed changes
     }
 
     private fun logout() {
