@@ -43,6 +43,14 @@ class PostsAdapter(
         val post = getItem(position)
         holder.binding.apply {
             tvUserName.text = post.userName
+            
+            // Generar iniciales del usuario
+            tvUserAvatar.text = post.userName.split(" ")
+                .filter { it.isNotBlank() }
+                .mapNotNull { it.firstOrNull()?.uppercase() }
+                .take(2)
+                .joinToString("")
+
             tvTime.text = post.time
             tvFileName.text = post.fileName
             tvFileTypeLabel.text = post.fileType

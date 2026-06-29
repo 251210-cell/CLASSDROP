@@ -24,13 +24,19 @@ class CommentsAdapter : ListAdapter<Comment, CommentsAdapter.CommentViewHolder>(
     class CommentViewHolder(private val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
             binding.apply {
-                tvCommentUserName.text = "Usuario ${comment.userId.takeLast(4)}"
+                val userName = "Usuario ${comment.userId.takeLast(4)}"
+                tvCommentUserName.text = userName
                 tvCommentContent.text = comment.content
                 
+                // Generar iniciales del usuario
+                tvCommentAvatar.text = userName.split(" ")
+                    .filter { it.isNotBlank() }
+                    .mapNotNull { it.firstOrNull()?.uppercase() }
+                    .take(2)
+                    .joinToString("")
+
                 val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
                 tvCommentTime.text = sdf.format(Date(comment.timestamp))
-
-                cvCommentAvatar.setCardBackgroundColor(android.graphics.Color.parseColor("#6366F1"))
 
                 // Actualizar UI de Likes/Dislikes
                 updateLikesUI(comment)

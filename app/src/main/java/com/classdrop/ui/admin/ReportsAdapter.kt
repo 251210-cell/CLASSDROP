@@ -23,7 +23,11 @@ class ReportsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val report = getItem(position)
         holder.binding.apply {
-            tvReporterAvatar.text = report.reporterName.take(1).uppercase()
+            tvReporterAvatar.text = report.reporterName.split(" ")
+                .filter { it.isNotBlank() }
+                .mapNotNull { it.firstOrNull()?.uppercase() }
+                .take(2)
+                .joinToString("")
             tvReporterName.text = "Reportado por ${report.reporterName}"
             tvReportTime.text = report.time
             tvDislikeCount.text = report.dislikes

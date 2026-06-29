@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityModerationBinding
 import com.classdrop.model.ModerationStatus
 import com.classdrop.model.ModerationTask
+import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
 
 class ModerationActivity : AppCompatActivity() {
@@ -79,61 +80,43 @@ class ModerationActivity : AppCompatActivity() {
     }
 
     private fun showApprovalDialog(task: ModerationTask) {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardConfirm.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.GONE
-
-        binding.tvConfirmTitle.text = "¿Aprobar Archivo?"
-        binding.tvConfirmTitle.setTextColor(android.graphics.Color.parseColor("#8B85F5"))
-        binding.ivConfirmIcon.setImageResource(com.classdrop.R.drawable.ic_check_circle)
-        binding.ivConfirmIcon.imageTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#8B85F5"))
-        binding.vConfirmIconBg.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#8B85F5"))
-        binding.tvConfirmMessage.text = "¿Deseas validar '${task.fileName}'? El archivo será visible para todos los usuarios."
-        binding.btnConfirmAction.text = "Aprobar"
-        binding.btnConfirmAction.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#6366F1"))
-
-        binding.btnConfirmAction.setOnClickListener {
-            processTask(task, ModerationStatus.APPROVED)
-            showActionSuccess("Archivo aprobado")
-        }
-
-        binding.btnCancelAction.setOnClickListener {
-            binding.clOverlay.visibility = android.view.View.GONE
-        }
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Aprobar Archivo?",
+            message = "¿Deseas validar '${task.fileName}'? El archivo será visible para todos los usuarios.",
+            type = AlertUtils.AlertType.CONFIRMATION,
+            primaryButtonText = "Aprobar",
+            secondaryButtonText = "Cancelar",
+            onPrimaryClick = {
+                processTask(task, ModerationStatus.APPROVED)
+                showActionSuccess("Archivo aprobado")
+            }
+        )
     }
 
     private fun showRejectionDialog(task: ModerationTask) {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardConfirm.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.GONE
-
-        binding.tvConfirmTitle.text = "¿Rechazar Archivo?"
-        binding.tvConfirmTitle.setTextColor(android.graphics.Color.parseColor("#EF4444"))
-        binding.ivConfirmIcon.setImageResource(com.classdrop.R.drawable.ic_warning)
-        binding.ivConfirmIcon.imageTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
-        binding.vConfirmIconBg.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
-        binding.tvConfirmMessage.text = "¿Deseas rechazar '${task.fileName}'? Se le notificará al usuario."
-        binding.btnConfirmAction.text = "Rechazar"
-        binding.btnConfirmAction.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
-
-        binding.btnConfirmAction.setOnClickListener {
-            processTask(task, ModerationStatus.REJECTED)
-            showActionSuccess("Archivo rechazado")
-        }
-
-        binding.btnCancelAction.setOnClickListener {
-            binding.clOverlay.visibility = android.view.View.GONE
-        }
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Rechazar Archivo?",
+            message = "¿Deseas rechazar '${task.fileName}'? Se le notificará al usuario.",
+            type = AlertUtils.AlertType.ERROR,
+            primaryButtonText = "Rechazar",
+            secondaryButtonText = "Cancelar",
+            onPrimaryClick = {
+                processTask(task, ModerationStatus.REJECTED)
+                showActionSuccess("Archivo rechazado")
+            }
+        )
     }
 
     private fun showActionSuccess(message: String) {
-        binding.cardConfirm.visibility = android.view.View.GONE
-        binding.cardSuccess.visibility = android.view.View.VISIBLE
-        binding.tvSuccessTitle.text = message
-        
-        binding.btnSuccessDone.setOnClickListener {
-            binding.clOverlay.visibility = android.view.View.GONE
-        }
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "Éxito",
+            message = message,
+            type = AlertUtils.AlertType.SUCCESS,
+            primaryButtonText = "Entendido"
+        )
     }
 
     private fun processTask(task: ModerationTask, newStatus: ModerationStatus) {

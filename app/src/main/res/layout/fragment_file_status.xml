@@ -36,7 +36,7 @@
 
             <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
             <ImageView android:id="@+id/ivNotification" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginEnd="16dp" android:src="@drawable/ic_notification" app:tint="@color/primary" />
-            <TextView android:id="@+id/tvAvatarInitials" android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_button_primary" android:gravity="center" android:text="MA" android:textColor="@color/white" android:textSize="14sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvAvatarInitials" android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_button_primary" android:gravity="center" android:text="MA" android:textColor="?attr/colorOnPrimary" android:textSize="14sp" android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Main Card -->
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center_horizontal" android:orientation="vertical">
-                            <ImageView android:id="@+id/ivStep1" android:layout_width="32dp" android:layout_height="32dp" android:background="@drawable/bg_button_primary" android:padding="8dp" android:src="@drawable/ic_check_circle" app:tint="@color/white" />
+                            <ImageView android:id="@+id/ivStep1" android:layout_width="32dp" android:layout_height="32dp" android:background="@drawable/bg_button_primary" android:padding="8dp" android:src="@drawable/ic_check_circle" app:tint="?attr/colorOnPrimary" />
                             <View android:id="@+id/line1" android:layout_width="2dp" android:layout_height="60dp" android:background="@color/primary" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:orientation="vertical">
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center_horizontal" android:orientation="vertical">
-                            <ImageView android:id="@+id/ivStep2" android:layout_width="32dp" android:layout_height="32dp" android:background="@drawable/bg_button_primary" android:padding="8dp" android:src="@drawable/ic_status_shield" app:tint="@color/white" />
+                            <ImageView android:id="@+id/ivStep2" android:layout_width="32dp" android:layout_height="32dp" android:background="@drawable/bg_button_primary" android:padding="8dp" android:src="@drawable/ic_status_shield" app:tint="?attr/colorOnPrimary" />
                             <View android:id="@+id/line2" android:layout_width="2dp" android:layout_height="100dp" android:background="@color/primary" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:orientation="vertical">

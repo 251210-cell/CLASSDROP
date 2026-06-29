@@ -3270,10 +3270,8 @@ id btnCancel
 id btnCancelAction
 id btnCancelDelete
 id btnCancelEdit
-id btnCancelLogout
 id btnConfirmAction
 id btnConfirmDelete
-id btnConfirmLogout
 id btnContactSupport
 id btnDelete
 id btnDislike
@@ -3397,7 +3395,6 @@ id currentState
 id custom
 id customPanel
 id cut
-id cvCommentAvatar
 id cvIconContainer
 id date_picker_actions
 id decelerate
@@ -3548,7 +3545,6 @@ id ivStep2
 id ivStep3
 id ivStep4
 id ivSubjectIcon
-id ivUserAvatar
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -3847,9 +3843,12 @@ id tvAdminEmail
 id tvAdminName
 id tvAlertMessage
 id tvAlertTitle
+id tvAvatarElena
 id tvAvatarInitials
 id tvAvatarLarge
+id tvAvatarMarco
 id tvBookmarkLabel
+id tvCommentAvatar
 id tvCommentContent
 id tvCommentTime
 id tvCommentUserName
@@ -3892,8 +3891,6 @@ id tvLikeCountMarco
 id tvLikes
 id tvLikesDetail
 id tvLoginLink
-id tvLogoutMessage
-id tvLogoutTitle
 id tvModeratedCount
 id tvNotificationMessage
 id tvNotificationTime
@@ -3938,6 +3935,7 @@ id tvTitleStep3
 id tvTitleStep4
 id tvToolbarTitle
 id tvUploaderInfo
+id tvUserAvatar
 id tvUserCareer
 id tvUserInfoEmail
 id tvUserInfoName

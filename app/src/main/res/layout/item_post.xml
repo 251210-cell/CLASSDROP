@@ -20,18 +20,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/ivUserAvatar"
+            <TextView
+                android:id="@+id/tvUserAvatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_quarter_selected" />
+                android:background="@drawable/bg_button_primary"
+                android:backgroundTint="@color/primary"
+                android:gravity="center"
+                android:text="EG"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
-                android:layout_toEndOf="@id/ivUserAvatar"
+                android:layout_toEndOf="@id/tvUserAvatar"
                 android:orientation="vertical">
 
                 <TextView

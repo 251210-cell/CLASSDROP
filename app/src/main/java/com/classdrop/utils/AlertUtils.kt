@@ -29,14 +29,16 @@ object AlertUtils {
         onPrimaryClick: (() -> Unit)? = null,
         onSecondaryClick: (() -> Unit)? = null
     ) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding = DialogCustomAlertBinding.inflate(LayoutInflater.from(context))
-        dialog.setContentView(binding.root)
+        val dialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
+            .setView(binding.root)
+            .create()
+
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         
-        // Forzamos el ancho a 350dp para que todas sean igual de grandes ("totas")
+        // Forzamos el ancho a 350dp
         val width = (350 * context.resources.displayMetrics.density).toInt()
+        dialog.show() // Es necesario llamar a show() antes de ajustar el layout del window
         dialog.window?.setLayout(
             width,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -45,6 +47,19 @@ object AlertUtils {
         binding.tvAlertTitle.text = title
         binding.tvAlertMessage.text = message
         binding.btnPrimary.text = primaryButtonText
+
+        // Configuración de colores basada en el tipo (independiente de si hay icono)
+        val color = when (type) {
+            AlertType.SUCCESS -> ContextCompat.getColor(context, R.color.primary)
+            AlertType.ERROR -> ContextCompat.getColor(context, R.color.error)
+            AlertType.WARNING -> ContextCompat.getColor(context, R.color.warning)
+            AlertType.CONFIRMATION -> ContextCompat.getColor(context, R.color.primary)
+        }
+
+        binding.tvAlertTitle.setTextColor(color)
+        binding.btnPrimary.backgroundTintList = ColorStateList.valueOf(
+            if (type == AlertType.ERROR) color else ContextCompat.getColor(context, R.color.primary)
+        )
 
         // Control de visibilidad del icono
         binding.flIconContainer.visibility = if (showIcon) View.VISIBLE else View.GONE
@@ -57,25 +72,9 @@ object AlertUtils {
                 AlertType.CONFIRMATION -> R.drawable.ic_help
             }
 
-            // Configuración según el tipo usando recursos de color para soporte de temas
-            val color = when (type) {
-                AlertType.SUCCESS -> ContextCompat.getColor(context, R.color.primary)
-                AlertType.ERROR -> ContextCompat.getColor(context, R.color.error)
-                AlertType.WARNING -> ContextCompat.getColor(context, R.color.warning)
-                AlertType.CONFIRMATION -> ContextCompat.getColor(context, R.color.primary)
-            }
-
             binding.ivAlertIcon.setImageResource(iconRes)
             binding.ivAlertIcon.imageTintList = ColorStateList.valueOf(color)
             binding.vIconBg.backgroundTintList = ColorStateList.valueOf(color)
-            binding.tvAlertTitle.setTextColor(color)
-            binding.btnPrimary.backgroundTintList = ColorStateList.valueOf(
-                if (type == AlertType.ERROR) color else ContextCompat.getColor(context, R.color.primary)
-            )
-        } else {
-            // Si no hay icono, usamos el color de la marca
-            binding.tvAlertTitle.setTextColor(ContextCompat.getColor(context, R.color.on_background))
-            binding.btnPrimary.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary))
         }
 
         // Botón secundario
@@ -92,7 +91,5 @@ object AlertUtils {
             onPrimaryClick?.invoke()
             dialog.dismiss()
         }
-
-        dialog.show()
     }
 }

@@ -4,7 +4,7 @@
     android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    app:cardBackgroundColor="@color/surface"
+    app:cardBackgroundColor="?attr/colorSurface"
     app:cardCornerRadius="28dp"
     app:cardElevation="8dp"
     app:strokeWidth="0dp">
@@ -53,7 +53,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="La operación se realizó correctamente."
-            android:textColor="@color/on_background"
+            android:textColor="?attr/colorOnSurface"
             android:alpha="0.7"
             android:textSize="13sp" />
 
@@ -79,7 +79,7 @@
             android:layout_marginTop="4dp"
             android:text="Cancelar"
             android:textAllCaps="false"
-            android:textColor="@color/on_background"
+            android:textColor="?attr/colorOnSurface"
             android:alpha="0.6"
             android:visibility="gone" />
 

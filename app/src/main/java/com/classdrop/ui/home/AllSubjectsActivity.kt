@@ -33,17 +33,12 @@ class AllSubjectsActivity : AppCompatActivity() {
 
     private fun setupHeader() {
         val userName = sessionManager.fetchUserName()
-        val initials = if (userName.length >= 2) {
-            userName.split(" ")
-                .filter { it.isNotBlank() }
-                .mapNotNull { it.firstOrNull()?.uppercase() }
-                .take(2)
-                .joinToString("")
-        } else if (userName.isNotEmpty()) {
-            userName.take(1).uppercase()
-        } else {
-            "?"
-        }
+        val initials = userName.split(" ")
+            .filter { it.isNotBlank() }
+            .mapNotNull { it.firstOrNull()?.uppercase() }
+            .take(2)
+            .joinToString("")
+
         binding.tvAvatarInitials.text = initials
 
         binding.ivNotification.setOnClickListener {

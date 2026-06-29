@@ -98,10 +98,8 @@ id btnCancel
 id btnCancelAction
 id btnCancelDelete
 id btnCancelEdit
-id btnCancelLogout
 id btnConfirmAction
 id btnConfirmDelete
-id btnConfirmLogout
 id btnContactSupport
 id btnDelete
 id btnDislike
@@ -186,7 +184,6 @@ id cardUploads
 id clEditOverlay
 id clHeader
 id clOverlay
-id cvCommentAvatar
 id cvIconContainer
 id divider
 id etCode
@@ -245,7 +242,6 @@ id ivStep2
 id ivStep3
 id ivStep4
 id ivSubjectIcon
-id ivUserAvatar
 id line1
 id line2
 id line3
@@ -302,9 +298,12 @@ id tvAdminEmail
 id tvAdminName
 id tvAlertMessage
 id tvAlertTitle
+id tvAvatarElena
 id tvAvatarInitials
 id tvAvatarLarge
+id tvAvatarMarco
 id tvBookmarkLabel
+id tvCommentAvatar
 id tvCommentContent
 id tvCommentTime
 id tvCommentUserName
@@ -347,8 +346,6 @@ id tvLikeCountMarco
 id tvLikes
 id tvLikesDetail
 id tvLoginLink
-id tvLogoutMessage
-id tvLogoutTitle
 id tvModeratedCount
 id tvNotificationMessage
 id tvNotificationTime
@@ -393,6 +390,7 @@ id tvTitleStep3
 id tvTitleStep4
 id tvToolbarTitle
 id tvUploaderInfo
+id tvUserAvatar
 id tvUserCareer
 id tvUserInfoEmail
 id tvUserInfoName

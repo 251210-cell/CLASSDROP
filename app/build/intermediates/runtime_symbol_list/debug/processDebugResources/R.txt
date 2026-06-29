@@ -3269,10 +3269,8 @@ int id btnCancel 0x7f08006b
 int id btnCancelAction 0x7f08006c
 int id btnCancelDelete 0x7f08006d
 int id btnCancelEdit 0x7f08006e
-int id btnCancelLogout 0x7f08006f
 int id btnConfirmAction 0x7f080070
 int id btnConfirmDelete 0x7f080071
-int id btnConfirmLogout 0x7f080072
 int id btnContactSupport 0x7f080073
 int id btnDelete 0x7f080074
 int id btnDislike 0x7f080075
@@ -3396,7 +3394,6 @@ int id currentState 0x7f0800ea
 int id custom 0x7f0800eb
 int id customPanel 0x7f0800ec
 int id cut 0x7f0800ed
-int id cvCommentAvatar 0x7f0800ee
 int id cvIconContainer 0x7f0800ef
 int id date_picker_actions 0x7f0800f0
 int id decelerate 0x7f0800f1
@@ -3547,7 +3544,6 @@ int id ivStep2 0x7f080180
 int id ivStep3 0x7f080181
 int id ivStep4 0x7f080182
 int id ivSubjectIcon 0x7f080183
-int id ivUserAvatar 0x7f080184
 int id jumpToEnd 0x7f080185
 int id jumpToStart 0x7f080186
 int id labeled 0x7f080187
@@ -3846,9 +3842,12 @@ int id tvAdminEmail 0x7f0802ab
 int id tvAdminName 0x7f0802ac
 int id tvAlertMessage 0x7f0802ad
 int id tvAlertTitle 0x7f0802ae
+int id tvAvatarElena 0x7f08032e
 int id tvAvatarInitials 0x7f0802af
 int id tvAvatarLarge 0x7f0802b0
+int id tvAvatarMarco 0x7f08032f
 int id tvBookmarkLabel 0x7f0802b1
+int id tvCommentAvatar 0x7f08032c
 int id tvCommentContent 0x7f0802b2
 int id tvCommentTime 0x7f0802b3
 int id tvCommentUserName 0x7f0802b4
@@ -3891,8 +3890,6 @@ int id tvLikeCountMarco 0x7f0802d8
 int id tvLikes 0x7f0802d9
 int id tvLikesDetail 0x7f0802da
 int id tvLoginLink 0x7f0802db
-int id tvLogoutMessage 0x7f0802dc
-int id tvLogoutTitle 0x7f0802dd
 int id tvModeratedCount 0x7f0802de
 int id tvNotificationMessage 0x7f0802df
 int id tvNotificationTime 0x7f0802e0
@@ -3937,6 +3934,7 @@ int id tvTitleStep3 0x7f080306
 int id tvTitleStep4 0x7f080307
 int id tvToolbarTitle 0x7f080308
 int id tvUploaderInfo 0x7f080309
+int id tvUserAvatar 0x7f08032d
 int id tvUserCareer 0x7f08030a
 int id tvUserInfoEmail 0x7f08030b
 int id tvUserInfoName 0x7f08030c

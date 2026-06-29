@@ -59,22 +59,23 @@ class AdminProfileActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             showLogoutOverlay()
         }
-
-        binding.btnCancelLogout.setOnClickListener {
-            hideLogoutOverlay()
-        }
-
-        binding.btnConfirmLogout.setOnClickListener {
-            logout()
-        }
     }
 
     private fun showLogoutOverlay() {
-        binding.clOverlay.visibility = View.VISIBLE
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Cerrar Sesión?",
+            message = "¿Estás seguro de que deseas salir del panel de administración?",
+            type = com.classdrop.utils.AlertUtils.AlertType.ERROR,
+            primaryButtonText = "Salir",
+            secondaryButtonText = "Cancelar",
+            showIcon = false,
+            onPrimaryClick = { logout() }
+        )
     }
 
     private fun hideLogoutOverlay() {
-        binding.clOverlay.visibility = View.GONE
+        // No es necesario con AlertUtils
     }
 
     private fun logout() {

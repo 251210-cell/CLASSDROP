@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityReportsBinding
 import com.classdrop.model.CommentReport
 import com.classdrop.repository.ReportRepository
+import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
 
 class ReportsActivity : AppCompatActivity() {
@@ -66,62 +67,42 @@ class ReportsActivity : AppCompatActivity() {
     }
 
     private fun showKeepConfirmation(report: CommentReport) {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardConfirm.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.GONE
-
-        binding.tvConfirmTitle.text = "¿Mantener Comentario?"
-        binding.tvConfirmTitle.setTextColor(android.graphics.Color.parseColor("#8B85F5"))
-        binding.ivConfirmIcon.setImageResource(com.classdrop.R.drawable.ic_check_circle)
-        binding.ivConfirmIcon.imageTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#8B85F5"))
-        binding.vConfirmIconBg.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#8B85F5"))
-        binding.tvConfirmMessage.text = "¿Estás seguro de que este comentario es apto para la plataforma?"
-        binding.btnConfirmAction.text = "Mantener"
-        binding.btnConfirmAction.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#6366F1"))
-
-        binding.btnConfirmAction.setOnClickListener {
-            com.classdrop.repository.ReportRepository.keepComment(report)
-            binding.cardConfirm.visibility = android.view.View.GONE
-            binding.tvSuccessTitle.text = "Comentario mantenido"
-            binding.cardSuccess.visibility = android.view.View.VISIBLE
-            
-            binding.btnSuccessDone.setOnClickListener {
-                binding.clOverlay.visibility = android.view.View.GONE
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Mantener Comentario?",
+            message = "¿Estás seguro de que este comentario es apto para la plataforma?",
+            type = AlertUtils.AlertType.CONFIRMATION,
+            primaryButtonText = "Mantener",
+            secondaryButtonText = "Cancelar",
+            onPrimaryClick = {
+                com.classdrop.repository.ReportRepository.keepComment(report)
+                showActionSuccess("Comentario mantenido")
             }
-        }
-
-        binding.btnCancelAction.setOnClickListener {
-            binding.clOverlay.visibility = android.view.View.GONE
-        }
+        )
     }
 
     private fun showRemoveConfirmation(report: CommentReport) {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardConfirm.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.GONE
-
-        binding.tvConfirmTitle.text = "¿Eliminar Comentario?"
-        binding.tvConfirmTitle.setTextColor(android.graphics.Color.parseColor("#EF4444"))
-        binding.ivConfirmIcon.setImageResource(com.classdrop.R.drawable.ic_delete)
-        binding.ivConfirmIcon.imageTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
-        binding.vConfirmIconBg.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
-        binding.tvConfirmMessage.text = "¿Deseas eliminar este comentario? Se le notificará al usuario que su contenido no es apto."
-        binding.btnConfirmAction.text = "Eliminar"
-        binding.btnConfirmAction.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
-
-        binding.btnConfirmAction.setOnClickListener {
-            com.classdrop.repository.ReportRepository.removeComment(report)
-            binding.cardConfirm.visibility = android.view.View.GONE
-            binding.tvSuccessTitle.text = "Comentario eliminado"
-            binding.cardSuccess.visibility = android.view.View.VISIBLE
-            
-            binding.btnSuccessDone.setOnClickListener {
-                binding.clOverlay.visibility = android.view.View.GONE
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Eliminar Comentario?",
+            message = "¿Deseas eliminar este comentario? Se le notificará al usuario que su contenido no es apto.",
+            type = AlertUtils.AlertType.ERROR,
+            primaryButtonText = "Eliminar",
+            secondaryButtonText = "Cancelar",
+            onPrimaryClick = {
+                com.classdrop.repository.ReportRepository.removeComment(report)
+                showActionSuccess("Comentario eliminado")
             }
-        }
+        )
+    }
 
-        binding.btnCancelAction.setOnClickListener {
-            binding.clOverlay.visibility = android.view.View.GONE
-        }
+    private fun showActionSuccess(message: String) {
+        AlertUtils.showCustomAlert(
+            context = this,
+            title = "Éxito",
+            message = message,
+            type = AlertUtils.AlertType.SUCCESS,
+            primaryButtonText = "Entendido"
+        )
     }
 }
