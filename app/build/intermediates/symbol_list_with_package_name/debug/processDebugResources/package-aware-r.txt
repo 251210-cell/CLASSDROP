@@ -3318,6 +3318,7 @@ id btnRegister
 id btnReject
 id btnRemove
 id btnResetPassword
+id btnReviewRules
 id btnSave
 id btnSaveEdit
 id btnSelectMateria
@@ -3327,9 +3328,12 @@ id btnSendComment
 id btnSuccessDone
 id btnSupport
 id btnTogglePassword
+id btnUnderstood
 id btnUpdatePassword
 id btnUpload
+id btnUploadAnother
 id btnViewDetails
+id btnViewPublication
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3469,6 +3473,7 @@ id fitXY
 id fixed
 id flip
 id floating
+id footerText
 id forever
 id formCard
 id fragmentContainer
@@ -3484,6 +3489,7 @@ id graph_wrap
 id group_divider
 id grouping
 id groups
+id header
 id headerLayout
 id header_title
 id hide_ime_id
@@ -4080,6 +4086,8 @@ layout activity_comments
 layout activity_community_rules
 layout activity_create_subject
 layout activity_file_detail
+layout activity_file_rejected
+layout activity_file_success
 layout activity_forgot_password
 layout activity_login
 layout activity_main

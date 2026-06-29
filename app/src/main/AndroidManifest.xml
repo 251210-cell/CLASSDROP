@@ -35,7 +35,10 @@
         <activity android:name=".ui.files.UploadUrlActivity" />
         <activity android:name=".ui.files.FileDetailActivity" />
         <activity android:name=".ui.files.FileStatusActivity" />
+        <activity android:name=".ui.files.FileSuccessActivity" />
+        <activity android:name=".ui.files.FileRejectedActivity" />
         <activity android:name=".ui.comments.CommentsActivity" />
+        <activity android:name=".ui.notifications.NotificationsActivity" />
         <activity android:name=".ui.admin.AdminHomeActivity" />
         <activity android:name=".ui.admin.ModerationActivity" />
         <activity android:name=".ui.admin.ReportsActivity" />

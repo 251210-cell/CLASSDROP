@@ -52,7 +52,10 @@
         <activity android:name="com.classdrop.ui.files.UploadUrlActivity" />
         <activity android:name="com.classdrop.ui.files.FileDetailActivity" />
         <activity android:name="com.classdrop.ui.files.FileStatusActivity" />
+        <activity android:name="com.classdrop.ui.files.FileSuccessActivity" />
+        <activity android:name="com.classdrop.ui.files.FileRejectedActivity" />
         <activity android:name="com.classdrop.ui.comments.CommentsActivity" />
+        <activity android:name="com.classdrop.ui.notifications.NotificationsActivity" />
         <activity android:name="com.classdrop.ui.admin.AdminHomeActivity" />
         <activity android:name="com.classdrop.ui.admin.ModerationActivity" />
         <activity android:name="com.classdrop.ui.admin.ReportsActivity" />

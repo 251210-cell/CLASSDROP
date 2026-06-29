@@ -4,11 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityPrivacyPolicyBinding
 import com.classdrop.repository.NormsRepository
 import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.PrivacyViewModel
 
 class PrivacyPolicyActivity : AppCompatActivity() {
 
@@ -16,6 +18,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var normsRepository: NormsRepository
     private lateinit var adapter: UserNormsAdapter
+    private val viewModel: PrivacyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +30,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
         setupHeader()
         setupRecyclerView()
-        loadPrivacyData()
+        setupViewModel()
         setupListeners()
         
         binding.btnBack.setOnClickListener {
@@ -67,11 +70,16 @@ class PrivacyPolicyActivity : AppCompatActivity() {
         binding.tvAvatarInitials.text = initials
     }
 
-    private fun loadPrivacyData() {
+    private fun setupViewModel() {
+        // Observar el encabezado de privacidad
         binding.tvPrivacyHeaderDesc.text = normsRepository.getPrivacyHeader()
-        val rules = normsRepository.getPrivacyRules()
-        if (rules.isNotEmpty()) {
-            adapter.updateData(rules)
+
+        // Observar las reglas de privacidad desde el ViewModel (Room Database)
+        // Esto asegura que los cambios hechos por el admin se reflejen aquí
+        viewModel.privacyRules.observe(this) { rules ->
+            if (rules.isNotEmpty()) {
+                adapter.updateData(rules)
+            }
         }
     }
 }
