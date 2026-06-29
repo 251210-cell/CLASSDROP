@@ -3006,6 +3006,7 @@ drawable bg_circle_primary
 drawable bg_dashed_upload
 drawable bg_input_pill
 drawable bg_input_rounded
+drawable bg_notification_dot
 drawable bg_purple_glow
 drawable bg_quarter_selected
 drawable bg_rounded_square_primary
@@ -3950,6 +3951,8 @@ id useLogo
 id vConfirmIconBg
 id vIconBg
 id vertical_only
+id viewNotificationDot
+id viewNotificationDotAdmin
 id viewPager
 id viewUnreadIndicator
 id view_offset_helper

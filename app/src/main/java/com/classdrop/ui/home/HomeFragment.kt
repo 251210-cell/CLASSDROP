@@ -50,7 +50,10 @@ class HomeFragment : Fragment() {
             // UI para Admin
             binding.adminBannerCard.visibility = View.VISIBLE
             binding.adminToolsLayout.visibility = View.VISIBLE
+            // En HomeFragment (Estudiante view), ivNotification está dentro de un FrameLayout ahora.
+            // Pero si es Admin, el HomeFragment oculta cosas de Estudiante.
             binding.ivNotification.visibility = View.GONE
+            binding.viewNotificationDot.visibility = View.GONE
             
             binding.saludoLayout.visibility = View.GONE
             binding.novedadesHeader.visibility = View.GONE
@@ -93,6 +96,7 @@ class HomeFragment : Fragment() {
 
         // Al hacer clic en la campana de notificaciones
         binding.ivNotification.setOnClickListener {
+            binding.viewNotificationDot.visibility = View.GONE
             startActivity(Intent(requireContext(), NotificationsActivity::class.java))
         }
 

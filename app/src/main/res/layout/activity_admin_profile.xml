@@ -187,7 +187,7 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
                         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_file_doc" app:tint="@color/primary" />
                         <TextView android:id="@+id/tvModeratedCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="156" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Archivos\nModerados" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total de\nArchivos" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -203,7 +203,7 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
                         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_status_shield" app:tint="#F43F5E" />
                         <TextView android:id="@+id/tvReportsResolved" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="42" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reportes\nResueltos" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total de\nReportes" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>

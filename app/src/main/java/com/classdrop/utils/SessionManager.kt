@@ -48,6 +48,13 @@ class SessionManager(context: Context) {
         prefs.edit().clear().apply()
     }
 
+    fun clearSessionData() {
+        prefs.edit()
+            .remove("auth_token")
+            .remove("user_role")
+            .apply()
+    }
+
     // --- FAVORITOS SYNC ---
     fun toggleFavorite(postId: String) {
         val favorites = fetchFavorites().toMutableSet()

@@ -110,6 +110,11 @@ class ProfileFragment : Fragment() {
         binding.tvHelpDescription.setOnClickListener {
             sendEmail()
         }
+
+        binding.ivNotification.setOnClickListener {
+            binding.viewNotificationDot.visibility = View.GONE
+            startActivity(Intent(requireContext(), com.classdrop.ui.notifications.NotificationsActivity::class.java))
+        }
     }
 
     private fun showLogoutConfirmation() {
@@ -122,7 +127,7 @@ class ProfileFragment : Fragment() {
             secondaryButtonText = "Cancelar",
             showIcon = false,
             onPrimaryClick = {
-                sessionManager.clearSession()
+                sessionManager.clearSessionData()
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)

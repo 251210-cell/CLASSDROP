@@ -93,6 +93,9 @@ public final class FragmentProfileBinding implements ViewBinding {
   @NonNull
   public final TextView tvUserName;
 
+  @NonNull
+  public final View viewNotificationDot;
+
   private FragmentProfileBinding(@NonNull NestedScrollView rootView,
       @NonNull MaterialButton btnLogout, @NonNull LinearLayout btnNorms,
       @NonNull LinearLayout btnPrivacy, @NonNull MaterialCardView cardDownloads,
@@ -105,7 +108,7 @@ public final class FragmentProfileBinding implements ViewBinding {
       @NonNull TextView tvSeeMoreDownloads, @NonNull TextView tvSeeMoreFavorites,
       @NonNull TextView tvSeeMoreUploads, @NonNull TextView tvUserCareer,
       @NonNull TextView tvUserInfoEmail, @NonNull TextView tvUserInfoName,
-      @NonNull TextView tvUserName) {
+      @NonNull TextView tvUserName, @NonNull View viewNotificationDot) {
     this.rootView = rootView;
     this.btnLogout = btnLogout;
     this.btnNorms = btnNorms;
@@ -130,6 +133,7 @@ public final class FragmentProfileBinding implements ViewBinding {
     this.tvUserInfoEmail = tvUserInfoEmail;
     this.tvUserInfoName = tvUserInfoName;
     this.tvUserName = tvUserName;
+    this.viewNotificationDot = viewNotificationDot;
   }
 
   @Override
@@ -293,11 +297,18 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.viewNotificationDot;
+      View viewNotificationDot = ViewBindings.findChildViewById(rootView, id);
+      if (viewNotificationDot == null) {
+        break missingId;
+      }
+
       return new FragmentProfileBinding((NestedScrollView) rootView, btnLogout, btnNorms,
           btnPrivacy, cardDownloads, cardFavorites, cardUploads, ivHelpIcon, ivNotification,
           scrollViewProfile, titleDownloads, titleFavorites, titleRules, titleUploads,
           tvAvatarInitials, tvHelpDescription, tvHelpTitle, tvSeeMoreDownloads, tvSeeMoreFavorites,
-          tvSeeMoreUploads, tvUserCareer, tvUserInfoEmail, tvUserInfoName, tvUserName);
+          tvSeeMoreUploads, tvUserCareer, tvUserInfoEmail, tvUserInfoName, tvUserName,
+          viewNotificationDot);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

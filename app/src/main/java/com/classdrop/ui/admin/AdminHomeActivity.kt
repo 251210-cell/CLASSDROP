@@ -46,6 +46,7 @@ class AdminHomeActivity : AppCompatActivity() {
         }
 
         binding.ivNotificationAdmin.setOnClickListener {
+            binding.viewNotificationDotAdmin.visibility = android.view.View.GONE
             val intent = Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java)
             startActivity(intent)
         }

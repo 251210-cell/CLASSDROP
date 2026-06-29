@@ -61,6 +61,11 @@ class ExploreFragment : Fragment() {
         binding.tvAvatarInitials.setOnClickListener {
             (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
         }
+
+        binding.ivNotification.setOnClickListener {
+            binding.viewNotificationDot.visibility = View.GONE
+            startActivity(Intent(requireContext(), com.classdrop.ui.notifications.NotificationsActivity::class.java))
+        }
     }
 
     private fun setupSuggestions() {

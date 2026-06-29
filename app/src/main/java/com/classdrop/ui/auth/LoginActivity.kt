@@ -90,7 +90,17 @@ class LoginActivity : AppCompatActivity() {
                     val role = user?.role ?: UserRole.STUDENT
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
                     sessionManager.saveUserRole(role)
-                    sessionManager.saveUserName(user?.name ?: "Usuario")
+                    
+                    // Preservar el nombre del registro si el servidor devuelve uno genérico
+                    val serverName = user?.name ?: "Usuario"
+                    val savedName = sessionManager.fetchUserName()
+                    val finalName = if ((serverName == "Estudiante" || serverName == "Administrador") && savedName != "Usuario") {
+                        savedName
+                    } else {
+                        serverName
+                    }
+                    
+                    sessionManager.saveUserName(finalName)
                     sessionManager.saveUserEmail(user?.email ?: "")
                     
                     com.classdrop.utils.AlertUtils.showCustomAlert(
