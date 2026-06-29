@@ -104,6 +104,7 @@ id btnConfirmDelete
 id btnConfirmLogout
 id btnContactSupport
 id btnDelete
+id btnDislike
 id btnDislikeElena
 id btnDislikeMarco
 id btnEdit
@@ -119,6 +120,7 @@ id btnIcon4
 id btnIcon5
 id btnIcon6
 id btnKeep
+id btnLike
 id btnLikeElena
 id btnLikeMarco
 id btnLogin
@@ -205,6 +207,7 @@ id includeBottomNav
 id ivBookmarkIconDetail
 id ivCommentIcon
 id ivConfirmIcon
+id ivDislike
 id ivDislikeElena
 id ivDislikeIcon
 id ivDislikeIconDetail
@@ -218,6 +221,7 @@ id ivFileTypeIconLarge
 id ivHelpIcon
 id ivIcon
 id ivIconContainer
+id ivLike
 id ivLikeElena
 id ivLikeIcon
 id ivLikeIconDetail
@@ -325,6 +329,7 @@ id tvHelpDescription
 id tvHelpTitle
 id tvLabelCuatrimestre
 id tvLabelStep3
+id tvLikeCount
 id tvLikeCountElena
 id tvLikeCountMarco
 id tvLikes

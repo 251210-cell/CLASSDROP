@@ -24,14 +24,74 @@ class CommentsAdapter : ListAdapter<Comment, CommentsAdapter.CommentViewHolder>(
     class CommentViewHolder(private val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
             binding.apply {
-                tvCommentUserName.text = "Usuario ${comment.userId.takeLast(4)}" // Mock user name
+                tvCommentUserName.text = "Usuario ${comment.userId.takeLast(4)}"
                 tvCommentContent.text = comment.content
                 
                 val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
                 tvCommentTime.text = sdf.format(Date(comment.timestamp))
 
-                // Asignar un color aleatorio o fijo al avatar si es necesario
                 cvCommentAvatar.setCardBackgroundColor(android.graphics.Color.parseColor("#6366F1"))
+
+                // Actualizar UI de Likes/Dislikes
+                updateLikesUI(comment)
+
+                btnLike.setOnClickListener {
+                    toggleLike(comment)
+                    updateLikesUI(comment)
+                }
+
+                btnDislike.setOnClickListener {
+                    toggleDislike(comment)
+                    updateLikesUI(comment)
+                }
+            }
+        }
+
+        private fun updateLikesUI(comment: Comment) {
+            binding.apply {
+                tvLikeCount.text = comment.likes.toString()
+                tvDislikeCount.text = comment.dislikes.toString()
+
+                val activeColor = android.graphics.Color.parseColor("#6366F1") // Primary
+                val inactiveColor = android.graphics.Color.parseColor("#94A3B8") // Slate 400
+
+                ivLike.imageTintList = android.content.res.ColorStateList.valueOf(
+                    if (comment.isLiked) activeColor else inactiveColor
+                )
+                tvLikeCount.setTextColor(if (comment.isLiked) activeColor else inactiveColor)
+
+                ivDislike.imageTintList = android.content.res.ColorStateList.valueOf(
+                    if (comment.isDisliked) activeColor else inactiveColor
+                )
+                tvDislikeCount.setTextColor(if (comment.isDisliked) activeColor else inactiveColor)
+            }
+        }
+
+        private fun toggleLike(comment: Comment) {
+            if (comment.isLiked) {
+                comment.isLiked = false
+                comment.likes--
+            } else {
+                comment.isLiked = true
+                comment.likes++
+                if (comment.isDisliked) {
+                    comment.isDisliked = false
+                    comment.dislikes--
+                }
+            }
+        }
+
+        private fun toggleDislike(comment: Comment) {
+            if (comment.isDisliked) {
+                comment.isDisliked = false
+                comment.dislikes--
+            } else {
+                comment.isDisliked = true
+                comment.dislikes++
+                if (comment.isLiked) {
+                    comment.isLiked = false
+                    comment.likes--
+                }
             }
         }
     }

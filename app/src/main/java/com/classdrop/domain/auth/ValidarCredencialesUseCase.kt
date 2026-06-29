@@ -25,8 +25,11 @@ class ValidarCredencialesUseCase {
         if (password.isBlank()) {
             return Resultado.Invalido("La contraseña no puede estar vacía")
         }
-        if (password.length < 6) {
-            return Resultado.Invalido("La contraseña debe tener al menos 6 caracteres")
+        if (password.length < 8 || password.length > 20) {
+            return Resultado.Invalido("La contraseña debe tener entre 8 y 20 caracteres")
+        }
+        if (!password.all { it.isLetterOrDigit() }) {
+            return Resultado.Invalido("La contraseña no debe contener símbolos ni caracteres especiales")
         }
         return Resultado.Valido
     }

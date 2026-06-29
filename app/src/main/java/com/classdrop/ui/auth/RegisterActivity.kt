@@ -31,15 +31,16 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString()
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                android.widget.Toast.makeText(this, "Por favor completa todos los campos", android.widget.Toast.LENGTH_SHORT).show()
+            val validator = com.classdrop.domain.auth.ValidarCredencialesUseCase()
+            val validationResult = validator(email, password)
+
+            if (name.isEmpty()) {
+                android.widget.Toast.makeText(this, "Por favor ingresa tu nombre", android.widget.Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Validar dominios permitidos
-            val allowedDomains = listOf("@it2id.upchiapas.edu.mx", "@ids.upchiapas.edu.mx", "@classdrop.com")
-            if (allowedDomains.none { email.endsWith(it, ignoreCase = true) }) {
-                android.widget.Toast.makeText(this, "El dominio del correo no está autorizado", android.widget.Toast.LENGTH_SHORT).show()
+            if (validationResult is com.classdrop.domain.auth.ValidarCredencialesUseCase.Resultado.Invalido) {
+                android.widget.Toast.makeText(this, validationResult.mensaje, android.widget.Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

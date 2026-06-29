@@ -3275,6 +3275,7 @@ int id btnConfirmDelete 0x7f080071
 int id btnConfirmLogout 0x7f080072
 int id btnContactSupport 0x7f080073
 int id btnDelete 0x7f080074
+int id btnDislike 0x7f080321
 int id btnDislikeElena 0x7f080075
 int id btnDislikeMarco 0x7f080076
 int id btnEdit 0x7f080077
@@ -3290,6 +3291,7 @@ int id btnIcon4 0x7f080080
 int id btnIcon5 0x7f080081
 int id btnIcon6 0x7f080082
 int id btnKeep 0x7f080088
+int id btnLike 0x7f080322
 int id btnLikeElena 0x7f080089
 int id btnLikeMarco 0x7f08008a
 int id btnLogin 0x7f08008b
@@ -3507,6 +3509,7 @@ int id item_touch_helper_previous_elevation 0x7f08015f
 int id ivBookmarkIconDetail 0x7f080160
 int id ivCommentIcon 0x7f080161
 int id ivConfirmIcon 0x7f080162
+int id ivDislike 0x7f080323
 int id ivDislikeElena 0x7f080163
 int id ivDislikeIcon 0x7f080164
 int id ivDislikeIconDetail 0x7f080165
@@ -3520,6 +3523,7 @@ int id ivFileTypeIconLarge 0x7f08016c
 int id ivHelpIcon 0x7f08016d
 int id ivIcon 0x7f08016e
 int id ivIconContainer 0x7f08016f
+int id ivLike 0x7f080324
 int id ivLikeElena 0x7f080170
 int id ivLikeIcon 0x7f080171
 int id ivLikeIconDetail 0x7f080172
@@ -3869,6 +3873,7 @@ int id tvHelpDescription 0x7f0802c9
 int id tvHelpTitle 0x7f0802ca
 int id tvLabelCuatrimestre 0x7f0802cb
 int id tvLabelStep3 0x7f0802cc
+int id tvLikeCount 0x7f080325
 int id tvLikeCountElena 0x7f0802cd
 int id tvLikeCountMarco 0x7f0802ce
 int id tvLikes 0x7f0802cf
