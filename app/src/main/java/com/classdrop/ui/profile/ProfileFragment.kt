@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.classdrop.databinding.FragmentProfileBinding
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ProfileFragment : Fragment() {
 
@@ -116,17 +113,21 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showLogoutConfirmation() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Cerrar sesión")
-            .setMessage("¿Estás seguro de que deseas salir de ClassDrop?")
-            .setPositiveButton("Cerrar sesión") { _, _ ->
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = requireContext(),
+            title = "Cerrar sesión",
+            message = "¿Estás seguro de que deseas salir de ClassDrop?",
+            type = com.classdrop.utils.AlertUtils.AlertType.WARNING,
+            primaryButtonText = "Cerrar sesión",
+            secondaryButtonText = "Cancelar",
+            showIcon = false,
+            onPrimaryClick = {
                 sessionManager.clearSession()
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        )
     }
 
     private fun sendEmail() {
@@ -138,7 +139,12 @@ class ProfileFragment : Fragment() {
         try {
             startActivity(Intent.createChooser(intent, "Enviar correo con..."))
         } catch (e: Exception) {
-            Toast.makeText(context, "No se encontró una aplicación de correo", Toast.LENGTH_SHORT).show()
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = requireContext(),
+                title = "Error",
+                message = "No se encontró una aplicación de correo en este dispositivo",
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+            )
         }
     }
 

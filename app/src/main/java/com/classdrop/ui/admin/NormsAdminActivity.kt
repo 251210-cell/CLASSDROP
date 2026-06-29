@@ -87,18 +87,6 @@ class NormsAdminActivity : AppCompatActivity() {
             saveRule()
         }
 
-        binding.btnSuccessDone.setOnClickListener {
-            hideOverlay()
-        }
-
-        binding.btnErrorRetry.setOnClickListener {
-            if (binding.tvErrorTitle.text == "Error de Contacto") {
-                hideOverlay()
-            } else {
-                showEditForm()
-            }
-        }
-
         binding.btnSupport.setOnClickListener {
             contactSupport()
         }
@@ -124,9 +112,13 @@ class NormsAdminActivity : AppCompatActivity() {
                 adapter.updateData(rulesList.toList())
                 sendUpdateNotification("Una norma ha sido eliminada: ${rule.title}")
                 
-                binding.tvSuccessTitle.text = "¡Norma Eliminada!"
-                binding.tvSuccessMessage.text = "La norma ha sido eliminada permanentemente y se ha notificado a los usuarios."
-                showSuccess()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "¡Norma Eliminada!",
+                    message = "La norma ha sido eliminada permanentemente y se ha notificado a los usuarios.",
+                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                    onPrimaryClick = { hideOverlay() }
+                )
             }
         }
 
@@ -144,23 +136,38 @@ class NormsAdminActivity : AppCompatActivity() {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            // No hay apps de correo, se muestra el overlay de error con mensaje personalizado
-            binding.tvErrorTitle.text = "Error de Contacto"
-            binding.tvErrorMessage.text = "No se encontró una aplicación de correo instalada para realizar esta acción."
-            binding.btnErrorRetry.text = "Entendido"
-            binding.btnErrorRetry.setOnClickListener { hideOverlay() }
-            showError()
-            binding.clEditOverlay.visibility = View.VISIBLE
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "Error de Contacto",
+                message = "No se encontró una aplicación de correo instalada para realizar esta acción.",
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+            )
         }
     }
 
     private fun confirmDeletion(rule: CommunityRule) {
         selectedRule = rule
-        binding.cardEditForm.visibility = View.GONE
-        binding.cardSuccess.visibility = View.GONE
-        binding.cardError.visibility = View.GONE
-        binding.cardDeleteConfirm.visibility = View.VISIBLE
-        binding.clEditOverlay.visibility = View.VISIBLE
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Eliminar Norma?",
+            message = "¿Estás seguro de que deseas eliminar permanentemente la norma: ${rule.title}?",
+            type = com.classdrop.utils.AlertUtils.AlertType.ERROR,
+            primaryButtonText = "Eliminar",
+            secondaryButtonText = "Cancelar",
+            onPrimaryClick = {
+                rulesList.remove(rule)
+                normsRepository.saveRules(rulesList)
+                adapter.updateData(rulesList.toList())
+                sendUpdateNotification("Una norma ha sido eliminada: ${rule.title}")
+                
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "¡Eliminado!",
+                    message = "La norma ha sido eliminada exitosamente.",
+                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
+                )
+            }
+        )
     }
 
     private fun showEditOverlay(rule: CommunityRule?) {
@@ -179,24 +186,7 @@ class NormsAdminActivity : AppCompatActivity() {
     }
 
     private fun showEditForm() {
-        binding.cardDeleteConfirm.visibility = View.GONE
         binding.cardEditForm.visibility = View.VISIBLE
-        binding.cardSuccess.visibility = View.GONE
-        binding.cardError.visibility = View.GONE
-    }
-
-    private fun showSuccess() {
-        binding.cardDeleteConfirm.visibility = View.GONE
-        binding.cardEditForm.visibility = View.GONE
-        binding.cardSuccess.visibility = View.VISIBLE
-        binding.cardError.visibility = View.GONE
-    }
-
-    private fun showError() {
-        binding.cardDeleteConfirm.visibility = View.GONE
-        binding.cardEditForm.visibility = View.GONE
-        binding.cardSuccess.visibility = View.GONE
-        binding.cardError.visibility = View.VISIBLE
     }
 
     private fun hideOverlay() {
@@ -209,12 +199,16 @@ class NormsAdminActivity : AppCompatActivity() {
         val description = binding.etEditRuleDescription.text.toString()
 
         if (title.isBlank() || description.isBlank()) {
-            showError()
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "Datos incompletos",
+                message = "Por favor completa todos los campos de la norma.",
+                type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+            )
             return
         }
 
-        binding.tvSuccessTitle.text = "¡Publicado con Éxito!"
-
+        val isEditing = selectedRule != null
         if (selectedRule == null) {
             val newRule = CommunityRule(
                 id = System.currentTimeMillis().toString(),
@@ -223,26 +217,30 @@ class NormsAdminActivity : AppCompatActivity() {
             )
             rulesList.add(newRule)
             normsRepository.saveRules(rulesList)
-            binding.tvSuccessMessage.text = "La nueva norma ha sido creada y los usuarios han sido notificados."
             sendUpdateNotification("Nueva norma añadida: $title")
         } else {
             if (selectedRule?.id == "sanctions") {
                 normsRepository.saveSanctions(description)
                 displaySanctions()
-                binding.tvSuccessMessage.text = "El Régimen Sancionatorio ha sido actualizado y los usuarios notificados."
             } else {
                 val index = rulesList.indexOfFirst { it.id == selectedRule?.id }
                 if (index != -1) {
                     rulesList[index] = selectedRule!!.copy(title = title, description = description)
                 }
                 normsRepository.saveRules(rulesList)
-                binding.tvSuccessMessage.text = "La norma ha sido actualizada y los usuarios han sido notificados."
             }
             sendUpdateNotification("Norma actualizada: $title")
         }
 
         adapter.updateData(rulesList.toList())
-        showSuccess()
+        
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = this,
+            title = if (isEditing) "¡Actualizado!" else "¡Publicado!",
+            message = if (isEditing) "La norma ha sido actualizada y los usuarios notificados." else "La nueva norma ha sido creada y los usuarios notificados.",
+            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+            onPrimaryClick = { hideOverlay() }
+        )
     }
 
     private fun sendUpdateNotification(message: String) {

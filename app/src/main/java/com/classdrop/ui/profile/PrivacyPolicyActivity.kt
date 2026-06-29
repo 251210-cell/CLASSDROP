@@ -48,7 +48,12 @@ class PrivacyPolicyActivity : AppCompatActivity() {
             try {
                 startActivity(Intent.createChooser(intent, "Enviar correo..."))
             } catch (e: Exception) {
-                Toast.makeText(this, "No se encontró una aplicación de correo", Toast.LENGTH_SHORT).show()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Error",
+                    message = "No se encontró una aplicación de correo en este dispositivo",
+                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                )
             }
         }
     }

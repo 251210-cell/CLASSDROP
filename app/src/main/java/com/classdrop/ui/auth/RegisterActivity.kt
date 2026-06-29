@@ -35,12 +35,22 @@ class RegisterActivity : AppCompatActivity() {
             val validationResult = validator(email, password)
 
             if (name.isEmpty()) {
-                android.widget.Toast.makeText(this, "Por favor ingresa tu nombre", android.widget.Toast.LENGTH_SHORT).show()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Campo requerido",
+                    message = "Por favor ingresa tu nombre completo",
+                    type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+                )
                 return@setOnClickListener
             }
 
             if (validationResult is com.classdrop.domain.auth.ValidarCredencialesUseCase.Resultado.Invalido) {
-                android.widget.Toast.makeText(this, validationResult.mensaje, android.widget.Toast.LENGTH_SHORT).show()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Datos inválidos",
+                    message = validationResult.mensaje,
+                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                )
                 return@setOnClickListener
             }
 
@@ -49,13 +59,18 @@ class RegisterActivity : AppCompatActivity() {
             sessionManager.saveUserName(name)
             sessionManager.saveUserEmail(email)
             
-            android.widget.Toast.makeText(this, "Registro exitoso. Por favor inicia sesión.", android.widget.Toast.LENGTH_LONG).show()
-            
-            // Redirigir al Login en lugar de entrar directamente
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "¡Registro Exitoso!",
+                message = "Tu cuenta ha sido creada. Ahora puedes iniciar sesión.",
+                type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                onPrimaryClick = {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            )
         }
 
         // Volver al Login

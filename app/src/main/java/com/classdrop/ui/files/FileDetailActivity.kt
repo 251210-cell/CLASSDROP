@@ -2,7 +2,6 @@ package com.classdrop.ui.files
 
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.viewmodel.FilesViewModel
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivityFileDetailBinding
 import com.classdrop.model.Comment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 class FileDetailActivity : AppCompatActivity() {
@@ -133,17 +131,26 @@ class FileDetailActivity : AppCompatActivity() {
         }
 
         binding.llDownloadDetail.setOnClickListener {
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Descargar archivo")
-                .setMessage("¿Deseas descargar este archivo en tu dispositivo?")
-                .setPositiveButton("Descargar") { _, _ ->
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "Descargar archivo",
+                message = "¿Deseas descargar este archivo en tu dispositivo?",
+                type = com.classdrop.utils.AlertUtils.AlertType.CONFIRMATION,
+                primaryButtonText = "Descargar",
+                secondaryButtonText = "Cancelar",
+                onPrimaryClick = {
                     isDownloaded = true
                     updateDownloadUI()
                     animateButton(binding.ivDownloadIconDetail)
-                    Toast.makeText(this, "Iniciando descarga...", Toast.LENGTH_SHORT).show()
+                    
+                    com.classdrop.utils.AlertUtils.showCustomAlert(
+                        context = this,
+                        title = "¡Descarga Exitosa!",
+                        message = "El archivo se ha descargado correctamente.",
+                        type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
+                    )
                 }
-                .setNegativeButton("Cancelar", null)
-                .show()
+            )
         }
 
         binding.btnSendComment.setOnClickListener {

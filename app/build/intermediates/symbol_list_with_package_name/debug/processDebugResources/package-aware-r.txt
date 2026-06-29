@@ -3302,6 +3302,7 @@ id btnNavNotes
 id btnNavSearch
 id btnNavUpload
 id btnNorms
+id btnPrimary
 id btnPrivacy
 id btnPublish
 id btnQ1
@@ -3321,6 +3322,7 @@ id btnResetPassword
 id btnReviewRules
 id btnSave
 id btnSaveEdit
+id btnSecondary
 id btnSelectMateria
 id btnSelectQuarter
 id btnSelectSubject
@@ -3471,6 +3473,7 @@ id fitStart
 id fitToContents
 id fitXY
 id fixed
+id flIconContainer
 id flip
 id floating
 id footerText
@@ -3513,6 +3516,7 @@ id invisible
 id inward
 id italic
 id item_touch_helper_previous_elevation
+id ivAlertIcon
 id ivBookmarkIconDetail
 id ivCommentIcon
 id ivConfirmIcon
@@ -3841,6 +3845,8 @@ id transition_transform
 id triangle
 id tvAdminEmail
 id tvAdminName
+id tvAlertMessage
+id tvAlertTitle
 id tvAvatarInitials
 id tvAvatarLarge
 id tvBookmarkLabel
@@ -3944,6 +3950,7 @@ id uploadAreaFile
 id uploadAreaUrl
 id useLogo
 id vConfirmIconBg
+id vIconBg
 id vertical_only
 id viewPager
 id viewUnreadIndicator
@@ -4120,6 +4127,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_custom_alert
 layout fragment_explore
 layout fragment_file_status
 layout fragment_home

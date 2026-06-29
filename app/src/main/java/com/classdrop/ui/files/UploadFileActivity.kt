@@ -6,9 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -35,7 +33,12 @@ class UploadFileActivity : AppCompatActivity() {
         if (granted) {
             openFilePicker()
         } else {
-            Toast.makeText(this, "Se requieren permisos para subir archivos", Toast.LENGTH_SHORT).show()
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "Permisos Requeridos",
+                message = "Se requieren permisos para acceder a tus archivos y poder subirlos.",
+                type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+            )
         }
     }
 
@@ -135,17 +138,26 @@ class UploadFileActivity : AppCompatActivity() {
             putExtra("FILE_SIZE", if (action == "Archivo") (selectedFileSize ?: "2.4 MB") else "Enlace Externo")
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
-        Toast.makeText(this, "¡Publicación exitosa!", Toast.LENGTH_SHORT).show()
-        startActivity(intent)
-        finish()
+        
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = this,
+            title = "¡Publicación Exitosa!",
+            message = "Tu $action se ha guardado correctamente.",
+            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+            onPrimaryClick = {
+                startActivity(intent)
+                finish()
+            }
+        )
     }
 
     private fun showAlert(title: String, message: String) {
-        AlertDialog.Builder(this)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("Entendido", null)
-            .show()
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = this,
+            title = title,
+            message = message,
+            type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+        )
     }
 
     private fun setupHeader() {

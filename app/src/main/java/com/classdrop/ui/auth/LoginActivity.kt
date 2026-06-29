@@ -70,7 +70,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.validationError.observe(this) { error ->
-            error?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
+            error?.let {
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Error de validación",
+                    message = it,
+                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                )
+            }
         }
 
         viewModel.loginState.observe(this) { result ->
@@ -85,11 +92,23 @@ class LoginActivity : AppCompatActivity() {
                     sessionManager.saveUserRole(role)
                     sessionManager.saveUserName(user?.name ?: "Usuario")
                     sessionManager.saveUserEmail(user?.email ?: "")
-                    navigateByRole(role)
+                    
+                    com.classdrop.utils.AlertUtils.showCustomAlert(
+                        context = this,
+                        title = "¡Bienvenido!",
+                        message = "Sesión iniciada correctamente",
+                        type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                        onPrimaryClick = { navigateByRole(role) }
+                    )
                 }
                 is NetworkResult.Error -> {
                     setLoading(false)
-                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                    com.classdrop.utils.AlertUtils.showCustomAlert(
+                        context = this,
+                        title = "Error de inicio de sesión",
+                        message = result.message ?: "Credenciales incorrectas",
+                        type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                    )
                 }
             }
         }

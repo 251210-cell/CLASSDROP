@@ -153,6 +153,10 @@ class FileStatusFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.tvAvatarInitials.setOnClickListener {
+            (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
+        }
+
         binding.tvReadRules.setOnClickListener {
             startActivity(Intent(requireContext(), CommunityRulesActivity::class.java))
         }

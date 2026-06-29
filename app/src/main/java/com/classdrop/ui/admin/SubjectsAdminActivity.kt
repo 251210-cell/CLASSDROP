@@ -90,56 +90,27 @@ class SubjectsAdminActivity : AppCompatActivity() {
     }
 
     private fun showDeleteConfirmation(subject: Subject) {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardDeleteConfirm.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.GONE
-        
-        binding.tvDeleteTitle.text = "¿Eliminar ${subject.name}?"
-        
-        // Animation
-        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
-        binding.cardDeleteConfirm.startAnimation(animation)
-
-        binding.btnConfirmDelete.setOnClickListener {
-            viewModel.deleteSubject(subject)
-            showDeleteSuccess()
-        }
-        
-        binding.btnCancelDelete.setOnClickListener {
-            hideOverlay()
-        }
-    }
-
-    private fun showDeleteSuccess() {
-        binding.cardDeleteConfirm.visibility = android.view.View.GONE
-        binding.cardSuccess.visibility = android.view.View.VISIBLE
-        
-        // Animation
-        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
-        binding.cardSuccess.startAnimation(animation)
-
-        binding.btnSuccessDone.setOnClickListener {
-            hideOverlay()
-        }
+        com.classdrop.utils.AlertUtils.showCustomAlert(
+            context = this,
+            title = "¿Eliminar ${subject.name}?",
+            message = "Esta acción no se puede deshacer. Todos los archivos asociados podrían verse afectados.",
+            type = com.classdrop.utils.AlertUtils.AlertType.ERROR,
+            primaryButtonText = "Eliminar",
+            secondaryButtonText = "Cancelar",
+            onPrimaryClick = {
+                viewModel.deleteSubject(subject)
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "¡Eliminado!",
+                    message = "La materia se ha eliminado exitosamente.",
+                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
+                )
+            }
+        )
     }
 
     private fun hideOverlay() {
-        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_out_down)
-        animation.setAnimationListener(object : android.view.animation.Animation.AnimationListener {
-            override fun onAnimationStart(animation: android.view.animation.Animation?) {}
-            override fun onAnimationEnd(animation: android.view.animation.Animation?) {
-                binding.clOverlay.visibility = android.view.View.GONE
-            }
-            override fun onAnimationRepeat(animation: android.view.animation.Animation?) {}
-        })
-
-        if (binding.cardDeleteConfirm.visibility == android.view.View.VISIBLE) {
-            binding.cardDeleteConfirm.startAnimation(animation)
-        } else if (binding.cardSuccess.visibility == android.view.View.VISIBLE) {
-            binding.cardSuccess.startAnimation(animation)
-        } else {
-            binding.clOverlay.visibility = android.view.View.GONE
-        }
+        // Ya no es necesario con el nuevo sistema de alertas
     }
 
     private fun setupViewModel() {

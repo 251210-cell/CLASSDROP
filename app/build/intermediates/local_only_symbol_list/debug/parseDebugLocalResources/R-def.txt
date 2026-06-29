@@ -130,6 +130,7 @@ id btnNavNotes
 id btnNavSearch
 id btnNavUpload
 id btnNorms
+id btnPrimary
 id btnPrivacy
 id btnPublish
 id btnQ1
@@ -149,6 +150,7 @@ id btnResetPassword
 id btnReviewRules
 id btnSave
 id btnSaveEdit
+id btnSecondary
 id btnSelectMateria
 id btnSelectQuarter
 id btnSelectSubject
@@ -204,12 +206,14 @@ id etSubjectName
 id etTitle
 id etUrl
 id fabAddSubject
+id flIconContainer
 id footerText
 id formCard
 id fragmentContainer
 id header
 id headerLayout
 id includeBottomNav
+id ivAlertIcon
 id ivBookmarkIconDetail
 id ivCommentIcon
 id ivConfirmIcon
@@ -296,6 +300,8 @@ id titleUploads
 id toolbar
 id tvAdminEmail
 id tvAdminName
+id tvAlertMessage
+id tvAlertTitle
 id tvAvatarInitials
 id tvAvatarLarge
 id tvBookmarkLabel
@@ -394,6 +400,7 @@ id tvUserName
 id uploadAreaFile
 id uploadAreaUrl
 id vConfirmIconBg
+id vIconBg
 id viewPager
 id viewUnreadIndicator
 layout activity_admin_home
@@ -422,6 +429,7 @@ layout activity_splash
 layout activity_subject_detail
 layout activity_subjects_admin
 layout activity_upload
+layout dialog_custom_alert
 layout fragment_explore
 layout fragment_file_status
 layout fragment_home

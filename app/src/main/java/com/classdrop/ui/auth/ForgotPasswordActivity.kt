@@ -23,14 +23,25 @@ class ForgotPasswordActivity : AppCompatActivity() {
             val email = binding.etEmail.text.toString()
             if (email.isNotEmpty()) {
                 // Simulamos el envío y pasamos a la siguiente pantalla interna
-                Toast.makeText(this, "Código enviado a $email", Toast.LENGTH_SHORT).show()
-                
-                val intent = Intent(this, ResetPasswordActivity::class.java)
-                intent.putExtra("USER_EMAIL", email)
-                startActivity(intent)
-                finish() // Cerramos esta para que no regrese aquí al dar atrás
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Código Enviado",
+                    message = "Se ha enviado un código de verificación a $email",
+                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                    onPrimaryClick = {
+                        val intent = Intent(this, ResetPasswordActivity::class.java)
+                        intent.putExtra("USER_EMAIL", email)
+                        startActivity(intent)
+                        finish()
+                    }
+                )
             } else {
-                Toast.makeText(this, "Por favor, ingresa tu correo institucional", Toast.LENGTH_SHORT).show()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Campo Requerido",
+                    message = "Por favor, ingresa tu correo institucional",
+                    type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+                )
             }
         }
     }

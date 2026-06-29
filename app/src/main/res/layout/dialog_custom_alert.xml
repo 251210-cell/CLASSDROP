@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="28dp"
+    app:cardElevation="8dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <FrameLayout
+            android:id="@+id/flIconContainer"
+            android:layout_width="56dp"
+            android:layout_height="56dp">
+            <View
+                android:id="@+id/vIconBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_input_pill"
+                android:backgroundTint="@color/primary"
+                android:alpha="0.15" />
+            <ImageView
+                android:id="@+id/ivAlertIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_check_circle"
+                app:tint="@color/primary" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvAlertTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-black"
+            android:text="¡Éxito!"
+            android:textColor="@color/primary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvAlertMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="La operación se realizó correctamente."
+            android:textColor="@color/on_background"
+            android:alpha="0.7"
+            android:textSize="13sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/primary"
+            android:text="Continuar"
+            android:textAllCaps="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:cornerRadius="14dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSecondary"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:text="Cancelar"
+            android:textAllCaps="false"
+            android:textColor="@color/on_background"
+            android:alpha="0.6"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

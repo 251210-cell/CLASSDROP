@@ -260,28 +260,10 @@
                 android:orientation="vertical"
                 android:padding="32dp">
 
-                <FrameLayout
-                    android:layout_width="64dp"
-                    android:layout_height="64dp">
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0.2"
-                        android:background="@drawable/bg_input_pill"
-                        android:backgroundTint="#EF4444" />
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_logout"
-                        app:tint="#EF4444" />
-                </FrameLayout>
-
                 <TextView
                     android:id="@+id/tvLogoutTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:fontFamily="sans-serif-black"
                     android:text="¿Cerrar Sesión?"
                     android:textColor="#EF4444"

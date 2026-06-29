@@ -105,13 +105,19 @@ class CreateSubjectActivity : AppCompatActivity() {
             val name = binding.etSubjectName.text.toString().trim()
             
             if (name.isEmpty() || selectedQuarter == null) {
-                showErrorOverlay()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Faltan datos",
+                    message = "Por favor ingresa el nombre de la materia y selecciona un cuatrimestre.",
+                    type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+                )
                 return@setOnClickListener
             }
 
             try {
                 lifecycleScope.launch {
-                    if (subjectToEdit == null) {
+                    val isEditing = subjectToEdit != null
+                    if (!isEditing) {
                         // Crear nueva materia
                         val newSubject = Subject(
                             id = System.currentTimeMillis().toString(),
@@ -119,7 +125,7 @@ class CreateSubjectActivity : AppCompatActivity() {
                             fileCount = 0,
                             iconRes = selectedIconRes,
                             iconBgColor = selectedBgColor,
-                            iconTintColor = "#6366F1", // Valor base para tint, el adaptador debe manejar el modo oscuro
+                            iconTintColor = "#6366F1", 
                             cuatrimestre = "$selectedQuarter Cuatrimestre"
                         )
                         subjectRepository.addSubject(newSubject)
@@ -133,56 +139,23 @@ class CreateSubjectActivity : AppCompatActivity() {
                         )
                         subjectRepository.updateSubject(updatedSubject)
                     }
-                    showSuccessOverlay()
+
+                    com.classdrop.utils.AlertUtils.showCustomAlert(
+                        context = this@CreateSubjectActivity,
+                        title = if (isEditing) "¡Actualizado!" else "¡Guardado!",
+                        message = if (isEditing) "La materia se ha actualizado exitosamente." else "La nueva materia se ha guardado correctamente.",
+                        type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                        onPrimaryClick = { finish() }
+                    )
                 }
             } catch (e: Exception) {
-                showErrorOverlay()
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Error",
+                    message = "Hubo un error al procesar la solicitud. Intenta de nuevo.",
+                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                )
             }
-        }
-
-        binding.btnSuccessDone.setOnClickListener {
-            finish()
-        }
-
-        binding.btnErrorRetry.setOnClickListener {
-            hideOverlays()
-        }
-    }
-
-    private fun showSuccessOverlay() {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.VISIBLE
-        binding.cardError.visibility = android.view.View.GONE
-        
-        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
-        binding.cardSuccess.startAnimation(animation)
-    }
-
-    private fun showErrorOverlay() {
-        binding.clOverlay.visibility = android.view.View.VISIBLE
-        binding.cardError.visibility = android.view.View.VISIBLE
-        binding.cardSuccess.visibility = android.view.View.GONE
-        
-        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_in_up)
-        binding.cardError.startAnimation(animation)
-    }
-
-    private fun hideOverlays() {
-        val animation = android.view.animation.AnimationUtils.loadAnimation(this, com.classdrop.R.anim.slide_out_down)
-        animation.setAnimationListener(object : android.view.animation.Animation.AnimationListener {
-            override fun onAnimationStart(animation: android.view.animation.Animation?) {}
-            override fun onAnimationEnd(animation: android.view.animation.Animation?) {
-                binding.clOverlay.visibility = android.view.View.GONE
-            }
-            override fun onAnimationRepeat(animation: android.view.animation.Animation?) {}
-        })
-
-        if (binding.cardSuccess.visibility == android.view.View.VISIBLE) {
-            binding.cardSuccess.startAnimation(animation)
-        } else if (binding.cardError.visibility == android.view.View.VISIBLE) {
-            binding.cardError.startAnimation(animation)
-        } else {
-            binding.clOverlay.visibility = android.view.View.GONE
         }
     }
 

@@ -29,23 +29,34 @@ class ResetPasswordActivity : AppCompatActivity() {
             val newPassword = binding.etNewPassword.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
-            if (code.isEmpty() || newPassword.length < 6 || newPassword != confirmPassword) {
-                Toast.makeText(this, "Verifica los datos ingresados", Toast.LENGTH_SHORT).show()
+            if (code.isEmpty() || newPassword.length < 8 || newPassword != confirmPassword) {
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Error de Validación",
+                    message = "Por favor verifica que el código sea correcto y que las contraseñas coincidan (mín. 8 caracteres).",
+                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                )
                 return@setOnClickListener
             }
 
             // Simulación de éxito en la API
-            Toast.makeText(this, "¡Contraseña actualizada!", Toast.LENGTH_SHORT).show()
-            
-            // Guardar sesión para entrar directamente
-            sessionManager.saveAuthToken("simulated_token")
-            sessionManager.saveUserName("Usuario ClassDrop")
-            
-            // Navegar directamente al Inicio (MainActivity)
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "¡Actualizado!",
+                message = "Tu contraseña ha sido actualizada exitosamente.",
+                type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
+                onPrimaryClick = {
+                    // Guardar sesión para entrar directamente
+                    sessionManager.saveAuthToken("simulated_token")
+                    sessionManager.saveUserName("Usuario ClassDrop")
+                    
+                    // Navegar directamente al Inicio (MainActivity)
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            )
         }
     }
 }

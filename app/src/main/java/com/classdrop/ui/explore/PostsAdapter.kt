@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemPostBinding
 import androidx.core.content.ContextCompat
 import com.classdrop.R
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 data class Post(
     val id: String,
@@ -110,17 +109,26 @@ class PostsAdapter(
             // Lógica de Descarga con Alerta y cambio de color
             updateDownloadUI(holder, post.isDownloaded)
             llDownload.setOnClickListener {
-                MaterialAlertDialogBuilder(holder.itemView.context)
-                    .setTitle("Descargar archivo")
-                    .setMessage("¿Deseas descargar '${post.fileName}' en tu dispositivo?")
-                    .setPositiveButton("Descargar") { _, _ ->
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = holder.itemView.context,
+                    title = "Descargar archivo",
+                    message = "¿Deseas descargar '${post.fileName}' en tu dispositivo?",
+                    type = com.classdrop.utils.AlertUtils.AlertType.CONFIRMATION,
+                    primaryButtonText = "Descargar",
+                    secondaryButtonText = "Cancelar",
+                    onPrimaryClick = {
                         post.isDownloaded = true
                         updateDownloadUI(holder, true)
                         animateButton(ivDownloadIcon)
-                        android.widget.Toast.makeText(holder.itemView.context, "Iniciando descarga...", android.widget.Toast.LENGTH_SHORT).show()
+                        
+                        com.classdrop.utils.AlertUtils.showCustomAlert(
+                            context = holder.itemView.context,
+                            title = "¡Descargado!",
+                            message = "El archivo se ha descargado exitosamente.",
+                            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
+                        )
                     }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
+                )
             }
 
             // Lógica de Comentarios
