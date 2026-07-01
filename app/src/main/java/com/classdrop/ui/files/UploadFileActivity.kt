@@ -1,11 +1,14 @@
 package com.classdrop.ui.files
 
+import androidx.activity.viewModels
+import android.net.Uri
+import com.classdrop.viewmodel.FilesViewModel
+import com.classdrop.viewmodel.UploadState
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -15,6 +18,7 @@ import com.classdrop.R
 import com.classdrop.databinding.ActivityUploadBinding
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
+
 
 class UploadFileActivity : AppCompatActivity() {
 
@@ -26,6 +30,9 @@ class UploadFileActivity : AppCompatActivity() {
     private var selectedFileSize: String? = null
     private var enteredUrl: String? = null
 
+    private val viewModel: FilesViewModel by viewModels()
+    private var selectedFileUri: Uri? = null
+    private var selectedFileMime: String? = null
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -49,9 +56,10 @@ class UploadFileActivity : AppCompatActivity() {
             val data: Intent? = result.data
             val uri = data?.data
             uri?.let {
+                selectedFileUri = it
+                selectedFileMime = contentResolver.getType(it) ?: "application/octet-stream"
                 val name = it.path?.substringAfterLast('/') ?: "archivo_seleccionado.pdf"
                 selectedFileName = name
-                selectedFileSize = "1.2 MB" 
                 pagerAdapter.setSelectedFileName(name)
             }
         }
@@ -73,6 +81,23 @@ class UploadFileActivity : AppCompatActivity() {
         
         binding.btnPublish.setOnClickListener {
             validateAndPublish()
+        }
+        viewModel.uploadState.observe(this) { state ->
+            when (state) {
+                is UploadState.Loading -> binding.btnPublish.isEnabled = false
+                is UploadState.Success -> {
+                    binding.btnPublish.isEnabled = true
+                    startActivity(Intent(this, FileSuccessActivity::class.java).apply {
+                        putExtra("FILE_NAME", state.file.titulo)
+                    })
+                    finish()
+                }
+                is UploadState.Error -> {
+                    binding.btnPublish.isEnabled = true
+                    showAlert("Error al subir", state.message)
+                }
+                UploadState.Idle -> Unit
+            }
         }
     }
 
@@ -129,33 +154,20 @@ class UploadFileActivity : AppCompatActivity() {
         // --- SIMULACIÓN PARA LA DEMO ---
         // Si el título es exactamente "RECHAZAR", mostramos la pantalla de error.
         // En cualquier otro caso, mostramos la de éxito.
-        
-        if (title.uppercase() == "RECHAZAR") {
-            com.classdrop.utils.AlertUtils.showCustomAlert(
-                context = this,
-                title = "Procesando archivo",
-                message = "Tu archivo está siendo analizado por nuestro sistema de seguridad...",
-                type = com.classdrop.utils.AlertUtils.AlertType.CONFIRMATION,
-                onPrimaryClick = {
-                    val intent = Intent(this, FileRejectedActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+
+        if (isFileTab) {
+            val uri = selectedFileUri ?: return showAlert("Archivo no seleccionado", "Selecciona un archivo.")
+            viewModel.publicarArchivo(
+                uri = uri,
+                nombreOriginal = selectedFileName ?: "archivo",
+                tipoMime = selectedFileMime ?: "application/octet-stream",
+                titulo = title,
+                descripcion = description,
+                tipo = selectedFileMime?.substringAfterLast('/') ?: "bin",
+                materiaId = subject // ⚠️ pendiente: UUID real, no el texto mostrado
             )
         } else {
-            com.classdrop.utils.AlertUtils.showCustomAlert(
-                context = this,
-                title = "¡Publicación Exitosa!",
-                message = "Tu material se ha guardado y validado correctamente.",
-                type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
-                onPrimaryClick = {
-                    val intent = Intent(this, FileSuccessActivity::class.java).apply {
-                        putExtra("FILE_NAME", title)
-                    }
-                    startActivity(intent)
-                    finish()
-                }
-            )
+            // TODO: caso URL — lo definimos cuando lleguemos a esa pantalla
         }
     }
 

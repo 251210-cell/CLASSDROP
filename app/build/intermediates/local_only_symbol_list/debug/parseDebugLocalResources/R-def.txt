@@ -464,7 +464,12 @@ string archivos_count
 string cerrar_sesion
 string continuar_con_google
 string file_type_size_format
+string gcm_defaultSenderId
 string google
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
 string hint_contrasena
 string hint_correo
 string home_novedades
@@ -488,6 +493,7 @@ string nav_subir
 string no_tienes_cuenta
 string o_continuar_con
 string olvidaste_contrasena
+string project_id
 string registrate_aqui
 string tiempo_hace
 style ShapeAppearance.Material3.Corner.Small

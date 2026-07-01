@@ -1,18 +1,18 @@
-#Mon Jun 29 01:29:39 CST 2026
-base.0=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.10=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\4\\classes.dex
-base.11=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-base.12=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
-base.13=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
-base.2=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
-base.3=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
-base.4=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
-base.5=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\13\\classes.dex
-base.6=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
-base.7=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
-base.8=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.9=C\:\\Users\\velaz\\StudioProjects\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
+#Tue Jun 30 20:06:43 CST 2026
+base.0=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.10=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\4\\classes.dex
+base.11=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
+base.12=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
+base.13=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+base.2=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\10\\classes.dex
+base.3=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
+base.4=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
+base.5=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\13\\classes.dex
+base.6=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
+base.7=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
+base.8=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
+base.9=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.10=4/classes.dex

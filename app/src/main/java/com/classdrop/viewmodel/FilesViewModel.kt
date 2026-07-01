@@ -1,13 +1,29 @@
 package com.classdrop.viewmodel
 
+import android.app.Application
+import android.net.Uri
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.classdrop.model.Comment
+import com.classdrop.model.FileModel
+import com.classdrop.repository.FilesRepository
+import kotlinx.coroutines.launch
 import java.util.UUID
 
-class FilesViewModel : ViewModel() {
+sealed class UploadState {
+    object Idle : UploadState()
+    object Loading : UploadState()
+    data class Success(val file: FileModel) : UploadState()
+    data class Error(val message: String) : UploadState()
+}
 
+class FilesViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository = FilesRepository(application)
+
+    // --- Comentarios (igual que antes, lo usa FileDetailActivity) ---
     private val _comments = MutableLiveData<List<Comment>>()
     val comments: LiveData<List<Comment>> = _comments
 
@@ -33,5 +49,25 @@ class FilesViewModel : ViewModel() {
         val currentList = _comments.value?.toMutableList() ?: mutableListOf()
         currentList.add(0, newComment)
         _comments.value = currentList
+    }
+
+    // --- Subida de archivos ---
+    private val _uploadState = MutableLiveData<UploadState>(UploadState.Idle)
+    val uploadState: LiveData<UploadState> = _uploadState
+
+    fun publicarArchivo(
+        uri: Uri, nombreOriginal: String, tipoMime: String,
+        titulo: String, descripcion: String, tipo: String, materiaId: String
+    ) {
+        _uploadState.value = UploadState.Loading
+        viewModelScope.launch {
+            val result = repository.publicarArchivo(
+                uri, nombreOriginal, tipoMime, titulo, descripcion, tipo, materiaId
+            )
+            _uploadState.value = result.fold(
+                onSuccess = { UploadState.Success(it) },
+                onFailure = { UploadState.Error(it.message ?: "Error desconocido") }
+            )
+        }
     }
 }

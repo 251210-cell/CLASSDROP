@@ -1,13 +1,17 @@
 package com.classdrop.network
 
+import com.classdrop.utils.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor : Interceptor {
+class AuthInterceptor(private val sessionManager: SessionManager) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
-            // Add auth headers here
-            .build()
+        val token = sessionManager.fetchAuthToken()
+        val request = chain.request().newBuilder().apply {
+            if (!token.isNullOrBlank()) {
+                addHeader("Authorization", "Bearer $token")
+            }
+        }.build()
         return chain.proceed(request)
     }
 }

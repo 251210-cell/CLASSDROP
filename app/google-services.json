@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "956492054525",
+    "project_id": "classdrop-11c53",
+    "storage_bucket": "classdrop-11c53.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956492054525:android:72ccb1f27d85eca904e394",
+        "android_client_info": {
+          "package_name": "com.classdrop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABZUN2FN8ka4ulsqJJPrwu-vSlrbg0nUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

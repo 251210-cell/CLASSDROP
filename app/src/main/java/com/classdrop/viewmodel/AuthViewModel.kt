@@ -1,19 +1,23 @@
 package com.classdrop.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.classdrop.domain.auth.ValidarCredencialesUseCase
 import com.classdrop.model.LoginResponse
+import com.classdrop.network.AuthService
 import com.classdrop.network.NetworkResult
 import com.classdrop.network.RetrofitClient
 import com.classdrop.repository.AuthRepository
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val authRepository = AuthRepository(RetrofitClient.authService)
+    private val authRepository = AuthRepository(
+        RetrofitClient.create(application).create(AuthService::class.java)
+    )
     private val validarCredenciales = ValidarCredencialesUseCase()
 
     private val _loginState = MutableLiveData<NetworkResult<LoginResponse>>()
