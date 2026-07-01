@@ -26,8 +26,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _validationError = MutableLiveData<String?>()
     val validationError: LiveData<String?> = _validationError
 
-    fun login(email: String, password: String) {
-        when (val resultado = validarCredenciales(email, password)) {
+    fun login(correo: String, contrsena: String) {
+        when (val resultado = validarCredenciales(correo, contrsena)) {
             is ValidarCredencialesUseCase.Resultado.Invalido -> {
                 _validationError.value = resultado.mensaje
             }
@@ -35,7 +35,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 _validationError.value = null
                 _loginState.value = NetworkResult.Loading()
                 viewModelScope.launch {
-                    _loginState.value = authRepository.login(email.trim(), password)
+                    _loginState.value = authRepository.login(correo.trim(), contrsena)
                 }
             }
         }

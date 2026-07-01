@@ -15,6 +15,7 @@ import com.classdrop.ui.admin.AdminHomeActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.AuthViewModel
+import com.classdrop.model.User
 
 class LoginActivity : AppCompatActivity() {
 
@@ -86,13 +87,13 @@ class LoginActivity : AppCompatActivity() {
                 is NetworkResult.Success -> {
                     setLoading(false)
                     val loginData = result.data
-                    val user = loginData?.user
-                    val role = user?.role ?: UserRole.STUDENT
+                    val user = loginData?.usuario
+                    val role = user?.rol ?: UserRole.STUDENT
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
                     sessionManager.saveUserRole(role)
                     
                     // Preservar el nombre del registro si el servidor devuelve uno genérico
-                    val serverName = user?.name ?: "Usuario"
+                    val serverName = user?.nombreCompleto ?: "Usuario"
                     val savedName = sessionManager.fetchUserName()
                     val finalName = if ((serverName == "Estudiante" || serverName == "Administrador") && savedName != "Usuario") {
                         savedName
@@ -101,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     
                     sessionManager.saveUserName(finalName)
-                    sessionManager.saveUserEmail(user?.email ?: "")
+                    sessionManager.saveUserEmail(user?.correo ?: "")
                     
                     com.classdrop.utils.AlertUtils.showCustomAlert(
                         context = this,

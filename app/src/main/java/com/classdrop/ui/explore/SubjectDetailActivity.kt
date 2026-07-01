@@ -9,6 +9,8 @@ import com.classdrop.databinding.ActivitySubjectDetailBinding
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
 
+
+
 class SubjectDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySubjectDetailBinding
     private lateinit var sessionManager: SessionManager
@@ -17,12 +19,12 @@ class SubjectDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySubjectDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         sessionManager = SessionManager(this)
 
         val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: "Materia"
         val fileCount = intent.getIntExtra("FILE_COUNT", 0)
-        
+
         binding.tvSubjectTitle.text = subjectName
         binding.tvSubtitle.text = "$fileCount archivos compartidos"
 
@@ -36,7 +38,7 @@ class SubjectDetailActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-        
+
         setupHeader()
         setupPosts()
     }
@@ -48,9 +50,9 @@ class SubjectDetailActivity : AppCompatActivity() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarInitials.text = initials
-        
+
         // Al hacer clic en el avatar, ir al perfil (en MainActivity)
         binding.tvAvatarInitials.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -62,49 +64,51 @@ class SubjectDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupPosts() {
-        val adapter = PostsAdapter(sessionManager)
-        binding.rvPosts.layoutManager = LinearLayoutManager(this)
-        binding.rvPosts.adapter = adapter
+    private lateinit var filesViewModel: com.classdrop.viewmodel.FilesViewModel
+    private lateinit var postsAdapter: PostsAdapter
 
-        val mockPosts = listOf(
-            Post(
-                id = "post_elena_derivadas", // ID consistente con el Home
-                userName = "Elena García",
-                time = "hace 30 min • Cálculo II",
-                fileName = "Resumen: Derivadas Parciales v2",
-                fileType = "PDF",
-                fileSize = "1.8 MB",
-                likes = 125,
-                dislikes = 45,
-                downloads = 128,
-                comments = 8
-            ),
-            Post(
-                id = "post_marco_recursividad", // ID consistente con el Home
-                userName = "Marco Soto",
-                time = "ayer • Programación",
-                fileName = "Guía Práctica Derivadas",
-                fileType = "DOCX",
-                fileSize = "950 KB",
-                likes = 15,
-                dislikes = 2,
-                downloads = 56,
-                comments = 5
-            ),
-            Post(
-                id = "3",
-                userName = "Sofia Alva",
-                time = "ayer • Cálculo II",
-                fileName = "Guía de Estudio Final",
-                fileType = "PDF",
-                fileSize = "2.4 MB",
-                likes = 89,
-                dislikes = 10,
-                downloads = 210,
-                comments = 12
-            )
+    private fun setupPosts() {
+        filesViewModel = androidx.lifecycle.ViewModelProvider(this)[com.classdrop.viewmodel.FilesViewModel::class.java]
+
+        postsAdapter = PostsAdapter(
+            sessionManager = sessionManager,
+            onLikeChanged = { post -> filesViewModel.actualizarLike(post.id, post.isLiked) },
+            onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) }
         )
-        adapter.submitList(mockPosts)
+        binding.rvPosts.layoutManager = LinearLayoutManager(this)
+        binding.rvPosts.adapter = postsAdapter
+
+        val materiaId = intent.getStringExtra("SUBJECT_ID")
+
+        filesViewModel.archivosPublicados.observe(this) { archivos ->
+            val posts = archivos.map { mapFileToPost(it) }
+            postsAdapter.submitList(posts)
+            binding.tvSubtitle.text = "${posts.size} archivos compartidos"
+        }
+
+        filesViewModel.listError.observe(this) { error ->
+            error?.let {
+                com.classdrop.utils.AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "No se pudo cargar",
+                    message = it,
+                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                )
+            }
+        }
+
+        filesViewModel.cargarArchivosPublicados(materiaId = materiaId)
     }
+
+    private fun mapFileToPost(file: com.classdrop.model.FileModel): Post = Post(
+        id = file.id,
+        userName = file.autor?.nombreCompleto ?: "Usuario",
+        time = "${com.classdrop.utils.TimeUtils.tiempoRelativo(file.creadoEn)} • ${file.materia?.nombre ?: ""}",
+        fileName = file.titulo,
+        fileType = file.tipo.uppercase(),
+        likes = file.totalLikes,
+        dislikes = file.totalDislikes,
+        downloads = file.totalDescargas,
+        comments = file.totalComentarios
+    )
 }

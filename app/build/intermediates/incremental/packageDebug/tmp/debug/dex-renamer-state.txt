@@ -1,4 +1,4 @@
-#Tue Jun 30 20:06:43 CST 2026
+#Wed Jul 01 02:39:08 CST 2026
 base.0=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\Users\\mar-a\\Desktop\\UP\\5CUATRI\\PI2\\FRONT_V2\\CLASSDROP\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\4\\classes.dex

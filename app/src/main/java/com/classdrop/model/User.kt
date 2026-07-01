@@ -1,12 +1,11 @@
 package com.classdrop.model
 
 import com.google.gson.annotations.SerializedName
-
 data class User(
     val id: String,
-    val name: String,
-    val email: String,
-    val role: UserRole = UserRole.STUDENT
+    val nombreCompleto: String,
+    val correo: String,
+    val rol: UserRole
 )
 
 /**
@@ -15,9 +14,9 @@ data class User(
  * el backend use exactamente "STUDENT"/"ADMIN" en mayúsculas.
  */
 enum class UserRole {
-    @SerializedName("student")
+    @SerializedName("estudiante")
     STUDENT,
-
     @SerializedName("admin")
     ADMIN
 }
+

@@ -29,7 +29,9 @@ data class Post(
 
 class PostsAdapter(
     private val sessionManager: com.classdrop.utils.SessionManager? = null,
-    private val onBookmarkChanged: ((Post) -> Unit)? = null
+    private val onBookmarkChanged: ((Post) -> Unit)? = null,
+    private val onLikeChanged: ((Post) -> Unit)? = null,
+    private val onDislikeChanged: ((Post) -> Unit)? = null
 ) : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
 
     inner class PostViewHolder(val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root)
@@ -43,7 +45,7 @@ class PostsAdapter(
         val post = getItem(position)
         holder.binding.apply {
             tvUserName.text = post.userName
-            
+
             // Generar iniciales del usuario
             tvUserAvatar.text = post.userName.split(" ")
                 .filter { it.isNotBlank() }
@@ -76,10 +78,11 @@ class PostsAdapter(
                 } else {
                     post.likes--
                 }
-                
+
                 tvLikes.text = post.likes.toString()
                 updateLikeUI(holder, post.isLiked)
                 animateButton(ivLikeIcon)
+                onLikeChanged?.invoke(post)
             }
 
             // Lógica de Dislike
@@ -99,13 +102,14 @@ class PostsAdapter(
                 }
                 updateDislikeUI(holder, post.isDisliked, post.dislikes)
                 animateButton(ivDislikeIcon)
+                onDislikeChanged?.invoke(post)
             }
 
             // Lógica de Favoritos (Bookmark) en ROJO
             val isCurrentlyBookmarked = sessionManager?.isFavorite(post.id) ?: post.isBookmarked
             post.isBookmarked = isCurrentlyBookmarked
             updateBookmarkUI(holder, post.isBookmarked)
-            
+
             btnBookmark.setOnClickListener {
                 post.isBookmarked = !post.isBookmarked
                 sessionManager?.toggleFavorite(post.id)
@@ -128,7 +132,7 @@ class PostsAdapter(
                         post.isDownloaded = true
                         updateDownloadUI(holder, true)
                         animateButton(ivDownloadIcon)
-                        
+
                         com.classdrop.utils.AlertUtils.showCustomAlert(
                             context = holder.itemView.context,
                             title = "¡Descargado!",
@@ -180,7 +184,7 @@ class PostsAdapter(
     private fun updateLikeUI(holder: PostViewHolder, isLiked: Boolean) {
         val context = holder.itemView.context
         val typedValue = android.util.TypedValue()
-        
+
         val color = if (isLiked) {
             context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
             typedValue.data
@@ -188,7 +192,7 @@ class PostsAdapter(
             context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
             typedValue.data
         }
-        
+
         holder.binding.ivLikeIcon.setColorFilter(color)
         holder.binding.tvLikes.setTextColor(color)
     }

@@ -57,13 +57,53 @@ class FilesRepository(
                 adjuntos = listOf(adjunto)
             )
             val response = filesService.crearArchivo(request)
-            if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data)
             } else {
-                Result.failure(Exception("Error API: ${response.code()} ${response.message()}"))
+                Result.failure(Exception(body?.error ?: "Error API: ${response.code()} ${response.message()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
+
+    suspend fun obtenerPublicados(
+        materiaId: String? = null,
+        search: String? = null,
+        limite: Int? = null,
+        offset: Int? = null
+    ): Result<List<FileModel>> {
+        return try {
+            val response = filesService.getArchivosPublicados(materiaId, search, limite, offset)
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data.rows)
+            } else {
+                Result.failure(Exception(body?.error ?: "Error API: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun darLike(archivoId: String): Result<Unit> = try {
+        val r = filesService.darLike(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
+
+    suspend fun quitarLike(archivoId: String): Result<Unit> = try {
+        val r = filesService.quitarLike(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
+
+    suspend fun darDislike(archivoId: String): Result<Unit> = try {
+        val r = filesService.darDislike(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
+
+    suspend fun quitarDislike(archivoId: String): Result<Unit> = try {
+        val r = filesService.quitarDislike(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
 }

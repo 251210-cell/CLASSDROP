@@ -1,6 +1,6 @@
 package com.classdrop.model
 
 data class LoginRequest(
-    val email: String,
-    val password: String
+    val correo: String,
+    val contrasena: String
 )

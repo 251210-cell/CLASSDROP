@@ -55,6 +55,43 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
     private val _uploadState = MutableLiveData<UploadState>(UploadState.Idle)
     val uploadState: LiveData<UploadState> = _uploadState
 
+    // --- Listado real de archivos publicados ---
+    private val _archivosPublicados = MutableLiveData<List<FileModel>>()
+    val archivosPublicados: LiveData<List<FileModel>> = _archivosPublicados
+
+    private val _listError = MutableLiveData<String?>()
+    val listError: LiveData<String?> = _listError
+
+    fun cargarArchivosPublicados(materiaId: String? = null, search: String? = null) {
+        viewModelScope.launch {
+            val result = repository.obtenerPublicados(materiaId = materiaId, search = search)
+            result.fold(
+                onSuccess = {
+                    _listError.value = null
+                    _archivosPublicados.value = it
+                },
+                onFailure = { _listError.value = it.message }
+            )
+        }
+    }
+
+    // isActivo = true significa "el usuario acaba de activar" (ya se refleja optimistamente en la UI);
+    // si falla la llamada al backend, no revertimos la UI para no complicar el ejemplo, pero queda
+    // el error disponible en listError para mostrarlo si quieres agregar esa lógica después.
+    fun actualizarLike(archivoId: String, isActivo: Boolean) {
+        viewModelScope.launch {
+            val result = if (isActivo) repository.darLike(archivoId) else repository.quitarLike(archivoId)
+            result.onFailure { _listError.value = it.message }
+        }
+    }
+
+    fun actualizarDislike(archivoId: String, isActivo: Boolean) {
+        viewModelScope.launch {
+            val result = if (isActivo) repository.darDislike(archivoId) else repository.quitarDislike(archivoId)
+            result.onFailure { _listError.value = it.message }
+        }
+    }
+
     fun publicarArchivo(
         uri: Uri, nombreOriginal: String, tipoMime: String,
         titulo: String, descripcion: String, tipo: String, materiaId: String

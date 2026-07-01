@@ -22,10 +22,15 @@ object RetrofitClient {
         instance.create(AuthService::class.java)
     }
 */
+
     fun create(context: Context): Retrofit {
+        val logging = okhttp3.logging.HttpLoggingInterceptor().apply {
+            level = okhttp3.logging.HttpLoggingInterceptor.Level.BODY
+        }
         val sessionManager = SessionManager(context)
         val client = OkHttpClient.Builder()
             .addInterceptor(AuthInterceptor(sessionManager))
+            .addInterceptor(logging)
             .build()
 
         return Retrofit.Builder()
@@ -34,4 +39,7 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+
+
 }
