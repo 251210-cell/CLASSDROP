@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.classdrop.databinding.FragmentHomeBinding
 import com.classdrop.R
 import com.classdrop.model.UserRole
-import com.classdrop.model.Subject
+import com.classdrop.model.MateriaResponse // Importamos el nuevo modelo de la API
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.ui.notifications.NotificationsActivity
@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
-        
+
         setupUI()
         setupListeners()
     }
@@ -50,11 +50,9 @@ class HomeFragment : Fragment() {
             // UI para Admin
             binding.adminBannerCard.visibility = View.VISIBLE
             binding.adminToolsLayout.visibility = View.VISIBLE
-            // En HomeFragment (Estudiante view), ivNotification está dentro de un FrameLayout ahora.
-            // Pero si es Admin, el HomeFragment oculta cosas de Estudiante.
             binding.ivNotification.visibility = View.GONE
             binding.viewNotificationDot.visibility = View.GONE
-            
+
             binding.saludoLayout.visibility = View.GONE
             binding.novedadesHeader.visibility = View.GONE
             binding.postCardElena.visibility = View.GONE
@@ -64,15 +62,15 @@ class HomeFragment : Fragment() {
             binding.adminBannerCard.visibility = View.GONE
             binding.adminToolsLayout.visibility = View.GONE
             binding.ivNotification.visibility = View.VISIBLE
-            
+
             binding.saludoLayout.visibility = View.VISIBLE
             binding.novedadesHeader.visibility = View.VISIBLE
             binding.postCardElena.visibility = View.VISIBLE
             binding.postCardMarco.visibility = View.VISIBLE
-            
+
             binding.tvSaludo.text = "¡Hola, $userName!"
         }
-        
+
         // Configurar iniciales en el avatar
         val initials = if (userName.length >= 2) {
             userName.split(" ")
@@ -103,7 +101,7 @@ class HomeFragment : Fragment() {
         // Navegar a "Ver todas las materias"
         binding.tvSeeAllSubjects.setOnClickListener {
             val userRole = sessionManager.fetchUserRole()
-            val activityClass = if (userRole == com.classdrop.model.UserRole.ADMIN) {
+            val activityClass = if (userRole == UserRole.ADMIN) {
                 com.classdrop.ui.admin.SubjectsAdminActivity::class.java
             } else {
                 AllSubjectsActivity::class.java
@@ -111,13 +109,15 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), activityClass))
         }
 
-        adapter = SubjectsAdapter { subject ->
-            navigateToSubject(subject)
+        // CORRECCIÓN LÍNEA 115: El adapter ahora pasa un MateriaResponse
+        adapter = SubjectsAdapter { materia ->
+            navigateToSubject(materia)
         }
         binding.rvSubjects.adapter = adapter
 
-        viewModel.subjects.observe(viewLifecycleOwner) { subjects ->
-            adapter.submitList(subjects)
+        // CORRECCIÓN LÍNEA 119: Cambiado de .subjects a .materias (o el nombre que tenga tu LiveData)
+        viewModel.materias.observe(viewLifecycleOwner) { listaMaterias ->
+            adapter.submitList(listaMaterias)
         }
 
         setupInteractions()
@@ -125,15 +125,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupReactionListeners() {
-        // IDs for Elena and Marco posts to persist state
         val elenaPostId = "post_elena_derivadas"
         val marcoPostId = "post_marco_recursividad"
 
-        // Initial states from SessionManager
         var isFavoritedElena = sessionManager.isFavorite(elenaPostId)
         var isFavoritedMarco = sessionManager.isFavorite(marcoPostId)
-        
-        // Update UI with initial states
+
         updateElenaReactions(false, false, isFavoritedElena)
         updateMarcoReactions(false, false, isFavoritedMarco)
 
@@ -158,7 +155,6 @@ class HomeFragment : Fragment() {
             updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
         }
 
-        // Similar for Marco
         var isLikedMarco = false
         var isDislikedMarco = false
 
@@ -182,13 +178,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateElenaReactions(liked: Boolean, disliked: Boolean, favorited: Boolean) {
-        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.primary)
-        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.placeholder)
+        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary)
+        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.placeholder)
         val favoriteColor = androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
 
         binding.ivLikeElena.imageTintList = android.content.res.ColorStateList.valueOf(if (liked) primaryColor else placeholderColor)
         binding.tvLikeCountElena.setTextColor(if (liked) primaryColor else placeholderColor)
-        
+
         binding.ivDislikeElena.imageTintList = android.content.res.ColorStateList.valueOf(if (disliked) primaryColor else placeholderColor)
         binding.tvDislikeCountElena.setTextColor(if (disliked) primaryColor else placeholderColor)
 
@@ -196,13 +192,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateMarcoReactions(liked: Boolean, disliked: Boolean, favorited: Boolean) {
-        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.primary)
-        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), com.classdrop.R.color.placeholder)
+        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary)
+        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.placeholder)
         val favoriteColor = androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
 
         binding.ivLikeMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (liked) primaryColor else placeholderColor)
         binding.tvLikeCountMarco.setTextColor(if (liked) primaryColor else placeholderColor)
-        
+
         binding.ivDislikeMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (disliked) primaryColor else placeholderColor)
         binding.tvDislikeCountMarco.setTextColor(if (disliked) primaryColor else placeholderColor)
 
@@ -229,10 +225,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun navigateToSubject(subject: Subject) {
+    // CORRECCIÓN: Ahora recibe 'MateriaResponse' en lugar de 'Subject'
+    private fun navigateToSubject(subject: MateriaResponse) {
         val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
             putExtra("SUBJECT_ID", subject.id)
-            putExtra("SUBJECT_NAME", subject.name)
+            // Revisa si en tu MateriaResponse el atributo es 'name' o 'nombre'
+            putExtra("SUBJECT_NAME", subject.nombre)
         }
         startActivity(intent)
     }

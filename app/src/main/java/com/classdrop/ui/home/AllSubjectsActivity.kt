@@ -27,8 +27,10 @@ class AllSubjectsActivity : AppCompatActivity() {
         setupHeader()
         setupRecyclerView()
         observeViewModel()
-        
+
         binding.btnBack.setOnClickListener { finish() }
+
+        viewModel.fetchAllMaterias()
     }
 
     private fun setupHeader() {
@@ -51,10 +53,10 @@ class AllSubjectsActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = SubjectsAdapter { subject ->
+        adapter = SubjectsAdapter { materia ->
             val intent = Intent(this, SubjectDetailActivity::class.java).apply {
-                putExtra("SUBJECT_ID", subject.id)
-                putExtra("SUBJECT_NAME", subject.name)
+                putExtra("SUBJECT_ID", materia.id)
+                putExtra("SUBJECT_NAME", materia.nombre)
             }
             startActivity(intent)
         }
@@ -63,8 +65,11 @@ class AllSubjectsActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.subjects.observe(this) { subjects ->
-            adapter.submitList(subjects)
+        viewModel.materias.observe(this) { materias ->
+            adapter.submitList(materias)
+        }
+        viewModel.error.observe(this) { mensaje ->
+            // TODO: mostrar el error (Toast/Snackbar) cuando conectemos el manejo de errores de esta pantalla
         }
     }
 }

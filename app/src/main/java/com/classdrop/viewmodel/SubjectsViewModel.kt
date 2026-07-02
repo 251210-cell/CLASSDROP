@@ -3,29 +3,55 @@ package com.classdrop.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.classdrop.model.Subject
-import com.classdrop.repository.SubjectRepository
+import com.classdrop.model.CuatrimestreResponse
+import com.classdrop.model.MateriaResponse
+import com.classdrop.repository.SubjectsRepository
 import kotlinx.coroutines.launch
 
 class SubjectsViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = SubjectRepository(application)
-    val subjects: LiveData<List<Subject>> = repository.getAllSubjects().asLiveData()
 
-    init {
+    private val repository = SubjectsRepository(application)
+
+    private val _materias = MutableLiveData<List<MateriaResponse>>()
+    val materias: LiveData<List<MateriaResponse>> get() = _materias
+
+    private val _cuatrimestres = MutableLiveData<List<CuatrimestreResponse>>()
+    val cuatrimestres: LiveData<List<CuatrimestreResponse>> get() = _cuatrimestres
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
+
+    // Cargar materias generales
+    fun fetchAllMaterias(search: String? = null) {
         viewModelScope.launch {
-            // Check if we need to initialize
-            val current = repository.getSubjectById("1")
-            if (current == null) {
-                repository.initializeDefaultSubjects()
+            try {
+                val response = repository.getAllMaterias(search)
+                if (response.isSuccessful) {
+                    _materias.postValue(response.body() ?: emptyList())
+                } else {
+                    _error.postValue("Error al cargar materias: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                _error.postValue("Error de red: ${e.message}")
             }
         }
     }
 
-    fun deleteSubject(subject: Subject) {
+    // Cargar la lista de cuatrimestres
+    fun fetchCuatrimestres() {
         viewModelScope.launch {
-            repository.deleteSubject(subject)
+            try {
+                val response = repository.getCuatrimestres()
+                if (response.isSuccessful) {
+                    _cuatrimestres.postValue(response.body() ?: emptyList())
+                } else {
+                    _error.postValue("Error al cargar cuatrimestres: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                _error.postValue("Error de conexión: ${e.message}")
+            }
         }
     }
 }

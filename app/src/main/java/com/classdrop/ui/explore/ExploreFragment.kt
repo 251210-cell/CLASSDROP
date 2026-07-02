@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.FragmentExploreBinding
+import com.classdrop.model.MateriaResponse
 import com.classdrop.model.Subject
 import com.classdrop.ui.home.SubjectsAdapter
 import com.classdrop.ui.main.MainActivity
@@ -25,8 +26,8 @@ class ExploreFragment : Fragment() {
 
     private lateinit var subjectsAdapter: SubjectsAdapter
     private lateinit var suggestionsAdapter: SuggestionsAdapter
-    private var allSubjects: List<Subject> = emptyList()
-
+    private var allSubjects: List<MateriaResponse> = emptyList()
+    private var allSubjects2: List<Subject> = emptyList()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -102,8 +103,8 @@ class ExploreFragment : Fragment() {
 
     private fun showSuggestions(query: String) {
         val suggestions = allSubjects
-            .filter { it.name.contains(query, ignoreCase = true) }
-            .map { Suggestion(it.name, "Materia") }
+            .filter { it.nombre.contains(query, ignoreCase = true) }
+            .map { Suggestion(it.nombre, "Materia") }
         
         if (suggestions.isNotEmpty()) {
             suggestionsAdapter.submitList(suggestions)
@@ -120,7 +121,7 @@ class ExploreFragment : Fragment() {
             allSubjects
         } else {
             allSubjects.filter { 
-                it.name.contains(query, ignoreCase = true)
+                it.nombre.contains(query, ignoreCase = true)
             }
         }
         subjectsAdapter.submitList(filteredList)
@@ -173,7 +174,7 @@ class ExploreFragment : Fragment() {
     }
 
     private fun setupSubjects() {
-        allSubjects = listOf(
+        allSubjects2 = listOf(
             Subject("1", "Cálculo II", 12, R.drawable.ic_app_logo, "#E0E7FF", "#4F46E5"),
             Subject("2", "Programación", 8, R.drawable.ic_app_logo, "#ECFDF5", "#059669"),
             Subject("3", "Base de Datos", 15, R.drawable.ic_app_logo, "#F5F3FF", "#7C3AED"),
@@ -182,7 +183,7 @@ class ExploreFragment : Fragment() {
 
         subjectsAdapter = SubjectsAdapter { subject ->
             val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
-                putExtra("SUBJECT_NAME", subject.name)
+                putExtra("SUBJECT_NAME", subject.nombre)
                 putExtra("FILE_COUNT", subject.fileCount)
             }
             startActivity(intent)

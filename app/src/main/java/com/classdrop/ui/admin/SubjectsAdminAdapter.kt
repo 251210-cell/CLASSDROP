@@ -1,20 +1,23 @@
 package com.classdrop.ui.admin
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemSubjectAdminBinding
-import com.classdrop.model.Subject
+import com.classdrop.model.MateriaResponse
+import com.classdrop.utils.IconMapper
 
 class SubjectsAdminAdapter(
-    private val onEditClick: (Subject) -> Unit,
-    private val onDeleteClick: (Subject) -> Unit,
-    private val onSubjectClick: (Subject) -> Unit
+    private val onEditClick: (MateriaResponse) -> Unit,
+    private val onDeleteClick: (MateriaResponse) -> Unit,
+    private val onSubjectClick: (MateriaResponse) -> Unit
 ) : RecyclerView.Adapter<SubjectsAdminAdapter.SubjectViewHolder>() {
 
-    private var subjects: List<Subject> = emptyList()
+    private var subjects: List<MateriaResponse> = emptyList()
 
-    fun submitList(newSubjects: List<Subject>) {
+    fun submitList(newSubjects: List<MateriaResponse>) {
         subjects = newSubjects
         notifyDataSetChanged()
     }
@@ -37,23 +40,17 @@ class SubjectsAdminAdapter(
     inner class SubjectViewHolder(private val binding: ItemSubjectAdminBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(subject: Subject) {
-            binding.tvSubjectName.text = subject.name
-            binding.tvSubjectSubtitle.text = subject.cuatrimestre
-            
-            binding.ivSubjectIcon.setImageResource(subject.iconRes)
-            
-            try {
-                binding.ivSubjectIcon.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(subject.iconBgColor))
-                binding.ivSubjectIcon.imageTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(subject.iconTintColor))
-            } catch (e: Exception) {
-                // Fallback colors
-            }
-            
+        fun bind(subject: MateriaResponse) {
+            binding.tvSubjectName.text = subject.nombre
+            binding.tvSubjectSubtitle.text = "${subject.cuatrimestreId}° Cuatrimestre"
+
+            val style = IconMapper.fromKey(subject.icono)
+            binding.ivSubjectIcon.setImageResource(style.drawableRes)
+            binding.ivSubjectIcon.backgroundTintList = ColorStateList.valueOf(Color.parseColor(style.bgColor))
+            binding.ivSubjectIcon.imageTintList = ColorStateList.valueOf(Color.parseColor(style.tintColor))
+
             binding.btnEdit.setOnClickListener { onEditClick(subject) }
             binding.btnDelete.setOnClickListener { onDeleteClick(subject) }
-            
-            // Navegación al detalle al pulsar la tarjeta
             binding.root.setOnClickListener { onSubjectClick(subject) }
         }
     }

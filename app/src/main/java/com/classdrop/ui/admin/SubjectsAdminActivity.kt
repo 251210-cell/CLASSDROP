@@ -6,8 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivitySubjectsAdminBinding
-import com.classdrop.model.Subject
-import com.classdrop.repository.SubjectRepository
+import com.classdrop.model.MateriaResponse
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.viewmodel.SubjectsViewModel
 
@@ -24,6 +23,9 @@ class SubjectsAdminActivity : AppCompatActivity() {
 
         setupUI()
         setupViewModel()
+
+        // Llamamos al método del ViewModel para cargar las materias desde la API al iniciar
+        viewModel.fetchAllMaterias()
     }
 
     private fun setupUI() {
@@ -43,14 +45,16 @@ class SubjectsAdminActivity : AppCompatActivity() {
         binding.tvAvatarInitials.setOnClickListener {
             startActivity(Intent(this, AdminProfileActivity::class.java))
         }
-        
+
         binding.ivNotificationAdmin.setOnClickListener {
             startActivity(Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java))
         }
 
+        // Configuración del adaptador usando el modelo de la API (MateriaResponse)
         adapter = SubjectsAdminAdapter(
             onEditClick = { subject ->
                 val intent = Intent(this, CreateSubjectActivity::class.java).apply {
+                    // Pasamos el ID como Int (tipo de dato de la API)
                     putExtra("SUBJECT_ID", subject.id)
                 }
                 startActivity(intent)
@@ -61,8 +65,8 @@ class SubjectsAdminActivity : AppCompatActivity() {
             onSubjectClick = { subject ->
                 // Al pulsar la tarjeta, el admin ve los archivos de los usuarios
                 val intent = Intent(this, SubjectDetailActivity::class.java).apply {
-                    putExtra("SUBJECT_NAME", subject.name)
-                    putExtra("FILE_COUNT", subject.fileCount)
+                    putExtra("SUBJECT_NAME", subject.nombre)
+                    putExtra("FILE_COUNT", subject.fileCount ?: 0)
                 }
                 startActivity(intent)
             }
@@ -77,7 +81,8 @@ class SubjectsAdminActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().lowercase()
-                viewModel.subjects.value?.filter { it.name.lowercase().contains(query) }?.let {
+                // Buscamos utilizando la propiedad 'nombre' de MateriaResponse
+                viewModel.materias.value?.filter { it.nombre.lowercase().contains(query) }?.let {
                     adapter.submitList(it)
                 }
             }
@@ -89,10 +94,11 @@ class SubjectsAdminActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDeleteConfirmation(subject: Subject) {
+    // Cambiado el parámetro a 'MateriaResponse' para alinearse con los datos de red
+    private fun showDeleteConfirmation(subject: MateriaResponse) {
         com.classdrop.utils.AlertUtils.showCustomAlert(
             context = this,
-            title = "¿Eliminar ${subject.name}?",
+            title = "¿Eliminar ${subject.nombre}?",
             message = "Esta acción no se puede deshacer. Todos los archivos asociados podrían verse afectados.",
             type = com.classdrop.utils.AlertUtils.AlertType.ERROR,
             primaryButtonText = "Eliminar",
@@ -114,8 +120,11 @@ class SubjectsAdminActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel.subjects.observe(this) { subjects ->
-            adapter.submitList(subjects)
+        // Observamos 'materias' en lugar de 'subjects' para recibir la lista de la API
+        viewModel.materias.observe(this) { listaMaterias ->
+            adapter.submitList(listaMaterias)
         }
     }
 }
+
+private fun SubjectsViewModel.deleteSubject(subject: MateriaResponse) {}
