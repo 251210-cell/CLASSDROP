@@ -3557,6 +3557,8 @@ int id italic 0x7f080164
 int id item_touch_helper_previous_elevation 0x7f080165
 int id ivAlertIcon 0x7f080166
 int id ivBookmarkIconDetail 0x7f080167
+int id ivCardMateria1Icon 0x7f080332
+int id ivCardMateria2Icon 0x7f080333
 int id ivCommentIcon 0x7f080168
 int id ivConfirmIcon 0x7f080169
 int id ivDislike 0x7f08016a
@@ -3891,6 +3893,10 @@ int id tvAvatarInitials 0x7f0802b2
 int id tvAvatarLarge 0x7f0802b3
 int id tvAvatarMarco 0x7f0802b4
 int id tvBookmarkLabel 0x7f0802b5
+int id tvCardMateria1Count 0x7f080334
+int id tvCardMateria1Title 0x7f080335
+int id tvCardMateria2Count 0x7f080336
+int id tvCardMateria2Title 0x7f080337
 int id tvCommentAvatar 0x7f0802b6
 int id tvCommentContent 0x7f0802b7
 int id tvCommentTime 0x7f0802b8

@@ -28,6 +28,13 @@ class SubjectsAdminActivity : AppCompatActivity() {
         viewModel.fetchAllMaterias()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Refresca cada vez que se vuelve a esta pantalla (ej. después de crear/editar una
+        // materia en CreateSubjectActivity), para no depender de salir y volver a entrar.
+        viewModel.fetchAllMaterias()
+    }
+
     private fun setupUI() {
         binding.btnBack.setOnClickListener {
             finish()

@@ -190,6 +190,7 @@
                         android:padding="20dp">
 
                         <ImageView
+                            android:id="@+id/ivCardMateria1Icon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/bg_input_pill"
@@ -198,6 +199,7 @@
                             app:tint="@color/primary" />
 
                         <TextView
+                            android:id="@+id/tvCardMateria1Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
@@ -206,6 +208,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvCardMateria1Count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="12 archivos"
@@ -236,6 +239,7 @@
                         android:padding="20dp">
 
                         <ImageView
+                            android:id="@+id/ivCardMateria2Icon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="#FFF1F2"
@@ -244,6 +248,7 @@
                             app:tint="#F43F5E" />
 
                         <TextView
+                            android:id="@+id/tvCardMateria2Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
@@ -252,6 +257,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvCardMateria2Count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="8 archivos"

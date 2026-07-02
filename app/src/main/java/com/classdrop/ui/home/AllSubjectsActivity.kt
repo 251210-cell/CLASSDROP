@@ -33,6 +33,11 @@ class AllSubjectsActivity : AppCompatActivity() {
         viewModel.fetchAllMaterias()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchAllMaterias()
+    }
+
     private fun setupHeader() {
         val userName = sessionManager.fetchUserName()
         val initials = userName.split(" ")

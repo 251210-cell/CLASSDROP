@@ -3558,6 +3558,8 @@ id italic
 id item_touch_helper_previous_elevation
 id ivAlertIcon
 id ivBookmarkIconDetail
+id ivCardMateria1Icon
+id ivCardMateria2Icon
 id ivCommentIcon
 id ivConfirmIcon
 id ivDislike
@@ -3892,6 +3894,10 @@ id tvAvatarInitials
 id tvAvatarLarge
 id tvAvatarMarco
 id tvBookmarkLabel
+id tvCardMateria1Count
+id tvCardMateria1Title
+id tvCardMateria2Count
+id tvCardMateria2Title
 id tvCommentAvatar
 id tvCommentContent
 id tvCommentTime
