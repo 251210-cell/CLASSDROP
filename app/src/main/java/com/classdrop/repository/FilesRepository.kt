@@ -61,7 +61,9 @@ class FilesRepository(
             if (response.isSuccessful && body?.success == true && body.data != null) {
                 Result.success(body.data)
             } else {
-                Result.failure(Exception(body?.error ?: "Error API: ${response.code()} ${response.message()}"))
+                // CORREGIDO: Accedemos a body?.error?.message en lugar de body?.error
+                val errorMsg = body?.error?.message ?: "Error API: ${response.code()} ${response.message()}"
+                Result.failure(Exception(errorMsg))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -80,7 +82,9 @@ class FilesRepository(
             if (response.isSuccessful && body?.success == true && body.data != null) {
                 Result.success(body.data.rows)
             } else {
-                Result.failure(Exception(body?.error ?: "Error API: ${response.code()}"))
+                // CORREGIDO: Accedemos a body?.error?.message en lugar de body?.error
+                val errorMsg = body?.error?.message ?: "Error API: ${response.code()}"
+                Result.failure(Exception(errorMsg))
             }
         } catch (e: Exception) {
             Result.failure(e)

@@ -55,7 +55,9 @@ class SubjectsRepository(context: Context) {
         return if (response.isSuccessful && body?.success == true && body.data != null) {
             Response.success(body.data, response.raw())
         } else {
-            Response.error(response.code(), response.errorBody() ?: okhttp3.ResponseBody.create(null, body?.error ?: "Error"))
+            // CORREGIDO: Accedemos a body?.error?.message en lugar de body?.error
+            val errorMsg = body?.error?.message ?: "Error"
+            Response.error(response.code(), response.errorBody() ?: okhttp3.ResponseBody.create(null, errorMsg))
         }
     }
 
@@ -64,7 +66,9 @@ class SubjectsRepository(context: Context) {
         return if (response.isSuccessful && body?.success == true && body.data != null) {
             Response.success(body.data, response.raw())
         } else {
-            Response.error(response.code(), response.errorBody() ?: okhttp3.ResponseBody.create(null, body?.error ?: "Error"))
+            // CORREGIDO: Accedemos a body?.error?.message en lugar de body?.error
+            val errorMsg = body?.error?.message ?: "Error"
+            Response.error(response.code(), response.errorBody() ?: okhttp3.ResponseBody.create(null, errorMsg))
         }
     }
 }

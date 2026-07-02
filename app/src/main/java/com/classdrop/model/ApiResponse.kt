@@ -4,5 +4,6 @@ data class ApiResponse<T>(
     val success: Boolean,
     val data: T?,
     val meta: Any?,
-    val error: String?
+    val error: ApiError?
+    //val error: String?
 )

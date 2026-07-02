@@ -18,6 +18,7 @@ import com.classdrop.R
 import com.classdrop.databinding.ActivityUploadBinding
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.SubjectsViewModel
 
 
 class UploadFileActivity : AppCompatActivity() {
@@ -25,10 +26,15 @@ class UploadFileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadBinding
     private lateinit var pagerAdapter: UploadPagerAdapter
     private lateinit var sessionManager: SessionManager
+    private val subjectsViewModel: SubjectsViewModel by viewModels()
 
     private var selectedFileName: String? = null
     private var selectedFileSize: String? = null
     private var enteredUrl: String? = null
+
+    // Selección real (no solo el texto mostrado): esto es lo que se manda a la API
+    private var selectedCuatrimestreId: Int? = null
+    private var selectedMateriaId: String? = null
 
     private val viewModel: FilesViewModel by viewModels()
     private var selectedFileUri: Uri? = null
@@ -69,7 +75,7 @@ class UploadFileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         sessionManager = SessionManager(this)
 
         setupViewPager()
@@ -78,7 +84,7 @@ class UploadFileActivity : AppCompatActivity() {
         setupBottomNav()
         setupHeader()
         handlePreselectedSubject()
-        
+
         binding.btnPublish.setOnClickListener {
             validateAndPublish()
         }
@@ -99,6 +105,24 @@ class UploadFileActivity : AppCompatActivity() {
                 UploadState.Idle -> Unit
             }
         }
+
+        subjectsViewModel.fetchCuatrimestres()
+        subjectsViewModel.fetchAllMaterias()
+    }
+
+    /**
+     * La columna `tipo` en la base de datos es un ENUM con solo 4 valores posibles:
+     * 'pdf', 'docx', 'url', 'otro'. NO acepta extensiones sueltas como "jpeg" o "png"
+     * (esas se validan aparte, en el backend, contra la lista de extensiones permitidas
+     * para subir). Aquí solo mapeamos a la categoría correcta para que el INSERT no falle.
+     */
+    private fun mapMimeATipoArchivo(mime: String?): String {
+        return when (mime) {
+            "application/pdf" -> "pdf"
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> "docx"
+            else -> "otro"
+        }
     }
 
     private fun validateAndPublish() {
@@ -109,12 +133,12 @@ class UploadFileActivity : AppCompatActivity() {
         val isFileTab = binding.viewPager.currentItem == 0
 
         val nameRegex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$".toRegex()
-        
+
         if (title.isEmpty()) {
             showAlert("Título requerido", "Por favor ingresa un título para tu apunte.")
             return
         }
-        
+
         if (!title.matches(nameRegex)) {
             showAlert("Título inválido", "El título no debe contener números ni símbolos especiales.")
             return
@@ -125,12 +149,12 @@ class UploadFileActivity : AppCompatActivity() {
             return
         }
 
-        if (quarter == "Selecciona tu cuatrimestre") {
+        if (quarter == "Selecciona tu cuatrimestre" || selectedCuatrimestreId == null) {
             showAlert("Selección pendiente", "Por favor selecciona un cuatrimestre.")
             return
         }
 
-        if (subject == "Selecciona una materia") {
+        if (subject == "Selecciona una materia" || selectedMateriaId == null) {
             showAlert("Selección pendiente", "Por favor selecciona una materia.")
             return
         }
@@ -163,8 +187,8 @@ class UploadFileActivity : AppCompatActivity() {
                 tipoMime = selectedFileMime ?: "application/octet-stream",
                 titulo = title,
                 descripcion = description,
-                tipo = selectedFileMime?.substringAfterLast('/') ?: "bin",
-                materiaId = subject // ⚠️ pendiente: UUID real, no el texto mostrado
+                tipo = mapMimeATipoArchivo(selectedFileMime),
+                materiaId = selectedMateriaId!!
             )
         } else {
             // TODO: caso URL — lo definimos cuando lleguemos a esa pantalla
@@ -187,7 +211,7 @@ class UploadFileActivity : AppCompatActivity() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarInitials.text = initials
         binding.tvAvatarInitials.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -205,7 +229,7 @@ class UploadFileActivity : AppCompatActivity() {
             onUrlChanged = { enteredUrl = it }
         )
         binding.viewPager.adapter = pagerAdapter
-        
+
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 val containerWidth = binding.tabContainer.width
@@ -296,23 +320,50 @@ class UploadFileActivity : AppCompatActivity() {
 
     private fun setupDropdowns() {
         binding.btnSelectQuarter.setOnClickListener { view ->
+            val cuatrimestres = subjectsViewModel.cuatrimestres.value.orEmpty()
+            if (cuatrimestres.isEmpty()) {
+                showAlert("Cargando...", "Los cuatrimestres todavía se están cargando, intenta de nuevo en un momento.")
+                return@setOnClickListener
+            }
+
             val popup = PopupMenu(this, view)
-            val quarters = (1..10).map { "$it° Cuatrimestre" }
-            quarters.forEachIndexed { index, s -> popup.menu.add(0, index, index, s) }
+            cuatrimestres.forEachIndexed { index, c -> popup.menu.add(0, index, index, c.nombre) }
             popup.setOnMenuItemClickListener { item ->
-                binding.tvSelectedQuarter.text = quarters[item.itemId]
+                val seleccionado = cuatrimestres[item.itemId]
+                selectedCuatrimestreId = seleccionado.id
+                binding.tvSelectedQuarter.text = seleccionado.nombre
                 binding.tvSelectedQuarter.setTextColor(ContextCompat.getColor(this, R.color.primary))
+
+                // Cambiar de cuatrimestre invalida la materia elegida previamente
+                selectedMateriaId = null
+                binding.tvSelectedSubject.text = "Selecciona una materia"
+                binding.tvSelectedSubject.setTextColor(ContextCompat.getColor(this, R.color.text_secondary))
                 true
             }
             popup.show()
         }
 
         binding.btnSelectSubject.setOnClickListener { view ->
+            val cuatrimestreId = selectedCuatrimestreId
+            if (cuatrimestreId == null) {
+                showAlert("Selección pendiente", "Primero selecciona un cuatrimestre.")
+                return@setOnClickListener
+            }
+
+            val materias = subjectsViewModel.materias.value.orEmpty()
+                .filter { it.cuatrimestreId == cuatrimestreId }
+
+            if (materias.isEmpty()) {
+                showAlert("Sin materias", "Este cuatrimestre todavía no tiene materias registradas.")
+                return@setOnClickListener
+            }
+
             val popup = PopupMenu(this, view)
-            val subjects = listOf("Cálculo II", "Programación", "Base de Datos", "Álgebra", "Física")
-            subjects.forEachIndexed { index, s -> popup.menu.add(0, index, index, s) }
+            materias.forEachIndexed { index, m -> popup.menu.add(0, index, index, m.nombre) }
             popup.setOnMenuItemClickListener { item ->
-                binding.tvSelectedSubject.text = subjects[item.itemId]
+                val seleccionada = materias[item.itemId]
+                selectedMateriaId = seleccionada.id
+                binding.tvSelectedSubject.text = seleccionada.nombre
                 binding.tvSelectedSubject.setTextColor(ContextCompat.getColor(this, R.color.primary))
                 true
             }
@@ -331,10 +382,32 @@ class UploadFileActivity : AppCompatActivity() {
     }
 
     private fun handlePreselectedSubject() {
-        val preselectedSubject = intent.getStringExtra("SELECTED_SUBJECT")
-        if (preselectedSubject != null) {
-            binding.tvSelectedSubject.text = preselectedSubject
+        val preselectedSubjectName = intent.getStringExtra("SELECTED_SUBJECT")
+        val preselectedSubjectId = intent.getStringExtra("SELECTED_SUBJECT_ID")
+
+        if (preselectedSubjectName != null) {
+            binding.tvSelectedSubject.text = preselectedSubjectName
             binding.tvSelectedSubject.setTextColor(ContextCompat.getColor(this, R.color.primary))
+        }
+
+        if (preselectedSubjectId != null) {
+            selectedMateriaId = preselectedSubjectId
+
+            // En cuanto lleguen las materias y cuatrimestres de la API (sin importar el orden),
+            // autoseleccionamos el cuatrimestre real al que pertenece esta materia.
+            val intentarAutoseleccionar = {
+                val materia = subjectsViewModel.materias.value?.find { it.id == preselectedSubjectId }
+                val cuatrimestre = materia?.let { m ->
+                    subjectsViewModel.cuatrimestres.value?.find { it.id == m.cuatrimestreId }
+                }
+                if (cuatrimestre != null) {
+                    selectedCuatrimestreId = cuatrimestre.id
+                    binding.tvSelectedQuarter.text = cuatrimestre.nombre
+                    binding.tvSelectedQuarter.setTextColor(ContextCompat.getColor(this, R.color.primary))
+                }
+            }
+            subjectsViewModel.materias.observe(this) { intentarAutoseleccionar() }
+            subjectsViewModel.cuatrimestres.observe(this) { intentarAutoseleccionar() }
         }
     }
 }

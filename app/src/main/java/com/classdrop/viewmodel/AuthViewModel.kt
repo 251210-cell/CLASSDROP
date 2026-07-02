@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.classdrop.domain.auth.ValidarCredencialesUseCase
-import com.classdrop.model.LoginResponse
+import com.classdrop.model.*
 import com.classdrop.network.AuthService
 import com.classdrop.network.NetworkResult
 import com.classdrop.network.RetrofitClient
@@ -26,6 +26,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _validationError = MutableLiveData<String?>()
     val validationError: LiveData<String?> = _validationError
 
+    private val _registerState = MutableLiveData<NetworkResult<RegisterResponse>>()
+    val registerState: LiveData<NetworkResult<RegisterResponse>> = _registerState
+
     fun login(correo: String, contrsena: String) {
         when (val resultado = validarCredenciales(correo, contrsena)) {
             is ValidarCredencialesUseCase.Resultado.Invalido -> {
@@ -36,6 +39,22 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 _loginState.value = NetworkResult.Loading()
                 viewModelScope.launch {
                     _loginState.value = authRepository.login(correo.trim(), contrsena)
+                }
+            }
+        }
+    }
+
+    fun register(nombre: String, correo: String, contrasena: String) {
+        // Primero validamos las credenciales usando tu UseCase existente
+        when (val resultado = validarCredenciales(correo, contrasena)) {
+            is ValidarCredencialesUseCase.Resultado.Invalido -> {
+                _validationError.value = resultado.mensaje
+            }
+            ValidarCredencialesUseCase.Resultado.Valido -> {
+                _validationError.value = null
+                _registerState.value = NetworkResult.Loading()
+                viewModelScope.launch {
+                    _registerState.value = authRepository.register(nombre, correo, contrasena)
                 }
             }
         }

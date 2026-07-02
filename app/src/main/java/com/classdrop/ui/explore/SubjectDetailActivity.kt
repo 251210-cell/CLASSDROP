@@ -23,6 +23,7 @@ class SubjectDetailActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: "Materia"
+        val subjectId = intent.getStringExtra("SUBJECT_ID")
         val fileCount = intent.getIntExtra("FILE_COUNT", 0)
 
         binding.tvSubjectTitle.text = subjectName
@@ -35,6 +36,7 @@ class SubjectDetailActivity : AppCompatActivity() {
         binding.btnUpload.setOnClickListener {
             val intent = Intent(this, com.classdrop.ui.files.UploadFileActivity::class.java).apply {
                 putExtra("SELECTED_SUBJECT", subjectName)
+                putExtra("SELECTED_SUBJECT_ID", subjectId)
             }
             startActivity(intent)
         }
