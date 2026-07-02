@@ -54,7 +54,7 @@ class SubjectsAdminActivity : AppCompatActivity() {
         adapter = SubjectsAdminAdapter(
             onEditClick = { subject ->
                 val intent = Intent(this, CreateSubjectActivity::class.java).apply {
-                    // Pasamos el ID como Int (tipo de dato de la API)
+                    // El id de materia es un String (UUID), tal como lo devuelve la API
                     putExtra("SUBJECT_ID", subject.id)
                 }
                 startActivity(intent)
@@ -104,13 +104,23 @@ class SubjectsAdminActivity : AppCompatActivity() {
             primaryButtonText = "Eliminar",
             secondaryButtonText = "Cancelar",
             onPrimaryClick = {
-                viewModel.deleteSubject(subject)
-                com.classdrop.utils.AlertUtils.showCustomAlert(
-                    context = this,
-                    title = "¡Eliminado!",
-                    message = "La materia se ha eliminado exitosamente.",
-                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
-                )
+                viewModel.deleteSubject(subject) { exito, mensajeError ->
+                    if (exito) {
+                        com.classdrop.utils.AlertUtils.showCustomAlert(
+                            context = this,
+                            title = "¡Eliminado!",
+                            message = "La materia se ha eliminado exitosamente.",
+                            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
+                        )
+                    } else {
+                        com.classdrop.utils.AlertUtils.showCustomAlert(
+                            context = this,
+                            title = "No se pudo eliminar",
+                            message = mensajeError ?: "Ocurrió un error inesperado.",
+                            type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                        )
+                    }
+                }
             }
         )
     }
@@ -126,5 +136,3 @@ class SubjectsAdminActivity : AppCompatActivity() {
         }
     }
 }
-
-private fun SubjectsViewModel.deleteSubject(subject: MateriaResponse) {}

@@ -34,8 +34,18 @@ class SubjectsRepository(context: Context) {
         return desenvolverObjeto(response)
     }
 
+    suspend fun getMateriaById(id: String): Response<MateriaResponse> {
+        val response = subjectsService.getMateriaById(id)
+        return desenvolverObjeto(response)
+    }
+
     suspend fun deleteMateria(id: String): Response<Unit> {
         return subjectsService.deleteMateria(id)
+    }
+
+    suspend fun updateMateria(id: String, campos: Map<String, Any>): Response<MateriaResponse> {
+        val response = subjectsService.updateMateria(id, campos)
+        return desenvolverObjeto(response)
     }
 
     // --- Helpers para desenvolver el wrapper {success, data, meta, error} de tu API ---

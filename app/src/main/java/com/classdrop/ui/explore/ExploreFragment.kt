@@ -8,26 +8,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.classdrop.R
 import com.classdrop.databinding.FragmentExploreBinding
+import com.classdrop.model.CuatrimestreResponse
 import com.classdrop.model.MateriaResponse
-import com.classdrop.model.Subject
 import com.classdrop.ui.home.SubjectsAdapter
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.SubjectsViewModel
 
 class ExploreFragment : Fragment() {
 
     private var _binding: FragmentExploreBinding? = null
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
+    private val viewModel: SubjectsViewModel by viewModels()
 
     private lateinit var subjectsAdapter: SubjectsAdapter
     private lateinit var suggestionsAdapter: SuggestionsAdapter
-    private var allSubjects: List<MateriaResponse> = emptyList()
-    private var allSubjects2: List<Subject> = emptyList()
+
+    // Cachés locales, alimentadas por los observers del ViewModel
+    private var allMaterias: List<MateriaResponse> = emptyList()
+    private var allCuatrimestres: List<CuatrimestreResponse> = emptyList()
+
+    // Materias visibles actualmente (filtradas por cuatrimestre), para el popup de selección
+    private var materiasDelCuatrimestreSeleccionado: List<MateriaResponse> = emptyList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,12 +48,40 @@ class ExploreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
-        
+
         setupUserData()
-        setupCuatrimestres()
-        setupSubjects()
+        setupSubjectsAdapter()
         setupSuggestions()
         setupSearch()
+        setupCuatrimestresRecycler()
+        observeViewModel()
+
+        viewModel.fetchAllMaterias()
+        viewModel.fetchCuatrimestres()
+    }
+
+    private fun observeViewModel() {
+        viewModel.materias.observe(viewLifecycleOwner) { materias ->
+            allMaterias = materias
+            subjectsAdapter.submitList(materias)
+        }
+
+        viewModel.cuatrimestres.observe(viewLifecycleOwner) { cuatrimestres ->
+            allCuatrimestres = cuatrimestres
+            val nombres = cuatrimestres.map { it.nombre }
+            binding.rvCuatrimestres.adapter = QuartersAdapter(nombres) { nombreSeleccionado ->
+                onCuatrimestreSeleccionado(nombreSeleccionado)
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { mensaje ->
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = requireContext(),
+                title = "No se pudo cargar",
+                message = mensaje,
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+            )
+        }
     }
 
     private fun setupUserData() {
@@ -55,10 +91,9 @@ class ExploreFragment : Fragment() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarInitials.text = initials
-        
-        // Al hacer clic en el avatar, abrir el Perfil
+
         binding.tvAvatarInitials.setOnClickListener {
             (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
         }
@@ -73,13 +108,9 @@ class ExploreFragment : Fragment() {
         suggestionsAdapter = SuggestionsAdapter { suggestion ->
             binding.etSearch.setText(suggestion.title)
             binding.rvSuggestions.visibility = View.GONE
-            
-            // Navegar al detalle
-            val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
-                putExtra("SUBJECT_NAME", suggestion.title)
-                putExtra("FILE_COUNT", (5..20).random())
-            }
-            startActivity(intent)
+
+            val materia = allMaterias.find { it.nombre == suggestion.title }
+            abrirDetalleMateria(materia, suggestion.title)
         }
         binding.rvSuggestions.layoutManager = LinearLayoutManager(context)
         binding.rvSuggestions.adapter = suggestionsAdapter
@@ -94,7 +125,7 @@ class ExploreFragment : Fragment() {
                     showSuggestions(query)
                 } else {
                     binding.rvSuggestions.visibility = View.GONE
-                    subjectsAdapter.submitList(allSubjects)
+                    subjectsAdapter.submitList(allMaterias)
                 }
             }
             override fun afterTextChanged(s: Editable?) {}
@@ -102,96 +133,91 @@ class ExploreFragment : Fragment() {
     }
 
     private fun showSuggestions(query: String) {
-        val suggestions = allSubjects
+        val suggestions = allMaterias
             .filter { it.nombre.contains(query, ignoreCase = true) }
             .map { Suggestion(it.nombre, "Materia") }
-        
+
         if (suggestions.isNotEmpty()) {
             suggestionsAdapter.submitList(suggestions)
             binding.rvSuggestions.visibility = View.VISIBLE
         } else {
             binding.rvSuggestions.visibility = View.GONE
         }
-        
+
         filterSubjects(query)
     }
 
     private fun filterSubjects(query: String) {
         val filteredList = if (query.isEmpty()) {
-            allSubjects
+            allMaterias
         } else {
-            allSubjects.filter { 
-                it.nombre.contains(query, ignoreCase = true)
-            }
+            allMaterias.filter { it.nombre.contains(query, ignoreCase = true) }
         }
         subjectsAdapter.submitList(filteredList)
     }
 
-    private fun setupCuatrimestres() {
-        val quarters = (1..10).map { it.toString() }
-        binding.rvCuatrimestres.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCuatrimestres.adapter = QuartersAdapter(quarters) { quarter ->
-            // Al seleccionar un cuatrimestre, mostramos el dropdown de materias
-            binding.btnSelectMateria.visibility = View.VISIBLE
-            binding.tvSelectedMateria.text = "Selecciona una materia"
-            
-            // Filtramos la lista principal por cuatrimestre (Simulado)
-            filterByQuarter(quarter)
-        }
+    private fun setupCuatrimestresRecycler() {
+        binding.rvCuatrimestres.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        // El adapter real con datos de la API se asigna en observeViewModel() cuando llegan los cuatrimestres
 
         binding.btnSelectMateria.setOnClickListener {
             showSubjectsPopupMenu(it)
         }
     }
 
-    private fun filterByQuarter(quarter: String) {
-        // En una app real esto vendría de una DB o API
-        val filtered = allSubjects.shuffled().take(2) 
-        subjectsAdapter.submitList(filtered)
+    private fun onCuatrimestreSeleccionado(nombreCuatrimestre: String) {
+        binding.btnSelectMateria.visibility = View.VISIBLE
+        binding.tvSelectedMateria.text = "Selecciona una materia"
+
+        val cuatrimestre = allCuatrimestres.find { it.nombre == nombreCuatrimestre }
+        materiasDelCuatrimestreSeleccionado = if (cuatrimestre != null) {
+            allMaterias.filter { it.cuatrimestreId == cuatrimestre.id }
+        } else {
+            emptyList()
+        }
+        subjectsAdapter.submitList(materiasDelCuatrimestreSeleccionado)
     }
 
     private fun showSubjectsPopupMenu(view: View) {
+        if (materiasDelCuatrimestreSeleccionado.isEmpty()) {
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = requireContext(),
+                title = "Sin materias",
+                message = "Este cuatrimestre todavía no tiene materias registradas.",
+                type = com.classdrop.utils.AlertUtils.AlertType.WARNING
+            )
+            return
+        }
+
         val popup = androidx.appcompat.widget.PopupMenu(requireContext(), view)
-        val subjects = listOf("Cálculo II", "Programación", "Base de Datos", "Álgebra")
-        
-        subjects.forEachIndexed { index, name ->
-            popup.menu.add(0, index, index, name)
+        materiasDelCuatrimestreSeleccionado.forEachIndexed { index, materia ->
+            popup.menu.add(0, index, index, materia.nombre)
         }
 
         popup.setOnMenuItemClickListener { item ->
-            val selectedName = subjects[item.itemId]
-            binding.tvSelectedMateria.text = selectedName
-            
-            // Navegar al detalle
-            val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
-                putExtra("SUBJECT_NAME", selectedName)
-                putExtra("FILE_COUNT", (5..20).random()) 
-            }
-            startActivity(intent)
+            val seleccionada = materiasDelCuatrimestreSeleccionado[item.itemId]
+            binding.tvSelectedMateria.text = seleccionada.nombre
+            abrirDetalleMateria(seleccionada, seleccionada.nombre)
             true
         }
         popup.show()
     }
 
-    private fun setupSubjects() {
-        allSubjects2 = listOf(
-            Subject("1", "Cálculo II", 12, R.drawable.ic_app_logo, "#E0E7FF", "#4F46E5"),
-            Subject("2", "Programación", 8, R.drawable.ic_app_logo, "#ECFDF5", "#059669"),
-            Subject("3", "Base de Datos", 15, R.drawable.ic_app_logo, "#F5F3FF", "#7C3AED"),
-            Subject("4", "Álgebra", 4, R.drawable.ic_app_logo, "#FEF2F2", "#DC2626")
-        )
-
-        subjectsAdapter = SubjectsAdapter { subject ->
-            val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
-                putExtra("SUBJECT_NAME", subject.nombre)
-                putExtra("FILE_COUNT", subject.fileCount)
-            }
-            startActivity(intent)
+    private fun setupSubjectsAdapter() {
+        subjectsAdapter = SubjectsAdapter { materia ->
+            abrirDetalleMateria(materia, materia.nombre)
         }
-
         binding.rvSubjectsExplore.layoutManager = GridLayoutManager(context, 2)
         binding.rvSubjectsExplore.adapter = subjectsAdapter
-        subjectsAdapter.submitList(allSubjects)
+    }
+
+    private fun abrirDetalleMateria(materia: MateriaResponse?, nombreFallback: String) {
+        val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
+            putExtra("SUBJECT_ID", materia?.id)
+            putExtra("SUBJECT_NAME", materia?.nombre ?: nombreFallback)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

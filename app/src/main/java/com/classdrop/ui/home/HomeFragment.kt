@@ -120,6 +120,8 @@ class HomeFragment : Fragment() {
             adapter.submitList(listaMaterias)
         }
 
+        viewModel.fetchAllMaterias()
+
         setupInteractions()
         setupReactionListeners()
     }
