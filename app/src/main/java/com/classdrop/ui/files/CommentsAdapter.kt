@@ -10,35 +10,44 @@ import com.classdrop.model.Comment
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CommentsAdapter : ListAdapter<Comment, CommentsAdapter.CommentViewHolder>(CommentDiffCallback()) {
+class CommentsAdapter(
+    // Recibimos la lambda para poder gestionar la eliminación del comentario
+    private val onDeleteClick: (String) -> Unit
+) : ListAdapter<Comment, CommentsAdapter.CommentViewHolder>(CommentDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CommentViewHolder(binding)
+        return CommentViewHolder(binding, onDeleteClick)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class CommentViewHolder(private val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CommentViewHolder(
+        private val binding: ItemCommentBinding,
+        private val onDeleteClick: (String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(comment: Comment) {
             binding.apply {
+                // 1. Usamos userId de tu modelo para pintar un nombre identificador
                 val userName = "Usuario ${comment.userId.takeLast(4)}"
                 tvCommentUserName.text = userName
                 tvCommentContent.text = comment.content
-                
-                // Generar iniciales del usuario
+
+                // Generar iniciales del avatar
                 tvCommentAvatar.text = userName.split(" ")
                     .filter { it.isNotBlank() }
                     .mapNotNull { it.firstOrNull()?.uppercase() }
                     .take(2)
                     .joinToString("")
 
+                // 2. Mantenemos tu formateo de hora usando el timestamp (Long) de tu modelo
                 val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
                 tvCommentTime.text = sdf.format(Date(comment.timestamp))
 
-                // Actualizar UI de Likes/Dislikes
+                // 3. Inicializamos y actualizamos la interfaz de Likes/Dislikes con tus campos correspondientes
                 updateLikesUI(comment)
 
                 btnLike.setOnClickListener {
@@ -49,6 +58,12 @@ class CommentsAdapter : ListAdapter<Comment, CommentsAdapter.CommentViewHolder>(
                 btnDislike.setOnClickListener {
                     toggleDislike(comment)
                     updateLikesUI(comment)
+                }
+
+                // Clic largo para activar la lambda de borrado usando comment.id
+                root.setOnLongClickListener {
+                    onDeleteClick(comment.id)
+                    true
                 }
             }
         }
