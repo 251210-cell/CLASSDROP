@@ -121,7 +121,7 @@ class SubjectDetailActivity : AppCompatActivity() {
         time = "${TimeUtils.tiempoRelativo(file.creadoEn)} • ${file.materia?.nombre ?: ""}",
         fileName = file.titulo,
         fileType = file.tipo.uppercase(),
-        fileUrl = file.adjuntos.firstOrNull()?.urlStorage,
+        fileUrl = file.adjuntos?.firstOrNull()?.urlStorage,
         likes = file.totalLikes,
         dislikes = file.totalDislikes,
         downloads = file.totalDescargas,
