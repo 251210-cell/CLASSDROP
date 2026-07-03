@@ -38,7 +38,7 @@ class NormsAdminActivity : AppCompatActivity() {
         setupHeader()
         setupRecyclerView()
         setupListeners()
-        loadMockData()
+        loadData()
         displaySanctions()
     }
 
@@ -269,45 +269,9 @@ class NormsAdminActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadMockData() {
+    private fun loadData() {
         val savedRules = normsRepository.getRules()
-        if (savedRules.isNotEmpty()) {
-            rulesList = savedRules.toMutableList()
-        } else {
-            rulesList = mutableListOf(
-                CommunityRule(
-                    id = "1",
-                    title = "Propósito y Alcance",
-                    description = "ClassDrop es una plataforma diseñada para el intercambio de conocimiento. Este reglamento es vinculante para todo usuario registrado y se aplica a todas las interacciones dentro del ecosistema digital de la plataforma."
-                ),
-                CommunityRule(
-                    id = "2",
-                    title = "Uso de la Plataforma",
-                    description = "Los usuarios son responsables por el uso y seguridad de sus credenciales de acceso. Se prohíbe la creación de cuentas múltiples para evadir sanciones o manipular sistemas de reputación."
-                ),
-                CommunityRule(
-                    id = "3",
-                    title = "Integridad Académica",
-                    description = "Queda estrictamente prohibido el intercambio de material que fomente el fraude académico, incluyendo pero no limitado a: exámenes vigentes, respuestas de evaluaciones o cualquier método de suplantación."
-                ),
-                CommunityRule(
-                    id = "4",
-                    title = "Propiedad Intelectual",
-                    description = "Al subir contenido, el usuario garantiza poseer los derechos necesarios o contar con autorización. ClassDrop respetará las leyes de Copyright, el material que infrinja derechos de autor será removido tras una notificación válida."
-                ),
-                CommunityRule(
-                    id = "5",
-                    title = "Comportamiento Social",
-                    description = "Se exige un trato respetuoso: no se tolera el acoso, la discriminación por cualquier motivo, ni el lenguaje de odio. Las discusiones deben mantenerse en un marco de crítica constructiva."
-                ),
-                CommunityRule(
-                    id = "6",
-                    title = "Moderación y Apelaciones",
-                    description = "El equipo de moderación tiene la facultad de retirar contenido y suspender cuentas. Los usuarios afectados tienen derecho a una sola apelación formal a través del Centro de Soporte dentro de las 72hs posteriores a la sanción."
-                )
-            )
-            normsRepository.saveRules(rulesList)
-        }
+        rulesList = savedRules.toMutableList()
         adapter.updateData(rulesList)
     }
 }

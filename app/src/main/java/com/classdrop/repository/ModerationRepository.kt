@@ -9,20 +9,12 @@ import android.os.Handler
 import android.os.Looper
 
 object ModerationRepository {
-    private val _pendingTasks = MutableLiveData<List<ModerationTask>>()
+    private val _pendingTasks = MutableLiveData<List<ModerationTask>>(emptyList())
     val pendingTasks: LiveData<List<ModerationTask>> = _pendingTasks
 
     // Para simular el estado del archivo del usuario actual
     private val _userFileStatus = MutableLiveData<ModerationTask?>()
     val userFileStatus: LiveData<ModerationTask?> = _userFileStatus
-
-    init {
-        _pendingTasks.value = listOf(
-            ModerationTask("1", "Examen_Parcial_CII_Final.pdf", "Juan Pérez", "Hace 10 min", "Patrón de examen institucional detectado."),
-            ModerationTask("2", "Solucionario_Guia.pdf", "Juan Pérez", "Hace 10 min", "Contenido detectado como material de evaluación."),
-            ModerationTask("3", "Apunte c++.pdf", "Juan Pérez", "Hace 10 min", "Posible duplicado detectado por IA.")
-        )
-    }
 
     fun uploadFile(fileName: String, userName: String) {
         val newTask = ModerationTask(
@@ -86,5 +78,9 @@ object ModerationRepository {
             message = "Tu archivo '${task.fileName}' no cumple con las normas de la comunidad.",
             type = NotificationType.ERROR
         )
+    }
+
+    fun setPendingTasks(tasks: List<ModerationTask>) {
+        _pendingTasks.value = tasks
     }
 }

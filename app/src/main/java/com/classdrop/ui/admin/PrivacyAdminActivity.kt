@@ -107,44 +107,9 @@ class PrivacyAdminActivity : AppCompatActivity() {
         binding.tvPrivacyHeaderDesc.text = normsRepository.getPrivacyHeader()
 
         viewModel.privacyRules.observe(this) { rules ->
-            if (rules.isEmpty()) {
-                loadInitialData()
-            } else {
-                rulesList = rules.toMutableList()
-                adapter.updateData(rules)
-            }
+            rulesList = rules.toMutableList()
+            adapter.updateData(rules)
         }
-    }
-
-    private fun loadInitialData() {
-        val initialRules = listOf(
-            CommunityRule(
-                id = "p1",
-                title = "Recopilación de Datos",
-                description = "Únicamente recabamos tu nombre completo y tu correo electrónico institucional de la UPChiapas al registrarte. Te garantizamos que ClassDrop no solicita ni trata ningún tipo de datos personales sensibles."
-            ),
-            CommunityRule(
-                id = "p2",
-                title = "Uso de la Información",
-                description = "Utilizamos los datos exclusivamente para crear tu cuenta, identificarte dentro de la plataforma y hacer visible tu nombre ante los demás miembros al momento de compartir y autorizar tus apuntes."
-            ),
-            CommunityRule(
-                id = "p3",
-                title = "Protección de Datos",
-                description = "Tus datos están protegidos por el equipo de ClassDrop. Nos comprometemos firmemente a no transferir ni compartir tu información con terceros."
-            ),
-            CommunityRule(
-                id = "p4",
-                title = "Tus Derechos",
-                description = "Como titular de tus datos, tienes derecho a Acceder, Rectificar, Cancelar u Oponerte (Derechos ARCO) al uso de tu información en cualquier momento. Puedes ejercer estos derechos enviando una solicitud digital con tu credencial de la UPChiapas."
-            ),
-            CommunityRule(
-                id = "p5",
-                title = "¿Tienes dudas adicionales?",
-                description = "Si tienes alguna duda o quieres ejercer tus derechos ARCO, comunícate con el equipo de The Sync a través de nuestro correo oficial de atención: soporte.classdrop@gmail.com"
-            )
-        )
-        viewModel.saveAllRules(initialRules)
     }
 
     private fun showEditOverlay(rule: CommunityRule?) {

@@ -35,14 +35,8 @@ class SubjectRepository(context: Context) {
         return subjectDao.getSubjectById(id)?.toDomain()
     }
 
-    // Static initialization for first-time use
+    // Static initialization for first-time use - Now empty to allow real data population
     suspend fun initializeDefaultSubjects() {
-        val defaults = listOf(
-            Subject("1", "Cálculo Integral", 12, R.drawable.ic_mortarboard, "#EEF2FF", "#4F46E5", "1 Cuatrimestre"),
-            Subject("2", "Algoritmos Avanzados", 8, R.drawable.ic_subject_code, "#F0FDFA", "#0D9488", "7 Cuatrimestre"),
-            Subject("3", "Ética Profesional", 15, R.drawable.ic_mortarboard, "#F5F3FF", "#8B5CF6", "3 Cuatrimestre"),
-            Subject("4", "Bases de Datos I", 20, R.drawable.ic_database, "#EFF6FF", "#3B82F6", "3 Cuatrimestre")
-        )
-        defaults.forEach { addSubject(it) }
+        // No hardcoded subjects to allow database to be populated from real sources
     }
 }

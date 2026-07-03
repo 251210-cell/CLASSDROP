@@ -8,6 +8,7 @@ import com.classdrop.databinding.ActivityModerationBinding
 import com.classdrop.model.ModerationStatus
 import com.classdrop.model.ModerationTask
 import com.classdrop.model.NotificationType
+import com.classdrop.repository.ModerationRepository
 import com.classdrop.repository.NotificationRepository
 import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
@@ -17,7 +18,6 @@ class ModerationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModerationBinding
     private lateinit var adapter: ModerationAdapter
     private lateinit var sessionManager: SessionManager
-    private val taskList = mutableListOf<ModerationTask>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class ModerationActivity : AppCompatActivity() {
 
         setupUI()
         setupHeader()
-        loadMockTasks()
+        observeTasks()
     }
 
     private fun setupHeader() {
@@ -63,22 +63,10 @@ class ModerationActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadMockTasks() {
-        taskList.addAll(listOf(
-            ModerationTask(
-                "1", "Examen_Parcial_CII_Final.pdf", "Juan Pérez", "Hace 10 min",
-                "Patrón de examen institucional detectado. El contenido coincide estructuralmente con evaluaciones previas del departamento de Cálculo."
-            ),
-            ModerationTask(
-                "2", "Solucionario_Guia.pdf", "Juan Pérez", "Hace 10 min",
-                "Patrón de examen institucional detectado. El contenido coincide estructuralmente con evaluaciones previas del departamento de Cálculo."
-            ),
-            ModerationTask(
-                "3", "Apunte c++.pdf", "Juan Pérez", "Hace 10 min",
-                "Patrón de examen institucional detectado. El contenido coincide estructuralmente con evaluaciones previas del departamento de Cálculo."
-            )
-        ))
-        adapter.submitList(taskList.toList())
+    private fun observeTasks() {
+        ModerationRepository.pendingTasks.observe(this) { tasks ->
+            adapter.submitList(tasks)
+        }
     }
 
     private fun showApprovalDialog(task: ModerationTask) {
@@ -90,7 +78,7 @@ class ModerationActivity : AppCompatActivity() {
             primaryButtonText = "Aprobar",
             secondaryButtonText = "Cancelar",
             onPrimaryClick = {
-                processTask(task, ModerationStatus.APPROVED)
+                ModerationRepository.approveTask(task)
                 showActionSuccess("Archivo aprobado")
             }
         )
@@ -105,7 +93,7 @@ class ModerationActivity : AppCompatActivity() {
             primaryButtonText = "Rechazar",
             secondaryButtonText = "Cancelar",
             onPrimaryClick = {
-                processTask(task, ModerationStatus.REJECTED)
+                ModerationRepository.rejectTask(task)
                 showActionSuccess("Archivo rechazado")
             }
         )
@@ -119,25 +107,5 @@ class ModerationActivity : AppCompatActivity() {
             type = AlertUtils.AlertType.SUCCESS,
             primaryButtonText = "Entendido"
         )
-    }
-
-    private fun processTask(task: ModerationTask, newStatus: ModerationStatus) {
-        // Simular envío de notificación al repositorio central
-        if (newStatus == ModerationStatus.APPROVED) {
-            NotificationRepository.addNotification(
-                "¡Archivo Publicado!",
-                "Tu material '${task.fileName}' ha sido aprobado y ya es público.",
-                NotificationType.SUCCESS
-            )
-        } else {
-            NotificationRepository.addNotification(
-                "Archivo Rechazado",
-                "Tu material '${task.fileName}' fue rechazado por no cumplir las normas académicas.",
-                NotificationType.ERROR
-            )
-        }
-
-        taskList.remove(task)
-        adapter.submitList(taskList.toList())
     }
 }
