@@ -174,7 +174,7 @@ class HomeFragment : Fragment() {
         time = "${TimeUtils.tiempoRelativo(creadoEn)} • ${materia?.nombre ?: ""}",
         fileName = titulo,
         fileType = tipo.uppercase(),
-        fileUrl = adjuntos.firstOrNull()?.urlStorage,
+        fileUrl = adjuntos?.firstOrNull()?.urlStorage,
         likes = totalLikes,
         dislikes = totalDislikes,
         downloads = totalDescargas,
