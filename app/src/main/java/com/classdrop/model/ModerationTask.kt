@@ -6,6 +6,8 @@ data class ModerationTask(
     val userName: String,
     val time: String,
     val flagReason: String,
+    val fileUrl: String? = null,
+    val fileType: String? = "PDF",
     var status: ModerationStatus = ModerationStatus.PENDING
 )
 

@@ -3,17 +3,21 @@ package com.classdrop.ui.explore
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivitySubjectDetailBinding
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
-
-
+import com.classdrop.utils.TimeUtils
+import com.classdrop.viewmodel.FilesViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class SubjectDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySubjectDetailBinding
     private lateinit var sessionManager: SessionManager
+    private lateinit var filesViewModel: FilesViewModel
+    private lateinit var postsAdapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +28,8 @@ class SubjectDetailActivity : AppCompatActivity() {
 
         val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: "Materia"
         val subjectId = intent.getStringExtra("SUBJECT_ID")
-        val fileCount = intent.getIntExtra("FILE_COUNT", 0)
 
         binding.tvSubjectTitle.text = subjectName
-        binding.tvSubtitle.text = "$fileCount archivos compartidos"
 
         binding.btnBack.setOnClickListener {
             finish()
@@ -55,7 +57,6 @@ class SubjectDetailActivity : AppCompatActivity() {
 
         binding.tvAvatarInitials.text = initials
 
-        // Al hacer clic en el avatar, ir al perfil (en MainActivity)
         binding.tvAvatarInitials.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("SELECT_TAB", "PROFILE")
@@ -66,11 +67,8 @@ class SubjectDetailActivity : AppCompatActivity() {
         }
     }
 
-    private lateinit var filesViewModel: com.classdrop.viewmodel.FilesViewModel
-    private lateinit var postsAdapter: PostsAdapter
-
     private fun setupPosts() {
-        filesViewModel = androidx.lifecycle.ViewModelProvider(this)[com.classdrop.viewmodel.FilesViewModel::class.java]
+        filesViewModel = ViewModelProvider(this)[FilesViewModel::class.java]
 
         postsAdapter = PostsAdapter(
             sessionManager = sessionManager,
@@ -83,12 +81,23 @@ class SubjectDetailActivity : AppCompatActivity() {
         val materiaId = intent.getStringExtra("SUBJECT_ID")
 
         filesViewModel.archivosPublicados.observe(this) { archivos ->
+            binding.pbPosts.visibility = View.GONE
             val posts = archivos.map { mapFileToPost(it) }
             postsAdapter.submitList(posts)
+            
             binding.tvSubtitle.text = "${posts.size} archivos compartidos"
+            
+            if (posts.isEmpty()) {
+                binding.tvEmptyState.visibility = View.VISIBLE
+                binding.rvPosts.visibility = View.GONE
+            } else {
+                binding.tvEmptyState.visibility = View.GONE
+                binding.rvPosts.visibility = View.VISIBLE
+            }
         }
 
         filesViewModel.listError.observe(this) { error ->
+            binding.pbPosts.visibility = View.GONE
             error?.let {
                 com.classdrop.utils.AlertUtils.showCustomAlert(
                     context = this,
@@ -99,15 +108,20 @@ class SubjectDetailActivity : AppCompatActivity() {
             }
         }
 
+        binding.pbPosts.visibility = View.VISIBLE
+        binding.rvPosts.visibility = View.GONE
+        binding.tvEmptyState.visibility = View.GONE
+        
         filesViewModel.cargarArchivosPublicados(materiaId = materiaId)
     }
 
     private fun mapFileToPost(file: com.classdrop.model.FileModel): Post = Post(
         id = file.id,
         userName = file.autor?.nombreCompleto ?: "Usuario",
-        time = "${com.classdrop.utils.TimeUtils.tiempoRelativo(file.creadoEn)} • ${file.materia?.nombre ?: ""}",
+        time = "${TimeUtils.tiempoRelativo(file.creadoEn)} • ${file.materia?.nombre ?: ""}",
         fileName = file.titulo,
         fileType = file.tipo.uppercase(),
+        fileUrl = file.adjuntos.firstOrNull()?.urlStorage,
         likes = file.totalLikes,
         dislikes = file.totalDislikes,
         downloads = file.totalDescargas,

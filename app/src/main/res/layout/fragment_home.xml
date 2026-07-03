@@ -180,16 +180,31 @@
                 android:focusable="true"/>
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSubjects"
+        <FrameLayout
+            android:id="@+id/flSubjects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:clipToPadding="false"
-            android:paddingHorizontal="12dp"
-            app:layout_constraintTop_toBottomOf="@id/materiasHeader"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2" />
+            app:layout_constraintTop_toBottomOf="@id/materiasHeader">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSubjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingHorizontal="12dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2" />
+
+            <ProgressBar
+                android:id="@+id/pbSubjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="20dp"
+                android:indeterminateTint="@color/primary"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <!-- ===== Admin Tools (Solo visible para Admin) ===== -->
         <LinearLayout
@@ -200,7 +215,7 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/rvSubjects">
+            app:layout_constraintTop_toBottomOf="@id/flSubjects">
 
             <!-- Moderar Archivos -->
             <com.google.android.material.card.MaterialCardView
@@ -369,31 +384,42 @@
             android:textSize="26sp"
             app:layout_constraintTop_toBottomOf="@id/adminToolsLayout" />
 
-        <!-- Novedades: lista real de archivos publicados -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvNovedades"
+        <FrameLayout
+            android:id="@+id/flNovedades"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:paddingHorizontal="16dp"
-            android:clipToPadding="false"
-            app:layout_constraintTop_toBottomOf="@id/novedadesHeader" />
+            app:layout_constraintTop_toBottomOf="@id/novedadesHeader">
 
-        <!-- Se muestra cuando todavía no hay ningún archivo publicado -->
-        <TextView
-            android:id="@+id/tvNovedadesVacio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="24dp"
-            android:text="Todavía no hay archivos publicados. ¡Sé el primero en compartir uno!"
-            android:textColor="@color/text_secondary"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/novedadesHeader" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNovedades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:paddingHorizontal="16dp"
+                android:clipToPadding="false" />
+
+            <ProgressBar
+                android:id="@+id/pbNovedades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="40dp"
+                android:indeterminateTint="@color/primary"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvNovedadesVacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="40dp"
+                android:text="Todavía no hay archivos publicados. ¡Sé el primero en compartir uno!"
+                android:textColor="@color/text_secondary"
+                android:visibility="gone" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

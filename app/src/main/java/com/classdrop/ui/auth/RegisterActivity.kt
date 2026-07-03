@@ -3,6 +3,7 @@ package com.classdrop.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.R
@@ -27,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        // Toggle para ver/ocultar contraseña (mantenemos tu lógica original)
+        // Toggle para ver/ocultar contraseña
         binding.btnTogglePassword.setOnClickListener {
             togglePasswordVisibility()
         }
@@ -55,13 +56,13 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Desencadena el flujo en el ViewModel (este validará con el UseCase)
+            // Desencadena el flujo en el ViewModel
             viewModel.register(name, email, password)
         }
     }
 
     private fun setupObservers() {
-        // Observa errores de validación locales (del UseCase) usando tus alertas
+        // Observa errores de validación locales
         viewModel.validationError.observe(this) { errorMessage ->
             errorMessage?.let {
                 AlertUtils.showCustomAlert(
@@ -77,11 +78,10 @@ class RegisterActivity : AppCompatActivity() {
         viewModel.registerState.observe(this) { result ->
             when (result) {
                 is NetworkResult.Loading -> {
-                    binding.btnRegister.isEnabled = false
+                    showLoading(true)
                 }
                 is NetworkResult.Success -> {
-                    binding.btnRegister.isEnabled = true
-
+                    showLoading(false)
                     AlertUtils.showCustomAlert(
                         context = this,
                         title = "¡Registro Exitoso!",
@@ -96,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
                     )
                 }
                 is NetworkResult.Error -> {
-                    binding.btnRegister.isEnabled = true
+                    showLoading(false)
                     AlertUtils.showCustomAlert(
                         context = this,
                         title = "Error de Registro",
@@ -105,6 +105,22 @@ class RegisterActivity : AppCompatActivity() {
                     )
                 }
             }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.btnRegister.visibility = View.INVISIBLE
+            binding.pbLoading.visibility = View.VISIBLE
+            binding.etName.isEnabled = false
+            binding.etEmail.isEnabled = false
+            binding.etPassword.isEnabled = false
+        } else {
+            binding.btnRegister.visibility = View.VISIBLE
+            binding.pbLoading.visibility = View.GONE
+            binding.etName.isEnabled = true
+            binding.etEmail.isEnabled = true
+            binding.etPassword.isEnabled = true
         }
     }
 

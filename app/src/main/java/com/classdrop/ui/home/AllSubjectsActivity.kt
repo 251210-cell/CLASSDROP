@@ -2,6 +2,7 @@ package com.classdrop.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,11 +31,12 @@ class AllSubjectsActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { finish() }
 
-        viewModel.fetchAllMaterias()
+        refreshData()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun refreshData() {
+        binding.pbAllSubjects.visibility = View.VISIBLE
+        binding.rvSubjects.visibility = View.GONE
         viewModel.fetchAllMaterias()
     }
 
@@ -49,11 +51,7 @@ class AllSubjectsActivity : AppCompatActivity() {
         binding.tvAvatarInitials.text = initials
 
         binding.ivNotification.setOnClickListener {
-            // Acción para notificaciones
-        }
-
-        binding.tvAvatarInitials.setOnClickListener {
-            // Podrías navegar al perfil o mostrar un menú
+            startActivity(Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java))
         }
     }
 
@@ -71,10 +69,19 @@ class AllSubjectsActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.materias.observe(this) { materias ->
+            binding.pbAllSubjects.visibility = View.GONE
+            binding.rvSubjects.visibility = View.VISIBLE
             adapter.submitList(materias)
         }
+        
         viewModel.error.observe(this) { mensaje ->
-            // TODO: mostrar el error (Toast/Snackbar) cuando conectemos el manejo de errores de esta pantalla
+            binding.pbAllSubjects.visibility = View.GONE
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "Error",
+                message = mensaje,
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+            )
         }
     }
 }

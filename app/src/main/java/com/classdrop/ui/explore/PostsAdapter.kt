@@ -16,6 +16,7 @@ data class Post(
     val time: String,
     val fileName: String,
     val fileType: String,
+    val fileUrl: String? = null,
     val fileSize: String = "1.2 MB",
     var likes: Int,
     var dislikes: Int = 0,
@@ -146,26 +147,25 @@ class PostsAdapter(
             // Lógica de Comentarios
             llComments.setOnClickListener {
                 animateButton(ivCommentIcon)
-                val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
-                    putExtra("ARCHIVO_ID", post.id)
-                    putExtra("FILE_NAME", post.fileName)
-                    putExtra("FILE_TYPE", post.fileType)
-                    putExtra("FILE_SIZE", post.fileSize)
-                }
-                holder.itemView.context.startActivity(intent)
+                openFileDetail(holder, post)
             }
 
             // Click en la tarjeta principal también abre el detalle
             root.setOnClickListener {
-                val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
-                    putExtra("ARCHIVO_ID", post.id)
-                    putExtra("FILE_NAME", post.fileName)
-                    putExtra("FILE_TYPE", post.fileType)
-                    putExtra("FILE_SIZE", post.fileSize)
-                }
-                holder.itemView.context.startActivity(intent)
+                openFileDetail(holder, post)
             }
         }
+    }
+
+    private fun openFileDetail(holder: PostViewHolder, post: Post) {
+        val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+            putExtra("ARCHIVO_ID", post.id)
+            putExtra("FILE_NAME", post.fileName)
+            putExtra("FILE_TYPE", post.fileType)
+            putExtra("FILE_SIZE", post.fileSize)
+            putExtra("FILE_URL", post.fileUrl)
+        }
+        holder.itemView.context.startActivity(intent)
     }
 
     private fun animateButton(view: android.view.View) {

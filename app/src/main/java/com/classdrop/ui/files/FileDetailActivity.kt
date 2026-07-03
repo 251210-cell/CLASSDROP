@@ -1,6 +1,6 @@
 package com.classdrop.ui.files
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,23 +10,23 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivityFileDetailBinding
-import com.classdrop.model.Comment
 import com.classdrop.network.NetworkResult
 import com.classdrop.utils.AlertUtils
-import com.classdrop.viewmodel.CommentsViewModel // CAMBIO 1: Importamos el ViewModel correcto de comentarios
+import com.classdrop.viewmodel.CommentsViewModel
 import com.classdrop.viewmodel.FilesViewModel
-import com.classdrop.viewmodel.AuthViewModel
-import java.util.*
 
 class FileDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFileDetailBinding
     private lateinit var commentsAdapter: CommentsAdapter
     private val filesViewModel: FilesViewModel by viewModels()
-    // CAMBIO 2: Instanciamos el ViewModel de comentarios de tu API REST
     private val commentsViewModel: CommentsViewModel by viewModels()
 
-    private var archivoId: String = "" // Guardará el ID dinámico del archivo
+    private var archivoId: String = ""
+    private var fileUrl: String? = null
+    private var fileName: String = ""
+    private var fileType: String = ""
+    
     private var isLiked = false
     private var isDisliked = false
     private var isBookmarked = false
@@ -39,8 +39,10 @@ class FileDetailActivity : AppCompatActivity() {
         binding = ActivityFileDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // CAMBIO 3: Recuperamos el ARCHIVO_ID dinámico enviado por tu Intent desde la lista de archivos
         archivoId = intent.getStringExtra("ARCHIVO_ID") ?: ""
+        fileUrl = intent.getStringExtra("FILE_URL")
+        fileName = intent.getStringExtra("FILE_NAME") ?: "Archivo"
+        fileType = intent.getStringExtra("FILE_TYPE") ?: "PDF"
 
         setupToolbar()
         setupCommentsList()
@@ -48,12 +50,11 @@ class FileDetailActivity : AppCompatActivity() {
         setupObservers()
         loadFileData()
 
-        // Cargar los comentarios reales desde la API al iniciar la pantalla
         if (archivoId.isNotEmpty()) {
             commentsViewModel.fetchComments(archivoId)
         }
 
-        // Mock initial data
+        // UI Initial states
         updateLikeUI()
         updateDislikeUI()
         updateBookmarkUI()
@@ -61,12 +62,9 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        // CAMBIO 4: Observamos el estado de carga de la lista de comentarios de la API
         commentsViewModel.commentsState.observe(this) { result ->
             when (result) {
-                is NetworkResult.Loading -> {
-                    // Opcional: podrías mostrar una mini animación de carga
-                }
+                is NetworkResult.Loading -> { }
                 is NetworkResult.Success -> {
                     val listaReal = result.data ?: emptyList()
                     commentsAdapter.submitList(listaReal)
@@ -77,7 +75,6 @@ class FileDetailActivity : AppCompatActivity() {
             }
         }
 
-        // CAMBIO 5: Observamos el estado de publicación de un nuevo comentario
         commentsViewModel.addCommentState.observe(this) { result ->
             if (result == null) return@observe
             when (result) {
@@ -86,9 +83,7 @@ class FileDetailActivity : AppCompatActivity() {
                 }
                 is NetworkResult.Success -> {
                     binding.btnSendComment.isEnabled = true
-                    binding.etComment.text.clear() // Limpiamos tu cuadro de texto original
-
-                    // Recargamos los comentarios de la API para ver el nuevo e insertado
+                    binding.etComment.text.clear()
                     commentsViewModel.fetchComments(archivoId)
                     binding.rvComments.scrollToPosition(0)
                 }
@@ -105,11 +100,10 @@ class FileDetailActivity : AppCompatActivity() {
             }
         }
 
-        // CAMBIO 6: Observamos el estado de eliminación de un comentario (clic largo)
         commentsViewModel.deleteCommentState.observe(this) { result ->
             if (result is NetworkResult.Success) {
                 Toast.makeText(this, "Comentario eliminado", Toast.LENGTH_SHORT).show()
-                commentsViewModel.fetchComments(archivoId) // Refrescar lista
+                commentsViewModel.fetchComments(archivoId)
             } else if (result is NetworkResult.Error) {
                 Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
             }
@@ -117,8 +111,6 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun loadFileData() {
-        val fileName = intent.getStringExtra("FILE_NAME") ?: "Archivo sin nombre"
-        val fileType = intent.getStringExtra("FILE_TYPE") ?: "PDF"
         val fileSize = intent.getStringExtra("FILE_SIZE") ?: "0.0 MB"
 
         binding.tvFileNameLarge.text = fileName
@@ -150,9 +142,7 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun setupCommentsList() {
-        // CAMBIO 7: Pasamos la lambda de borrado al constructor para solucionar el error de compilación
         commentsAdapter = CommentsAdapter { comentarioId ->
-            // Clic largo en el comentario llama al borrado seguro de la API
             commentsViewModel.deleteComment(comentarioId)
         }
         binding.rvComments.apply {
@@ -162,6 +152,22 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
+        // PREVISUALIZACIÓN: Al hacer clic en la tarjeta del archivo
+        binding.root.findViewById<View>(R.id.ivFileTypeIconLarge).parent.let { card ->
+            (card as View).setOnClickListener {
+                if (!fileUrl.isNullOrEmpty()) {
+                    val intent = Intent(this, FilePreviewActivity::class.java).apply {
+                        putExtra("FILE_URL", fileUrl)
+                        putExtra("FILE_NAME", fileName)
+                        putExtra("FILE_TYPE", fileType)
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "La previsualización no está disponible para este archivo", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         binding.llLikeDetail.setOnClickListener {
             isLiked = !isLiked
             if (isLiked) {
@@ -223,11 +229,9 @@ class FileDetailActivity : AppCompatActivity() {
             )
         }
 
-        // CAMBIO 8: Vinculamos el botón de enviar al commentsViewModel real de tu API REST
         binding.btnSendComment.setOnClickListener {
             val content = binding.etComment.text.toString().trim()
             if (content.isNotBlank() && archivoId.isNotEmpty()) {
-                // Dispara el flujo asíncrono hacia el backend
                 commentsViewModel.postComment(archivoId, content)
             }
         }

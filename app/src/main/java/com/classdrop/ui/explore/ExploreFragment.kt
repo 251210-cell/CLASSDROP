@@ -29,11 +29,8 @@ class ExploreFragment : Fragment() {
     private lateinit var subjectsAdapter: SubjectsAdapter
     private lateinit var suggestionsAdapter: SuggestionsAdapter
 
-    // Cachés locales, alimentadas por los observers del ViewModel
     private var allMaterias: List<MateriaResponse> = emptyList()
     private var allCuatrimestres: List<CuatrimestreResponse> = emptyList()
-
-    // Materias visibles actualmente (filtradas por cuatrimestre), para el popup de selección
     private var materiasDelCuatrimestreSeleccionado: List<MateriaResponse> = emptyList()
 
     override fun onCreateView(
@@ -56,12 +53,20 @@ class ExploreFragment : Fragment() {
         setupCuatrimestresRecycler()
         observeViewModel()
 
+        refreshData()
+    }
+
+    private fun refreshData() {
+        binding.pbExplore.visibility = View.VISIBLE
+        binding.rvSubjectsExplore.visibility = View.GONE
         viewModel.fetchAllMaterias()
         viewModel.fetchCuatrimestres()
     }
 
     private fun observeViewModel() {
         viewModel.materias.observe(viewLifecycleOwner) { materias ->
+            binding.pbExplore.visibility = View.GONE
+            binding.rvSubjectsExplore.visibility = View.VISIBLE
             allMaterias = materias
             subjectsAdapter.submitList(materias)
         }
@@ -75,6 +80,7 @@ class ExploreFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { mensaje ->
+            binding.pbExplore.visibility = View.GONE
             com.classdrop.utils.AlertUtils.showCustomAlert(
                 context = requireContext(),
                 title = "No se pudo cargar",
@@ -159,7 +165,6 @@ class ExploreFragment : Fragment() {
     private fun setupCuatrimestresRecycler() {
         binding.rvCuatrimestres.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        // El adapter real con datos de la API se asigna en observeViewModel() cuando llegan los cuatrimestres
 
         binding.btnSelectMateria.setOnClickListener {
             showSubjectsPopupMenu(it)

@@ -48,11 +48,19 @@ class HomeFragment : Fragment() {
         setupUI()
         setupListeners()
         setupNovedades()
+        
+        refreshData()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun refreshData() {
+        binding.pbSubjects.visibility = View.VISIBLE
+        binding.rvSubjects.visibility = View.GONE
+        viewModel.fetchAllMaterias()
+
         if (sessionManager.fetchUserRole() != UserRole.ADMIN) {
+            binding.pbNovedades.visibility = View.VISIBLE
+            binding.rvNovedades.visibility = View.GONE
+            binding.tvNovedadesVacio.visibility = View.GONE
             filesViewModel.cargarArchivosPublicados()
         }
     }
@@ -62,7 +70,6 @@ class HomeFragment : Fragment() {
         val userRole = sessionManager.fetchUserRole()
 
         if (userRole == UserRole.ADMIN) {
-            // UI para Admin
             binding.adminBannerCard.visibility = View.VISIBLE
             binding.adminToolsLayout.visibility = View.VISIBLE
             binding.ivNotification.visibility = View.GONE
@@ -70,22 +77,19 @@ class HomeFragment : Fragment() {
 
             binding.saludoLayout.visibility = View.GONE
             binding.novedadesHeader.visibility = View.GONE
-            binding.rvNovedades.visibility = View.GONE
-            binding.tvNovedadesVacio.visibility = View.GONE
+            binding.flNovedades.visibility = View.GONE
         } else {
-            // UI para Estudiante (Default)
             binding.adminBannerCard.visibility = View.GONE
             binding.adminToolsLayout.visibility = View.GONE
             binding.ivNotification.visibility = View.VISIBLE
 
             binding.saludoLayout.visibility = View.VISIBLE
             binding.novedadesHeader.visibility = View.VISIBLE
-            binding.rvNovedades.visibility = View.VISIBLE
+            binding.flNovedades.visibility = View.VISIBLE
 
             binding.tvSaludo.text = "¡Hola, $userName!"
         }
 
-        // Configurar iniciales en el avatar
         val initials = if (userName.length >= 2) {
             userName.split(" ")
                 .filter { it.isNotBlank() }
@@ -101,18 +105,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Al hacer clic en el avatar (MA) de la esquina superior derecha, ir al Perfil
         binding.tvAvatarInitials.setOnClickListener {
             (activity as? MainActivity)?.selectTab(MainActivity.Tab.PROFILE)
         }
 
-        // Al hacer clic en la campana de notificaciones
         binding.ivNotification.setOnClickListener {
             binding.viewNotificationDot.visibility = View.GONE
             startActivity(Intent(requireContext(), NotificationsActivity::class.java))
         }
 
-        // Navegar a "Ver todas las materias"
         binding.tvSeeAllSubjects.setOnClickListener {
             val userRole = sessionManager.fetchUserRole()
             val activityClass = if (userRole == UserRole.ADMIN) {
@@ -129,13 +130,16 @@ class HomeFragment : Fragment() {
         binding.rvSubjects.adapter = adapter
 
         viewModel.materias.observe(viewLifecycleOwner) { listaMaterias ->
+            binding.pbSubjects.visibility = View.GONE
+            binding.rvSubjects.visibility = View.VISIBLE
             adapter.submitList(listaMaterias)
         }
-
-        viewModel.fetchAllMaterias()
+        
+        viewModel.error.observe(viewLifecycleOwner) {
+            binding.pbSubjects.visibility = View.GONE
+        }
     }
 
-    /** Sección "Novedades": archivos publicados reales, con like/dislike ya conectados. */
     private fun setupNovedades() {
         postsAdapter = PostsAdapter(
             sessionManager = sessionManager,
@@ -146,14 +150,21 @@ class HomeFragment : Fragment() {
         binding.rvNovedades.adapter = postsAdapter
 
         filesViewModel.archivosPublicados.observe(viewLifecycleOwner) { archivos ->
+            binding.pbNovedades.visibility = View.GONE
             val posts = archivos.map { it.toPost() }
             postsAdapter.submitList(posts)
-            binding.tvNovedadesVacio.visibility = if (posts.isEmpty()) View.VISIBLE else View.GONE
-            binding.rvNovedades.visibility = if (posts.isEmpty()) View.GONE else View.VISIBLE
+            
+            if (posts.isEmpty()) {
+                binding.tvNovedadesVacio.visibility = View.VISIBLE
+                binding.rvNovedades.visibility = View.GONE
+            } else {
+                binding.tvNovedadesVacio.visibility = View.GONE
+                binding.rvNovedades.visibility = View.VISIBLE
+            }
         }
-
-        if (sessionManager.fetchUserRole() != UserRole.ADMIN) {
-            filesViewModel.cargarArchivosPublicados()
+        
+        filesViewModel.listError.observe(viewLifecycleOwner) {
+            binding.pbNovedades.visibility = View.GONE
         }
     }
 
@@ -163,6 +174,7 @@ class HomeFragment : Fragment() {
         time = "${TimeUtils.tiempoRelativo(creadoEn)} • ${materia?.nombre ?: ""}",
         fileName = titulo,
         fileType = tipo.uppercase(),
+        fileUrl = adjuntos.firstOrNull()?.urlStorage,
         likes = totalLikes,
         dislikes = totalDislikes,
         downloads = totalDescargas,

@@ -180,18 +180,31 @@
                             android:textSize="11sp" />
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btnRegister"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="40dp"
-                        android:backgroundTint="?attr/colorPrimary"
-                        android:text="Registrarse"
-                        android:textAllCaps="false"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="24dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp">
+
+                        <Button
+                            android:id="@+id/btnRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:backgroundTint="?attr/colorPrimary"
+                            android:text="Registrarse"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/colorOnPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="24dp" />
+
+                        <ProgressBar
+                            android:id="@+id/pbLoading"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            android:indeterminateTint="?attr/colorPrimary" />
+                    </FrameLayout>
 
                     <!-- Link para volver al Login -->
                     <LinearLayout

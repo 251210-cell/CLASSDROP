@@ -45,9 +45,6 @@ class AdminProfileActivity : AppCompatActivity() {
             .joinToString("")
         
         binding.tvAvatarLarge.text = initials
-        
-        binding.tvModeratedCount.text = "156"
-        binding.tvReportsResolved.text = "42"
     }
 
     private fun setupListeners() {
