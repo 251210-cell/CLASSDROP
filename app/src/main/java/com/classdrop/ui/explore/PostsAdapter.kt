@@ -147,6 +147,7 @@ class PostsAdapter(
             llComments.setOnClickListener {
                 animateButton(ivCommentIcon)
                 val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+                    putExtra("ARCHIVO_ID", post.id)
                     putExtra("FILE_NAME", post.fileName)
                     putExtra("FILE_TYPE", post.fileType)
                     putExtra("FILE_SIZE", post.fileSize)
@@ -157,6 +158,7 @@ class PostsAdapter(
             // Click en la tarjeta principal también abre el detalle
             root.setOnClickListener {
                 val intent = android.content.Intent(holder.itemView.context, com.classdrop.ui.files.FileDetailActivity::class.java).apply {
+                    putExtra("ARCHIVO_ID", post.id)
                     putExtra("FILE_NAME", post.fileName)
                     putExtra("FILE_TYPE", post.fileType)
                     putExtra("FILE_SIZE", post.fileSize)

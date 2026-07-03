@@ -7,14 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.FragmentHomeBinding
-import com.classdrop.R
+import com.classdrop.model.FileModel
+import com.classdrop.model.MateriaResponse
 import com.classdrop.model.UserRole
-import com.classdrop.model.MateriaResponse // Importamos el nuevo modelo de la API
+import com.classdrop.ui.explore.Post
+import com.classdrop.ui.explore.PostsAdapter
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.ui.notifications.NotificationsActivity
 import com.classdrop.utils.SessionManager
+import com.classdrop.utils.TimeUtils
+import com.classdrop.viewmodel.FilesViewModel
 import com.classdrop.viewmodel.SubjectsViewModel
 
 class HomeFragment : Fragment() {
@@ -23,7 +28,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
     private val viewModel: SubjectsViewModel by viewModels()
+    private val filesViewModel: FilesViewModel by viewModels()
     private lateinit var adapter: SubjectsAdapter
+    private lateinit var postsAdapter: PostsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +47,14 @@ class HomeFragment : Fragment() {
 
         setupUI()
         setupListeners()
+        setupNovedades()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (sessionManager.fetchUserRole() != UserRole.ADMIN) {
+            filesViewModel.cargarArchivosPublicados()
+        }
     }
 
     private fun setupUI() {
@@ -55,8 +70,8 @@ class HomeFragment : Fragment() {
 
             binding.saludoLayout.visibility = View.GONE
             binding.novedadesHeader.visibility = View.GONE
-            binding.postCardElena.visibility = View.GONE
-            binding.postCardMarco.visibility = View.GONE
+            binding.rvNovedades.visibility = View.GONE
+            binding.tvNovedadesVacio.visibility = View.GONE
         } else {
             // UI para Estudiante (Default)
             binding.adminBannerCard.visibility = View.GONE
@@ -65,8 +80,7 @@ class HomeFragment : Fragment() {
 
             binding.saludoLayout.visibility = View.VISIBLE
             binding.novedadesHeader.visibility = View.VISIBLE
-            binding.postCardElena.visibility = View.VISIBLE
-            binding.postCardMarco.visibility = View.VISIBLE
+            binding.rvNovedades.visibility = View.VISIBLE
 
             binding.tvSaludo.text = "¡Hola, $userName!"
         }
@@ -109,129 +123,55 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), activityClass))
         }
 
-        // CORRECCIÓN LÍNEA 115: El adapter ahora pasa un MateriaResponse
         adapter = SubjectsAdapter { materia ->
             navigateToSubject(materia)
         }
         binding.rvSubjects.adapter = adapter
 
-        // CORRECCIÓN LÍNEA 119: Cambiado de .subjects a .materias (o el nombre que tenga tu LiveData)
         viewModel.materias.observe(viewLifecycleOwner) { listaMaterias ->
             adapter.submitList(listaMaterias)
         }
 
         viewModel.fetchAllMaterias()
-
-        setupInteractions()
-        setupReactionListeners()
     }
 
-    private fun setupReactionListeners() {
-        val elenaPostId = "post_elena_derivadas"
-        val marcoPostId = "post_marco_recursividad"
+    /** Sección "Novedades": archivos publicados reales, con like/dislike ya conectados. */
+    private fun setupNovedades() {
+        postsAdapter = PostsAdapter(
+            sessionManager = sessionManager,
+            onLikeChanged = { post -> filesViewModel.actualizarLike(post.id, post.isLiked) },
+            onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) }
+        )
+        binding.rvNovedades.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvNovedades.adapter = postsAdapter
 
-        var isFavoritedElena = sessionManager.isFavorite(elenaPostId)
-        var isFavoritedMarco = sessionManager.isFavorite(marcoPostId)
-
-        updateElenaReactions(false, false, isFavoritedElena)
-        updateMarcoReactions(false, false, isFavoritedMarco)
-
-        var isLikedElena = false
-        var isDislikedElena = false
-
-        binding.btnLikeElena.setOnClickListener {
-            isLikedElena = !isLikedElena
-            if (isLikedElena) isDislikedElena = false
-            updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
+        filesViewModel.archivosPublicados.observe(viewLifecycleOwner) { archivos ->
+            val posts = archivos.map { it.toPost() }
+            postsAdapter.submitList(posts)
+            binding.tvNovedadesVacio.visibility = if (posts.isEmpty()) View.VISIBLE else View.GONE
+            binding.rvNovedades.visibility = if (posts.isEmpty()) View.GONE else View.VISIBLE
         }
 
-        binding.btnDislikeElena.setOnClickListener {
-            isDislikedElena = !isDislikedElena
-            if (isDislikedElena) isLikedElena = false
-            updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
-        }
-
-        binding.btnFavoriteElena.setOnClickListener {
-            isFavoritedElena = !isFavoritedElena
-            sessionManager.toggleFavorite(elenaPostId)
-            updateElenaReactions(isLikedElena, isDislikedElena, isFavoritedElena)
-        }
-
-        var isLikedMarco = false
-        var isDislikedMarco = false
-
-        binding.btnLikeMarco.setOnClickListener {
-            isLikedMarco = !isLikedMarco
-            if (isLikedMarco) isDislikedMarco = false
-            updateMarcoReactions(isLikedMarco, isDislikedMarco, isFavoritedMarco)
-        }
-
-        binding.btnDislikeMarco.setOnClickListener {
-            isDislikedMarco = !isDislikedMarco
-            if (isDislikedMarco) isLikedMarco = false
-            updateMarcoReactions(isLikedMarco, isDislikedMarco, isFavoritedMarco)
-        }
-
-        binding.btnFavoriteMarco.setOnClickListener {
-            isFavoritedMarco = !isFavoritedMarco
-            sessionManager.toggleFavorite(marcoPostId)
-            updateMarcoReactions(isLikedMarco, isDislikedMarco, isFavoritedMarco)
+        if (sessionManager.fetchUserRole() != UserRole.ADMIN) {
+            filesViewModel.cargarArchivosPublicados()
         }
     }
 
-    private fun updateElenaReactions(liked: Boolean, disliked: Boolean, favorited: Boolean) {
-        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary)
-        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.placeholder)
-        val favoriteColor = androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
+    private fun FileModel.toPost(): Post = Post(
+        id = id,
+        userName = autor?.nombreCompleto ?: "Usuario",
+        time = "${TimeUtils.tiempoRelativo(creadoEn)} • ${materia?.nombre ?: ""}",
+        fileName = titulo,
+        fileType = tipo.uppercase(),
+        likes = totalLikes,
+        dislikes = totalDislikes,
+        downloads = totalDescargas,
+        comments = totalComentarios
+    )
 
-        binding.ivLikeElena.imageTintList = android.content.res.ColorStateList.valueOf(if (liked) primaryColor else placeholderColor)
-        binding.tvLikeCountElena.setTextColor(if (liked) primaryColor else placeholderColor)
-
-        binding.ivDislikeElena.imageTintList = android.content.res.ColorStateList.valueOf(if (disliked) primaryColor else placeholderColor)
-        binding.tvDislikeCountElena.setTextColor(if (disliked) primaryColor else placeholderColor)
-
-        binding.btnFavoriteElena.imageTintList = android.content.res.ColorStateList.valueOf(if (favorited) favoriteColor else placeholderColor)
-    }
-
-    private fun updateMarcoReactions(liked: Boolean, disliked: Boolean, favorited: Boolean) {
-        val primaryColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary)
-        val placeholderColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.placeholder)
-        val favoriteColor = androidx.core.content.ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
-
-        binding.ivLikeMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (liked) primaryColor else placeholderColor)
-        binding.tvLikeCountMarco.setTextColor(if (liked) primaryColor else placeholderColor)
-
-        binding.ivDislikeMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (disliked) primaryColor else placeholderColor)
-        binding.tvDislikeCountMarco.setTextColor(if (disliked) primaryColor else placeholderColor)
-
-        binding.btnFavoriteMarco.imageTintList = android.content.res.ColorStateList.valueOf(if (favorited) favoriteColor else placeholderColor)
-    }
-
-    private fun setupInteractions() {
-        binding.postCardElena.setOnClickListener {
-            val intent = Intent(requireContext(), com.classdrop.ui.files.FileDetailActivity::class.java).apply {
-                putExtra("FILE_NAME", "Resumen: Derivadas Parciales v2")
-                putExtra("FILE_TYPE", "PDF")
-                putExtra("FILE_SIZE", "1.8 MB")
-            }
-            startActivity(intent)
-        }
-
-        binding.postCardMarco.setOnClickListener {
-            val intent = Intent(requireContext(), com.classdrop.ui.files.FileDetailActivity::class.java).apply {
-                putExtra("FILE_NAME", "Guía: Recursividad en C++")
-                putExtra("FILE_TYPE", "PDF")
-                putExtra("FILE_SIZE", "2.4 MB")
-            }
-            startActivity(intent)
-        }
-    }
-
-    // CORRECCIÓN: Ahora recibe 'MateriaResponse' en lugar de 'Subject'
     private fun navigateToSubject(subject: MateriaResponse) {
         val intent = Intent(requireContext(), SubjectDetailActivity::class.java).apply {
             putExtra("SUBJECT_ID", subject.id)
-            // Revisa si en tu MateriaResponse el atributo es 'name' o 'nombre'
             putExtra("SUBJECT_NAME", subject.nombre)
         }
         startActivity(intent)

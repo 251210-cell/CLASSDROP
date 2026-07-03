@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemCommentBinding
 import com.classdrop.model.Comment
-import java.text.SimpleDateFormat
-import java.util.*
+import com.classdrop.utils.TimeUtils
 
 class CommentsAdapter(
     // Recibimos la lambda para poder gestionar la eliminación del comentario
@@ -31,87 +30,22 @@ class CommentsAdapter(
 
         fun bind(comment: Comment) {
             binding.apply {
-                // 1. Usamos userId de tu modelo para pintar un nombre identificador
-                val userName = "Usuario ${comment.userId.takeLast(4)}"
+                val userName = comment.autor?.nombreCompleto ?: "Usuario"
                 tvCommentUserName.text = userName
-                tvCommentContent.text = comment.content
+                tvCommentContent.text = comment.contenido
 
-                // Generar iniciales del avatar
                 tvCommentAvatar.text = userName.split(" ")
                     .filter { it.isNotBlank() }
                     .mapNotNull { it.firstOrNull()?.uppercase() }
                     .take(2)
                     .joinToString("")
 
-                // 2. Mantenemos tu formateo de hora usando el timestamp (Long) de tu modelo
-                val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-                tvCommentTime.text = sdf.format(Date(comment.timestamp))
-
-                // 3. Inicializamos y actualizamos la interfaz de Likes/Dislikes con tus campos correspondientes
-                updateLikesUI(comment)
-
-                btnLike.setOnClickListener {
-                    toggleLike(comment)
-                    updateLikesUI(comment)
-                }
-
-                btnDislike.setOnClickListener {
-                    toggleDislike(comment)
-                    updateLikesUI(comment)
-                }
+                tvCommentTime.text = TimeUtils.tiempoRelativo(comment.creadoEn)
 
                 // Clic largo para activar la lambda de borrado usando comment.id
                 root.setOnLongClickListener {
                     onDeleteClick(comment.id)
                     true
-                }
-            }
-        }
-
-        private fun updateLikesUI(comment: Comment) {
-            binding.apply {
-                tvLikeCount.text = comment.likes.toString()
-                tvDislikeCount.text = comment.dislikes.toString()
-
-                val activeColor = android.graphics.Color.parseColor("#6366F1") // Primary
-                val inactiveColor = android.graphics.Color.parseColor("#94A3B8") // Slate 400
-
-                ivLike.imageTintList = android.content.res.ColorStateList.valueOf(
-                    if (comment.isLiked) activeColor else inactiveColor
-                )
-                tvLikeCount.setTextColor(if (comment.isLiked) activeColor else inactiveColor)
-
-                ivDislike.imageTintList = android.content.res.ColorStateList.valueOf(
-                    if (comment.isDisliked) activeColor else inactiveColor
-                )
-                tvDislikeCount.setTextColor(if (comment.isDisliked) activeColor else inactiveColor)
-            }
-        }
-
-        private fun toggleLike(comment: Comment) {
-            if (comment.isLiked) {
-                comment.isLiked = false
-                comment.likes--
-            } else {
-                comment.isLiked = true
-                comment.likes++
-                if (comment.isDisliked) {
-                    comment.isDisliked = false
-                    comment.dislikes--
-                }
-            }
-        }
-
-        private fun toggleDislike(comment: Comment) {
-            if (comment.isDisliked) {
-                comment.isDisliked = false
-                comment.dislikes--
-            } else {
-                comment.isDisliked = true
-                comment.dislikes++
-                if (comment.isLiked) {
-                    comment.isLiked = false
-                    comment.likes--
                 }
             }
         }
