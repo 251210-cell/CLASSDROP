@@ -28,8 +28,6 @@ data class MateriaArchivo(
     val icono: String? = null
 )
 
-
-
 data class FileModel(
     val id: String,
     val titulo: String,
@@ -37,7 +35,7 @@ data class FileModel(
     val tipo: String,
     val estado: String,
     val materiaId: String,
-    val adjuntos: List<Adjunto> = emptyList(),
+    val adjuntos: List<Adjunto>? = emptyList(),
     val autor: AutorArchivo? = null,
     val materia: MateriaArchivo? = null,
     val totalLikes: Int = 0,
