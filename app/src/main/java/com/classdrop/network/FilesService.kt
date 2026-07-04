@@ -4,6 +4,7 @@ import com.classdrop.model.ApiResponse
 import com.classdrop.model.ArchivosPaginados
 import com.classdrop.model.CrearArchivoRequest
 import com.classdrop.model.FileModel
+import com.classdrop.model.GuardadoResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -42,4 +43,18 @@ interface FilesService {
 
     @DELETE("dislikes/archivos/{archivoId}")
     suspend fun quitarDislike(@Path("archivoId") archivoId: String): Response<Unit>
+
+    // --- Guardados (favoritos) ---
+    @POST("guardados/{archivoId}")
+    suspend fun guardarFavorito(@Path("archivoId") archivoId: String): Response<Unit>
+
+    @DELETE("guardados/{archivoId}")
+    suspend fun quitarFavorito(@Path("archivoId") archivoId: String): Response<Unit>
+
+    @GET("guardados/usuario")
+    suspend fun getFavoritos(): Response<ApiResponse<List<GuardadoResponse>>>
+
+    // --- Descargas ---
+    @POST("descargas")
+    suspend fun registrarDescarga(@Body body: Map<String, String>): Response<Unit>
 }

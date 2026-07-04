@@ -26,13 +26,14 @@ class FileDetailActivity : AppCompatActivity() {
     private var fileUrl: String? = null
     private var fileName: String = ""
     private var fileType: String = ""
-    
+
     private var isLiked = false
     private var isDisliked = false
     private var isBookmarked = false
     private var isDownloaded = false
-    private var likesCount = 42
-    private var dislikesCount = 5
+    private var likesCount = 0
+    private var dislikesCount = 0
+    private var downloadsCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,14 @@ class FileDetailActivity : AppCompatActivity() {
         fileUrl = intent.getStringExtra("FILE_URL")
         fileName = intent.getStringExtra("FILE_NAME") ?: "Archivo"
         fileType = intent.getStringExtra("FILE_TYPE") ?: "PDF"
+
+        // Contadores y estado real, tal como venían del Post en la lista de donde se abrió esta pantalla
+        likesCount = intent.getIntExtra("FILE_LIKES", 0)
+        dislikesCount = intent.getIntExtra("FILE_DISLIKES", 0)
+        downloadsCount = intent.getIntExtra("FILE_DOWNLOADS", 0)
+        isLiked = intent.getBooleanExtra("FILE_IS_LIKED", false)
+        isDisliked = intent.getBooleanExtra("FILE_IS_DISLIKED", false)
+        isBookmarked = intent.getBooleanExtra("FILE_IS_BOOKMARKED", false)
 
         setupToolbar()
         setupCommentsList()
@@ -59,6 +68,7 @@ class FileDetailActivity : AppCompatActivity() {
         updateDislikeUI()
         updateBookmarkUI()
         updateDownloadUI()
+        binding.tvDownloadsDetail.text = downloadsCount.toString()
     }
 
     private fun setupObservers() {
@@ -142,9 +152,11 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun setupCommentsList() {
-        commentsAdapter = CommentsAdapter { comentarioId ->
-            commentsViewModel.deleteComment(comentarioId)
-        }
+        commentsAdapter = CommentsAdapter(
+            onDeleteClick = { comentarioId -> commentsViewModel.deleteComment(comentarioId) },
+            onLikeChanged = { comment -> commentsViewModel.actualizarLike(comment.id, comment.isLiked) },
+            onDislikeChanged = { comment -> commentsViewModel.actualizarDislike(comment.id, comment.isDisliked) }
+        )
         binding.rvComments.apply {
             layoutManager = LinearLayoutManager(this@FileDetailActivity)
             adapter = commentsAdapter
@@ -182,6 +194,7 @@ class FileDetailActivity : AppCompatActivity() {
             }
             updateLikeUI()
             animateButton(binding.ivLikeIconDetail)
+            if (archivoId.isNotEmpty()) filesViewModel.actualizarLike(archivoId, isLiked)
         }
 
         binding.llDislikeDetail.setOnClickListener {
@@ -198,12 +211,14 @@ class FileDetailActivity : AppCompatActivity() {
             }
             updateDislikeUI()
             animateButton(binding.ivDislikeIconDetail)
+            if (archivoId.isNotEmpty()) filesViewModel.actualizarDislike(archivoId, isDisliked)
         }
 
         binding.llBookmarkDetail.setOnClickListener {
             isBookmarked = !isBookmarked
             updateBookmarkUI()
             animateButton(binding.ivBookmarkIconDetail)
+            if (archivoId.isNotEmpty()) filesViewModel.actualizarFavorito(archivoId, isBookmarked)
         }
 
         binding.llDownloadDetail.setOnClickListener {
@@ -216,15 +231,23 @@ class FileDetailActivity : AppCompatActivity() {
                 secondaryButtonText = "Cancelar",
                 onPrimaryClick = {
                     isDownloaded = true
+                    downloadsCount++
                     updateDownloadUI()
+                    binding.tvDownloadsDetail.text = downloadsCount.toString()
                     animateButton(binding.ivDownloadIconDetail)
 
-                    AlertUtils.showCustomAlert(
-                        context = this,
-                        title = "¡Descarga Exitosa!",
-                        message = "El archivo se ha descargado correctamente.",
-                        type = AlertUtils.AlertType.SUCCESS
-                    )
+                    if (archivoId.isNotEmpty()) filesViewModel.registrarDescarga(archivoId)
+
+                    if (!fileUrl.isNullOrEmpty()) {
+                        startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(fileUrl)))
+                    } else {
+                        AlertUtils.showCustomAlert(
+                            context = this,
+                            title = "Sin archivo adjunto",
+                            message = "Este archivo no tiene una URL disponible para abrir.",
+                            type = AlertUtils.AlertType.ERROR
+                        )
+                    }
                 }
             )
         }

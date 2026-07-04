@@ -73,7 +73,9 @@ class SubjectDetailActivity : AppCompatActivity() {
         postsAdapter = PostsAdapter(
             sessionManager = sessionManager,
             onLikeChanged = { post -> filesViewModel.actualizarLike(post.id, post.isLiked) },
-            onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) }
+            onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) },
+            onBookmarkChanged = { post -> filesViewModel.actualizarFavorito(post.id, post.isBookmarked) },
+            onDownloadConfirmed = { post -> descargarArchivo(post) }
         )
         binding.rvPosts.layoutManager = LinearLayoutManager(this)
         binding.rvPosts.adapter = postsAdapter
@@ -84,9 +86,9 @@ class SubjectDetailActivity : AppCompatActivity() {
             binding.pbPosts.visibility = View.GONE
             val posts = archivos.map { mapFileToPost(it) }
             postsAdapter.submitList(posts)
-            
+
             binding.tvSubtitle.text = "${posts.size} archivos compartidos"
-            
+
             if (posts.isEmpty()) {
                 binding.tvEmptyState.visibility = View.VISIBLE
                 binding.rvPosts.visibility = View.GONE
@@ -111,7 +113,7 @@ class SubjectDetailActivity : AppCompatActivity() {
         binding.pbPosts.visibility = View.VISIBLE
         binding.rvPosts.visibility = View.GONE
         binding.tvEmptyState.visibility = View.GONE
-        
+
         filesViewModel.cargarArchivosPublicados(materiaId = materiaId)
     }
 
@@ -127,4 +129,19 @@ class SubjectDetailActivity : AppCompatActivity() {
         downloads = file.totalDescargas,
         comments = file.totalComentarios
     )
+
+    /** Registra la descarga en la API y abre el archivo real (Firebase Storage) en el navegador. */
+    private fun descargarArchivo(post: Post) {
+        filesViewModel.registrarDescarga(post.id)
+        if (!post.fileUrl.isNullOrEmpty()) {
+            startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(post.fileUrl)))
+        } else {
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = this,
+                title = "No se pudo descargar",
+                message = "Este archivo no tiene una URL disponible.",
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+            )
+        }
+    }
 }

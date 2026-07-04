@@ -62,4 +62,23 @@ class CommentsViewModel(application: Application) : AndroidViewModel(application
     fun resetAddCommentState() {
         _addCommentState.value = null
     }
+
+    // isActivo = true significa que el usuario acaba de activarlo (ya se refleja
+    // optimistamente en el adapter); solo avisamos si falla, sin revertir la UI.
+    private val _reactionError = MutableLiveData<String?>()
+    val reactionError: LiveData<String?> = _reactionError
+
+    fun actualizarLike(comentarioId: String, isActivo: Boolean) {
+        viewModelScope.launch {
+            val result = if (isActivo) repository.darLike(comentarioId) else repository.quitarLike(comentarioId)
+            if (result is NetworkResult.Error) _reactionError.value = result.message
+        }
+    }
+
+    fun actualizarDislike(comentarioId: String, isActivo: Boolean) {
+        viewModelScope.launch {
+            val result = if (isActivo) repository.darDislike(comentarioId) else repository.quitarDislike(comentarioId)
+            if (result is NetworkResult.Error) _reactionError.value = result.message
+        }
+    }
 }

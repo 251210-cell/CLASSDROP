@@ -32,7 +32,8 @@ class PostsAdapter(
     private val sessionManager: com.classdrop.utils.SessionManager? = null,
     private val onBookmarkChanged: ((Post) -> Unit)? = null,
     private val onLikeChanged: ((Post) -> Unit)? = null,
-    private val onDislikeChanged: ((Post) -> Unit)? = null
+    private val onDislikeChanged: ((Post) -> Unit)? = null,
+    private val onDownloadConfirmed: ((Post) -> Unit)? = null
 ) : ListAdapter<Post, PostsAdapter.PostViewHolder>(PostDiffCallback()) {
 
     inner class PostViewHolder(val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root)
@@ -119,7 +120,8 @@ class PostsAdapter(
                 onBookmarkChanged?.invoke(post)
             }
 
-            // Lógica de Descarga con Alerta y cambio de color
+            // Lógica de Descarga: confirmamos localmente, pero el registro real en la API
+            // (y la apertura del archivo) lo maneja quien use este adapter.
             updateDownloadUI(holder, post.isDownloaded)
             llDownload.setOnClickListener {
                 com.classdrop.utils.AlertUtils.showCustomAlert(
@@ -133,13 +135,7 @@ class PostsAdapter(
                         post.isDownloaded = true
                         updateDownloadUI(holder, true)
                         animateButton(ivDownloadIcon)
-
-                        com.classdrop.utils.AlertUtils.showCustomAlert(
-                            context = holder.itemView.context,
-                            title = "¡Descargado!",
-                            message = "El archivo se ha descargado exitosamente.",
-                            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
-                        )
+                        onDownloadConfirmed?.invoke(post)
                     }
                 )
             }
@@ -164,6 +160,12 @@ class PostsAdapter(
             putExtra("FILE_TYPE", post.fileType)
             putExtra("FILE_SIZE", post.fileSize)
             putExtra("FILE_URL", post.fileUrl)
+            putExtra("FILE_LIKES", post.likes)
+            putExtra("FILE_DISLIKES", post.dislikes)
+            putExtra("FILE_DOWNLOADS", post.downloads)
+            putExtra("FILE_IS_LIKED", post.isLiked)
+            putExtra("FILE_IS_DISLIKED", post.isDisliked)
+            putExtra("FILE_IS_BOOKMARKED", post.isBookmarked)
         }
         holder.itemView.context.startActivity(intent)
     }

@@ -5,6 +5,7 @@ import android.net.Uri
 import com.classdrop.model.Adjunto
 import com.classdrop.model.CrearArchivoRequest
 import com.classdrop.model.FileModel
+import com.classdrop.model.GuardadoResponse
 import com.classdrop.network.FilesService
 import com.classdrop.network.RetrofitClient
 import com.google.firebase.storage.FirebaseStorage
@@ -108,6 +109,39 @@ class FilesRepository(
 
     suspend fun quitarDislike(archivoId: String): Result<Unit> = try {
         val r = filesService.quitarDislike(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
+
+    // --- Guardados (favoritos) ---
+    suspend fun guardarFavorito(archivoId: String): Result<Unit> = try {
+        val r = filesService.guardarFavorito(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
+
+    suspend fun quitarFavorito(archivoId: String): Result<Unit> = try {
+        val r = filesService.quitarFavorito(archivoId)
+        if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
+    } catch (e: Exception) { Result.failure(e) }
+
+    suspend fun obtenerFavoritos(): Result<List<GuardadoResponse>> {
+        return try {
+            val response = filesService.getFavoritos()
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data)
+            } else {
+                Result.failure(Exception(body?.error?.message ?: "Error API: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // --- Descargas ---
+    // El fileUrl ya viaja en el Post/FileModel (adjuntos.urlStorage), así que aquí solo
+    // registramos la descarga como estadística real; abrir el archivo lo hace quien llame esto.
+    suspend fun registrarDescarga(archivoId: String): Result<Unit> = try {
+        val r = filesService.registrarDescarga(mapOf("archivoId" to archivoId))
         if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
     } catch (e: Exception) { Result.failure(e) }
 }

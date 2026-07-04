@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
         setupUI()
         setupListeners()
         setupNovedades()
-        
+
         refreshData()
     }
 
@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
             binding.rvSubjects.visibility = View.VISIBLE
             adapter.submitList(listaMaterias)
         }
-        
+
         viewModel.error.observe(viewLifecycleOwner) {
             binding.pbSubjects.visibility = View.GONE
         }
@@ -144,7 +144,9 @@ class HomeFragment : Fragment() {
         postsAdapter = PostsAdapter(
             sessionManager = sessionManager,
             onLikeChanged = { post -> filesViewModel.actualizarLike(post.id, post.isLiked) },
-            onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) }
+            onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) },
+            onBookmarkChanged = { post -> filesViewModel.actualizarFavorito(post.id, post.isBookmarked) },
+            onDownloadConfirmed = { post -> descargarArchivo(post) }
         )
         binding.rvNovedades.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNovedades.adapter = postsAdapter
@@ -153,7 +155,7 @@ class HomeFragment : Fragment() {
             binding.pbNovedades.visibility = View.GONE
             val posts = archivos.map { it.toPost() }
             postsAdapter.submitList(posts)
-            
+
             if (posts.isEmpty()) {
                 binding.tvNovedadesVacio.visibility = View.VISIBLE
                 binding.rvNovedades.visibility = View.GONE
@@ -162,7 +164,7 @@ class HomeFragment : Fragment() {
                 binding.rvNovedades.visibility = View.VISIBLE
             }
         }
-        
+
         filesViewModel.listError.observe(viewLifecycleOwner) {
             binding.pbNovedades.visibility = View.GONE
         }
@@ -187,6 +189,21 @@ class HomeFragment : Fragment() {
             putExtra("SUBJECT_NAME", subject.nombre)
         }
         startActivity(intent)
+    }
+
+    /** Registra la descarga en la API y abre el archivo real (Firebase Storage) en el navegador. */
+    private fun descargarArchivo(post: Post) {
+        filesViewModel.registrarDescarga(post.id)
+        if (!post.fileUrl.isNullOrEmpty()) {
+            startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(post.fileUrl)))
+        } else {
+            com.classdrop.utils.AlertUtils.showCustomAlert(
+                context = requireContext(),
+                title = "No se pudo descargar",
+                message = "Este archivo no tiene una URL disponible.",
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+            )
+        }
     }
 
     override fun onDestroyView() {

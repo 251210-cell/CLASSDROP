@@ -49,3 +49,15 @@ data class ArchivosPaginados(
     val count: Int,
     val rows: List<FileModel>
 )
+
+data class GuardadoArchivoInfo(
+    val id: String,
+    val titulo: String,
+    val descripcion: String,
+    val estado: String,
+    val autor: AutorArchivo? = null
+)
+
+data class GuardadoResponse(
+    val archivo: GuardadoArchivoInfo
+)

@@ -2,7 +2,7 @@
 package com.classdrop.network
 
 import com.classdrop.model.ApiResponse
-import com.classdrop.model.Comment // Asegúrate de tener este modelo creado
+import com.classdrop.model.Comment
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -25,4 +25,17 @@ interface CommentsService {
     suspend fun eliminarComentario(
         @Path("id") id: String
     ): Response<Unit>
+
+    // 4. Like / dislike de comentario
+    @POST("likes/comentarios/{comentarioId}")
+    suspend fun darLikeComentario(@Path("comentarioId") comentarioId: String): Response<Unit>
+
+    @DELETE("likes/comentarios/{comentarioId}")
+    suspend fun quitarLikeComentario(@Path("comentarioId") comentarioId: String): Response<Unit>
+
+    @POST("dislikes/comentarios/{comentarioId}")
+    suspend fun darDislikeComentario(@Path("comentarioId") comentarioId: String): Response<Unit>
+
+    @DELETE("dislikes/comentarios/{comentarioId}")
+    suspend fun quitarDislikeComentario(@Path("comentarioId") comentarioId: String): Response<Unit>
 }

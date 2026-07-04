@@ -65,4 +65,33 @@ class CommentsRepository(context: Context) {
             NetworkResult.Error("Error de conexión: ${e.message}")
         }
     }
+
+    suspend fun darLike(comentarioId: String): NetworkResult<Unit> = ejecutarReaccion {
+        commentsService.darLikeComentario(comentarioId)
+    }
+
+    suspend fun quitarLike(comentarioId: String): NetworkResult<Unit> = ejecutarReaccion {
+        commentsService.quitarLikeComentario(comentarioId)
+    }
+
+    suspend fun darDislike(comentarioId: String): NetworkResult<Unit> = ejecutarReaccion {
+        commentsService.darDislikeComentario(comentarioId)
+    }
+
+    suspend fun quitarDislike(comentarioId: String): NetworkResult<Unit> = ejecutarReaccion {
+        commentsService.quitarDislikeComentario(comentarioId)
+    }
+
+    private suspend fun ejecutarReaccion(accion: suspend () -> retrofit2.Response<Unit>): NetworkResult<Unit> {
+        return try {
+            val response = accion()
+            if (response.isSuccessful) {
+                NetworkResult.Success(Unit)
+            } else {
+                NetworkResult.Error("Error del servidor (${response.code()})")
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error("Error de conexión: ${e.message}")
+        }
+    }
 }

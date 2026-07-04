@@ -77,4 +77,21 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
     }
+
+    // --- Guardados (favoritos) ---
+    fun actualizarFavorito(archivoId: String, isActivo: Boolean) {
+        viewModelScope.launch {
+            val result = if (isActivo) repository.guardarFavorito(archivoId) else repository.quitarFavorito(archivoId)
+            result.onFailure { _listError.value = it.message }
+        }
+    }
+
+    // --- Descargas ---
+    // El fileUrl real ya viaja en el Post (adjuntos.urlStorage vía backend), así que aquí solo
+    // registramos la descarga como estadística; abrir el archivo lo hace quien tenga la URL.
+    fun registrarDescarga(archivoId: String) {
+        viewModelScope.launch {
+            repository.registrarDescarga(archivoId)
+        }
+    }
 }
