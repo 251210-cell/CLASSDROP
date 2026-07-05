@@ -3,12 +3,19 @@ package com.classdrop.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.classdrop.R
 import com.classdrop.databinding.ActivityRegisterBinding
 import com.classdrop.network.NetworkResult
+import com.classdrop.ui.profile.PrivacyPolicyActivity
 import com.classdrop.viewmodel.AuthViewModel
 import com.classdrop.utils.AlertUtils
 
@@ -23,8 +30,52 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupUI()
         setupListeners()
         setupObservers()
+    }
+
+    private fun setupUI() {
+        setupTermsText()
+    }
+
+    private fun setupTermsText() {
+        val fullText = "Acepto los Términos y Condiciones y la Política de Privacidad"
+        val spannableString = SpannableString(fullText)
+
+        // Índices para "Términos y Condiciones"
+        val termsStart = fullText.indexOf("Términos y Condiciones")
+        val termsEnd = termsStart + "Términos y Condiciones".length
+
+        // Índices para "Política de Privacidad"
+        val privacyStart = fullText.indexOf("Política de Privacidad")
+        val privacyEnd = privacyStart + "Política de Privacidad".length
+
+        val primaryColor = ContextCompat.getColor(this, R.color.primary)
+
+        // Click para Términos y Condiciones
+        val termsClick = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                // Puedes abrir PrivacyPolicy o una específica de términos si existe
+                startActivity(Intent(this@RegisterActivity, PrivacyPolicyActivity::class.java))
+            }
+        }
+
+        // Click para Política de Privacidad
+        val privacyClick = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                startActivity(Intent(this@RegisterActivity, PrivacyPolicyActivity::class.java))
+            }
+        }
+
+        spannableString.setSpan(termsClick, termsStart, termsEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(ForegroundColorSpan(primaryColor), termsStart, termsEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        spannableString.setSpan(privacyClick, privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(ForegroundColorSpan(primaryColor), privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.tvTermsLink.text = spannableString
+        binding.tvTermsLink.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun setupListeners() {
@@ -51,6 +102,17 @@ class RegisterActivity : AppCompatActivity() {
                     context = this,
                     title = "Campo requerido",
                     message = "Por favor ingresa tu nombre completo",
+                    type = AlertUtils.AlertType.WARNING
+                )
+                return@setOnClickListener
+            }
+
+            // VALIDACIÓN DE CHECKBOX
+            if (!binding.cbTerms.isChecked) {
+                AlertUtils.showCustomAlert(
+                    context = this,
+                    title = "Aviso legal",
+                    message = "Debes aceptar los Términos y Condiciones y la Política de Privacidad para registrarte.",
                     type = AlertUtils.AlertType.WARNING
                 )
                 return@setOnClickListener
@@ -115,12 +177,14 @@ class RegisterActivity : AppCompatActivity() {
             binding.etName.isEnabled = false
             binding.etEmail.isEnabled = false
             binding.etPassword.isEnabled = false
+            binding.cbTerms.isEnabled = false
         } else {
             binding.btnRegister.visibility = View.VISIBLE
             binding.pbLoading.visibility = View.GONE
             binding.etName.isEnabled = true
             binding.etEmail.isEnabled = true
             binding.etPassword.isEnabled = true
+            binding.cbTerms.isEnabled = true
         }
     }
 

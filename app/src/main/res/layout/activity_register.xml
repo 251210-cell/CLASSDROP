@@ -180,10 +180,33 @@
                             android:textSize="11sp" />
                     </LinearLayout>
 
+                    <!-- Términos y Condiciones -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/cbTerms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/tvTermsLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Acepto los Términos y Condiciones y la Política de Privacidad"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp">
+                        android:layout_marginTop="24dp">
 
                         <Button
                             android:id="@+id/btnRegister"
