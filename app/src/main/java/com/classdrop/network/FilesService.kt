@@ -23,6 +23,15 @@ interface FilesService {
         @Query("estado") estado: String? = null
     ): Response<ApiResponse<ArchivosPaginados>>
 
+    @GET("archivos/pendientes")
+    suspend fun getArchivosPendientes(): Response<ApiResponse<ArchivosPaginados>>
+
+    @PATCH("archivos/{id}/estado")
+    suspend fun actualizarEstadoArchivo(
+        @Path("id") id: String,
+        @Body body: Map<String, String>
+    ): Response<ApiResponse<FileModel>>
+
     @GET("archivos/{id}")
     suspend fun getArchivoPorId(@Path("id") id: String): Response<ApiResponse<FileModel>>
 

@@ -52,6 +52,11 @@ class HomeFragment : Fragment() {
         refreshData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
     private fun refreshData() {
         binding.pbSubjects.visibility = View.VISIBLE
         binding.rvSubjects.visibility = View.GONE

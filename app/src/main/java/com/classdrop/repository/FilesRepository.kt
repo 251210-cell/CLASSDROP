@@ -144,4 +144,77 @@ class FilesRepository(
         val r = filesService.registrarDescarga(mapOf("archivoId" to archivoId))
         if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
     } catch (e: Exception) { Result.failure(e) }
+
+    // --- Moderación (admin) ---
+    suspend fun obtenerPendientes(): Result<List<FileModel>> {
+        return try {
+            val response = filesService.getArchivosPendientes()
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data.rows)
+            } else {
+                Result.failure(Exception(body?.error?.message ?: "Error API: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun aprobarArchivo(archivoId: String): Result<FileModel> =
+        actualizarEstado(archivoId, "publicado", null)
+
+    suspend fun rechazarArchivo(archivoId: String, motivo: String): Result<FileModel> =
+        actualizarEstado(archivoId, "rechazado", motivo)
+
+    private suspend fun actualizarEstado(archivoId: String, estado: String, motivoRechazo: String?): Result<FileModel> {
+        return try {
+            val body = mutableMapOf("estado" to estado)
+            motivoRechazo?.let { body["motivoRechazo"] = it }
+
+            val response = filesService.actualizarEstadoArchivo(archivoId, body)
+            val respBody = response.body()
+            if (response.isSuccessful && respBody?.success == true && respBody.data != null) {
+                Result.success(respBody.data)
+            } else {
+                Result.failure(Exception(respBody?.error?.message ?: "Error API: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Para archivos de tipo 'url' (GitHub/YouTube): no hay nada que subir a Firebase,
+     * solo se manda el enlace tal cual a la API, que valida el dominio. */
+    suspend fun publicarEnlace(
+        titulo: String,
+        descripcion: String,
+        url: String,
+        materiaId: String
+    ): Result<FileModel> {
+        return try {
+            val adjunto = Adjunto(
+                urlStorage = url,
+                nombreOriginal = url,
+                tipoMime = "text/url",
+                tamanoBytes = 0
+            )
+            val request = CrearArchivoRequest(
+                titulo = titulo,
+                descripcion = descripcion,
+                tipo = "url",
+                materiaId = materiaId,
+                adjuntos = listOf(adjunto)
+            )
+            val response = filesService.crearArchivo(request)
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data)
+            } else {
+                val errorMsg = body?.error?.message ?: "Error API: ${response.code()} ${response.message()}"
+                Result.failure(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

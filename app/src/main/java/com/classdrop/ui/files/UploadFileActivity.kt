@@ -173,11 +173,11 @@ class UploadFileActivity : AppCompatActivity() {
                 showAlert("URL inválida", "Por favor ingresa un enlace válido (ej. https://...)")
                 return
             }
+            if (!esDominioPermitido(enteredUrl!!)) {
+                showAlert("Enlace no permitido", "Solo se aceptan enlaces de GitHub o YouTube.")
+                return
+            }
         }
-
-        // --- SIMULACIÓN PARA LA DEMO ---
-        // Si el título es exactamente "RECHAZAR", mostramos la pantalla de error.
-        // En cualquier otro caso, mostramos la de éxito.
 
         if (isFileTab) {
             val uri = selectedFileUri ?: return showAlert("Archivo no seleccionado", "Selecciona un archivo.")
@@ -191,7 +191,25 @@ class UploadFileActivity : AppCompatActivity() {
                 materiaId = selectedMateriaId!!
             )
         } else {
-            // TODO: caso URL — lo definimos cuando lleguemos a esa pantalla
+            viewModel.publicarEnlace(
+                titulo = title,
+                descripcion = description,
+                url = enteredUrl!!,
+                materiaId = selectedMateriaId!!
+            )
+        }
+    }
+
+    // Mismos dominios que valida el backend (github.com/youtube.com/youtu.be, con subdominios).
+    // Esto es solo para dar el error de inmediato en el cliente; la API vuelve a validar
+    // igual del lado del servidor, así que no hay forma de saltarse la restricción.
+    private fun esDominioPermitido(urlTexto: String): Boolean {
+        val dominiosPermitidos = listOf("github.com", "youtube.com", "youtu.be")
+        return try {
+            val host = android.net.Uri.parse(urlTexto).host?.lowercase() ?: return false
+            dominiosPermitidos.any { host == it || host.endsWith(".$it") }
+        } catch (e: Exception) {
+            false
         }
     }
 

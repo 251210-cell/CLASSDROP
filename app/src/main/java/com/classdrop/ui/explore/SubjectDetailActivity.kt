@@ -47,6 +47,12 @@ class SubjectDetailActivity : AppCompatActivity() {
         setupPosts()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val materiaId = intent.getStringExtra("SUBJECT_ID")
+        filesViewModel.cargarArchivosPublicados(materiaId = materiaId)
+    }
+
     private fun setupHeader() {
         val userName = sessionManager.fetchUserName()
         val initials = userName.split(" ")

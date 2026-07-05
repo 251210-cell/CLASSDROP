@@ -94,4 +94,58 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
             repository.registrarDescarga(archivoId)
         }
     }
+
+    fun publicarEnlace(titulo: String, descripcion: String, url: String, materiaId: String) {
+        _uploadState.value = UploadState.Loading
+        viewModelScope.launch {
+            val result = repository.publicarEnlace(titulo, descripcion, url, materiaId)
+            _uploadState.value = result.fold(
+                onSuccess = { UploadState.Success(it) },
+                onFailure = { UploadState.Error(it.message ?: "Error desconocido") }
+            )
+        }
+    }
+
+    // --- Moderación (admin) ---
+    private val _pendientes = MutableLiveData<List<FileModel>>()
+    val pendientes: LiveData<List<FileModel>> = _pendientes
+
+    fun cargarPendientes() {
+        viewModelScope.launch {
+            val result = repository.obtenerPendientes()
+            result.fold(
+                onSuccess = {
+                    _listError.value = null
+                    _pendientes.value = it
+                },
+                onFailure = { _listError.value = it.message }
+            )
+        }
+    }
+
+    fun aprobarArchivo(archivoId: String, onResult: (exito: Boolean, mensajeError: String?) -> Unit) {
+        viewModelScope.launch {
+            val result = repository.aprobarArchivo(archivoId)
+            result.fold(
+                onSuccess = {
+                    _pendientes.value = _pendientes.value?.filterNot { it.id == archivoId }
+                    onResult(true, null)
+                },
+                onFailure = { onResult(false, it.message) }
+            )
+        }
+    }
+
+    fun rechazarArchivo(archivoId: String, motivo: String, onResult: (exito: Boolean, mensajeError: String?) -> Unit) {
+        viewModelScope.launch {
+            val result = repository.rechazarArchivo(archivoId, motivo)
+            result.fold(
+                onSuccess = {
+                    _pendientes.value = _pendientes.value?.filterNot { it.id == archivoId }
+                    onResult(true, null)
+                },
+                onFailure = { onResult(false, it.message) }
+            )
+        }
+    }
 }
