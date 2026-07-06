@@ -5,6 +5,7 @@ import com.classdrop.model.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface AuthService {
     @POST("auth/login")
@@ -21,4 +22,7 @@ interface AuthService {
     // el backend sabe exactamente qué token revocar sin que se lo mandemos aparte.
     @POST("auth/logout")
     suspend fun logout(): Response<Unit>
+
+    @PUT("auth/fcm-token")
+    suspend fun updateFcmToken(@Body request: FcmTokenRequest): retrofit2.Response<ApiResponse<Unit>>
 }
