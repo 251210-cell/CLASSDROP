@@ -35,6 +35,7 @@ data class FileModel(
     val tipo: String,
     val estado: String,
     val materiaId: String,
+    val motivoRechazo: String? = null,
     val adjuntos: List<Adjunto>? = emptyList(),
     val autor: AutorArchivo? = null,
     val materia: MateriaArchivo? = null,

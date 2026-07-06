@@ -93,9 +93,15 @@ class UploadFileActivity : AppCompatActivity() {
                 is UploadState.Loading -> binding.btnPublish.isEnabled = false
                 is UploadState.Success -> {
                     binding.btnPublish.isEnabled = true
-                    startActivity(Intent(this, FileSuccessActivity::class.java).apply {
-                        putExtra("FILE_NAME", state.file.titulo)
-                    })
+                    // El archivo recién creado queda en estado "pendiente", NO publicado todavía
+                    // (falta el escaneo automático y la revisión manual del admin). Por eso ya no
+                    // mandamos a FileSuccessActivity (que siempre dice "ya está disponible"), sino
+                    // a la pestaña de Estado, que consulta el estado real desde el servidor.
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        putExtra("SELECT_TAB", "STATUS")
+                    }
+                    startActivity(intent)
                     finish()
                 }
                 is UploadState.Error -> {
