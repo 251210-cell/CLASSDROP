@@ -15,6 +15,7 @@ import com.classdrop.databinding.ActivityFileDetailBinding
 import com.classdrop.network.NetworkResult
 import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.DownloadUtils
+import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.CommentsViewModel
 import com.classdrop.viewmodel.FilesViewModel
 
@@ -22,6 +23,7 @@ class FileDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFileDetailBinding
     private lateinit var commentsAdapter: CommentsAdapter
+    private lateinit var sessionManager: SessionManager
     private val filesViewModel: FilesViewModel by viewModels()
     private val commentsViewModel: CommentsViewModel by viewModels()
 
@@ -65,13 +67,23 @@ class FileDetailActivity : AppCompatActivity() {
         fileName = intent.getStringExtra("FILE_NAME") ?: "Archivo"
         fileType = intent.getStringExtra("FILE_TYPE") ?: "PDF"
 
+        sessionManager = SessionManager(this)
+
         // Contadores y estado real, tal como venían del Post en la lista de donde se abrió esta pantalla
         likesCount = intent.getIntExtra("FILE_LIKES", 0)
         dislikesCount = intent.getIntExtra("FILE_DISLIKES", 0)
         downloadsCount = intent.getIntExtra("FILE_DOWNLOADS", 0)
-        isLiked = intent.getBooleanExtra("FILE_IS_LIKED", false)
-        isDisliked = intent.getBooleanExtra("FILE_IS_DISLIKED", false)
-        isBookmarked = intent.getBooleanExtra("FILE_IS_BOOKMARKED", false)
+
+        // El backend no nos dice si YO ya di like/dislike/favorito a este archivo,
+        // así que lo restauramos desde el almacenamiento local (SessionManager) en vez
+        // de confiar solo en los extras del Intent: así se mantiene resaltado sin
+        // importar desde dónde se abrió esta pantalla ni cuántas veces se recargue.
+        isLiked = if (archivoId.isNotEmpty()) sessionManager.isFileLiked(archivoId)
+        else intent.getBooleanExtra("FILE_IS_LIKED", false)
+        isDisliked = if (archivoId.isNotEmpty()) sessionManager.isFileDisliked(archivoId)
+        else intent.getBooleanExtra("FILE_IS_DISLIKED", false)
+        isBookmarked = if (archivoId.isNotEmpty()) sessionManager.isFavorite(archivoId)
+        else intent.getBooleanExtra("FILE_IS_BOOKMARKED", false)
 
         setupToolbar()
         setupCommentsList()
@@ -240,11 +252,13 @@ class FileDetailActivity : AppCompatActivity() {
                 if (isDisliked) {
                     isDisliked = false
                     dislikesCount--
+                    if (archivoId.isNotEmpty()) sessionManager.setFileDisliked(archivoId, false)
                     updateDislikeUI()
                 }
             } else {
                 likesCount--
             }
+            if (archivoId.isNotEmpty()) sessionManager.setFileLiked(archivoId, isLiked)
             updateLikeUI()
             animateButton(binding.ivLikeIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarLike(archivoId, isLiked)
@@ -257,11 +271,13 @@ class FileDetailActivity : AppCompatActivity() {
                 if (isLiked) {
                     isLiked = false
                     likesCount--
+                    if (archivoId.isNotEmpty()) sessionManager.setFileLiked(archivoId, false)
                     updateLikeUI()
                 }
             } else {
                 dislikesCount--
             }
+            if (archivoId.isNotEmpty()) sessionManager.setFileDisliked(archivoId, isDisliked)
             updateDislikeUI()
             animateButton(binding.ivDislikeIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarDislike(archivoId, isDisliked)
@@ -269,6 +285,9 @@ class FileDetailActivity : AppCompatActivity() {
 
         binding.llBookmarkDetail.setOnClickListener {
             isBookmarked = !isBookmarked
+            if (archivoId.isNotEmpty()) {
+                if (isBookmarked) sessionManager.addFavorite(archivoId) else sessionManager.removeFavorite(archivoId)
+            }
             updateBookmarkUI()
             animateButton(binding.ivBookmarkIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarFavorito(archivoId, isBookmarked)

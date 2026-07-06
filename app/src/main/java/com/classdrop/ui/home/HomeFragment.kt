@@ -1,13 +1,10 @@
 package com.classdrop.ui.home
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,8 +17,6 @@ import com.classdrop.ui.explore.PostsAdapter
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.ui.notifications.NotificationsActivity
-import com.classdrop.utils.AlertUtils
-import com.classdrop.utils.DownloadUtils
 import com.classdrop.utils.FileTypeUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
@@ -37,27 +32,6 @@ class HomeFragment : Fragment() {
     private val filesViewModel: FilesViewModel by viewModels()
     private lateinit var adapter: SubjectsAdapter
     private lateinit var postsAdapter: PostsAdapter
-
-    // Guarda el post pendiente de descargar mientras se espera la respuesta del permiso.
-    private var postPendienteDeDescarga: Post? = null
-
-    // Launcher para pedir el permiso de escritura en Android 9 (API 28) y anteriores.
-    // Desde Android 10 (API 29) el DownloadManager puede escribir en la carpeta
-    // pública de Descargas sin necesitar este permiso.
-    private val requestStoragePermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        if (granted) {
-            postPendienteDeDescarga?.let { descargarArchivoReal(it) }
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "Se necesita permiso de almacenamiento para descargar el archivo",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-        postPendienteDeDescarga = null
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -223,38 +197,17 @@ class HomeFragment : Fragment() {
         startActivity(intent)
     }
 
-    /** Registra la descarga en la API y descarga el archivo real con el DownloadManager del sistema. */
+    /** Registra la descarga en la API y abre el archivo real (Firebase Storage) en el navegador. */
     private fun descargarArchivo(post: Post) {
         filesViewModel.registrarDescarga(post.id)
-        if (post.fileUrl.isNullOrEmpty()) {
-            AlertUtils.showCustomAlert(
+        if (!post.fileUrl.isNullOrEmpty()) {
+            startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(post.fileUrl)))
+        } else {
+            com.classdrop.utils.AlertUtils.showCustomAlert(
                 context = requireContext(),
                 title = "No se pudo descargar",
                 message = "Este archivo no tiene una URL disponible.",
-                type = AlertUtils.AlertType.ERROR
-            )
-            return
-        }
-
-        if (!DownloadUtils.necesitaPermisoDeEscritura() || DownloadUtils.tienePermisoConcedido(requireContext())) {
-            descargarArchivoReal(post)
-        } else {
-            postPendienteDeDescarga = post
-            requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
-    }
-
-    private fun descargarArchivoReal(post: Post) {
-        val url = post.fileUrl ?: return
-        try {
-            val nombreArchivo = DownloadUtils.encolarDescarga(requireContext(), url, post.fileName, post.fileType)
-            Toast.makeText(requireContext(), "Descargando '$nombreArchivo'...", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            AlertUtils.showCustomAlert(
-                context = requireContext(),
-                title = "Error al descargar",
-                message = e.message ?: "No se pudo iniciar la descarga del archivo.",
-                type = AlertUtils.AlertType.ERROR
+                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
             )
         }
     }

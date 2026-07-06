@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemCommentBinding
 import com.classdrop.model.Comment
+import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
 
 class CommentsAdapter(
+    private val sessionManager: SessionManager? = null,
     private val onDeleteClick: (String) -> Unit,
     private val onLikeChanged: ((Comment) -> Unit)? = null,
     private val onDislikeChanged: ((Comment) -> Unit)? = null
@@ -17,7 +19,7 @@ class CommentsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CommentViewHolder(binding, onDeleteClick, onLikeChanged, onDislikeChanged)
+        return CommentViewHolder(binding, sessionManager, onDeleteClick, onLikeChanged, onDislikeChanged)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
@@ -26,6 +28,7 @@ class CommentsAdapter(
 
     class CommentViewHolder(
         private val binding: ItemCommentBinding,
+        private val sessionManager: SessionManager?,
         private val onDeleteClick: (String) -> Unit,
         private val onLikeChanged: ((Comment) -> Unit)?,
         private val onDislikeChanged: ((Comment) -> Unit)?
@@ -45,52 +48,49 @@ class CommentsAdapter(
 
                 tvCommentTime.text = TimeUtils.tiempoRelativo(comment.creadoEn)
 
+                // El backend no nos dice si YO ya di like/dislike a este comentario
+                // cuando se recarga la lista (por ejemplo al enviar un comentario nuevo),
+                // así que lo restauramos desde el almacenamiento local para que el botón
+                // se mantenga resaltado.
+                comment.isLiked = sessionManager?.isCommentLiked(comment.id) ?: comment.isLiked
+                comment.isDisliked = sessionManager?.isCommentDisliked(comment.id) ?: comment.isDisliked
+
                 updateReactionsUI(comment)
 
                 btnLike.setOnClickListener {
                     if (comment.isLiked) {
                         comment.isLiked = false
                         comment.totalLikes--
-                        updateReactionsUI(comment)
-                        onLikeChanged?.invoke(comment)
                     } else {
                         comment.isLiked = true
                         comment.totalLikes++
                         if (comment.isDisliked) {
                             comment.isDisliked = false
                             comment.totalDislikes--
-                            updateReactionsUI(comment)
-                            // Avisamos al backend que el dislike anterior debe quitarse,
-                            // si no, el contador de dislikes queda desincronizado en el servidor.
-                            onDislikeChanged?.invoke(comment)
-                        } else {
-                            updateReactionsUI(comment)
+                            sessionManager?.setCommentDisliked(comment.id, false)
                         }
-                        onLikeChanged?.invoke(comment)
                     }
+                    sessionManager?.setCommentLiked(comment.id, comment.isLiked)
+                    updateReactionsUI(comment)
+                    onLikeChanged?.invoke(comment)
                 }
 
                 btnDislike.setOnClickListener {
                     if (comment.isDisliked) {
                         comment.isDisliked = false
                         comment.totalDislikes--
-                        updateReactionsUI(comment)
-                        onDislikeChanged?.invoke(comment)
                     } else {
                         comment.isDisliked = true
                         comment.totalDislikes++
                         if (comment.isLiked) {
                             comment.isLiked = false
                             comment.totalLikes--
-                            updateReactionsUI(comment)
-                            // Avisamos al backend que el like anterior debe quitarse,
-                            // si no, el contador de likes queda desincronizado en el servidor.
-                            onLikeChanged?.invoke(comment)
-                        } else {
-                            updateReactionsUI(comment)
+                            sessionManager?.setCommentLiked(comment.id, false)
                         }
-                        onDislikeChanged?.invoke(comment)
                     }
+                    sessionManager?.setCommentDisliked(comment.id, comment.isDisliked)
+                    updateReactionsUI(comment)
+                    onDislikeChanged?.invoke(comment)
                 }
 
                 // Clic largo para activar la lambda de borrado usando comment.id
