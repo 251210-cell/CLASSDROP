@@ -8,23 +8,34 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivityNormsAdminBinding
 import com.classdrop.model.CommunityRule
-import com.classdrop.repository.NormsRepository
+import com.classdrop.network.NetworkResult
+import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.NormsViewModel
 
 class NormsAdminActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNormsAdminBinding
     private lateinit var adapter: NormsAdapter
     private lateinit var sessionManager: SessionManager
-    private lateinit var normsRepository: NormsRepository
+    private val viewModel: NormsViewModel by viewModels()
     private var rulesList = mutableListOf<CommunityRule>()
     private var selectedRule: CommunityRule? = null
+
+    // true mientras el overlay de edición está mostrando el "Régimen Sancionatorio"
+    // en vez de una norma normal de la lista.
+    private var isEditingSanctions = false
+
+    // El régimen sancionatorio tal como vive en el servidor. Null significa que
+    // todavía no se ha creado ninguno.
+    private var sanctionsRule: CommunityRule? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +43,14 @@ class NormsAdminActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this)
-        normsRepository = NormsRepository(this)
 
         createNotificationChannel()
         setupHeader()
         setupRecyclerView()
         setupListeners()
-        loadData()
-        displaySanctions()
-    }
+        setupViewModel()
 
-    private fun displaySanctions() {
-        binding.tvSanctionsDescription.text = normsRepository.getSanctions()
+        viewModel.cargarTodo()
     }
 
     private fun setupHeader() {
@@ -53,12 +60,12 @@ class NormsAdminActivity : AppCompatActivity() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarInitials.text = initials
         binding.tvAvatarInitials.setOnClickListener {
             startActivity(Intent(this, AdminProfileActivity::class.java))
         }
-        
+
         binding.ivNotificationAdmin.setOnClickListener {
             startActivity(Intent(this, com.classdrop.ui.notifications.NotificationsActivity::class.java))
         }
@@ -76,13 +83,13 @@ class NormsAdminActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.btnBack.setOnClickListener { finish() }
-        
+
         binding.btnAddRule.setOnClickListener {
             showEditOverlay(null)
         }
 
         binding.btnCancelEdit.setOnClickListener { hideOverlay() }
-        
+
         binding.btnSaveEdit.setOnClickListener {
             saveRule()
         }
@@ -92,38 +99,110 @@ class NormsAdminActivity : AppCompatActivity() {
         }
 
         binding.btnEditSanctions.setOnClickListener {
-            val currentSanctions = normsRepository.getSanctions()
-            val sanctionsRule = CommunityRule(
-                id = "sanctions",
-                title = "Régimen Sancionatorio",
-                description = currentSanctions
-            )
-            showEditOverlay(sanctionsRule)
+            val actual = sanctionsRule ?: CommunityRule(title = "Régimen Sancionatorio", description = "")
+            showEditOverlay(actual, editingSanctions = true)
         }
 
         binding.btnCancelDelete.setOnClickListener {
             hideOverlay()
         }
 
-        binding.btnConfirmDelete.setOnClickListener {
-            selectedRule?.let { rule ->
-                rulesList.remove(rule)
-                normsRepository.saveRules(rulesList)
-                adapter.updateData(rulesList.toList())
-                sendUpdateNotification("Una norma ha sido eliminada: ${rule.title}")
-                
-                com.classdrop.utils.AlertUtils.showCustomAlert(
-                    context = this,
-                    title = "¡Norma Eliminada!",
-                    message = "La norma ha sido eliminada permanentemente y se ha notificado a los usuarios.",
-                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
-                    onPrimaryClick = { hideOverlay() }
-                )
-            }
+        binding.btnSuccessDone.setOnClickListener {
+            hideOverlay()
+        }
+
+        binding.btnErrorRetry.setOnClickListener {
+            binding.cardError.visibility = View.GONE
+            binding.cardEditForm.visibility = View.VISIBLE
         }
 
         binding.clEditOverlay.setOnClickListener {
-            // Prevent clicks from passing through
+            // Evita que los clics pasen a través del fondo oscuro
+        }
+    }
+
+    private fun setupViewModel() {
+        viewModel.rulesState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    rulesList = result.data.orEmpty().toMutableList()
+                    adapter.updateData(rulesList)
+                }
+                is NetworkResult.Error -> {
+                    AlertUtils.showCustomAlert(
+                        context = this,
+                        title = "No se pudieron cargar las normas",
+                        message = result.message ?: "Revisa tu conexión e intenta de nuevo.",
+                        type = AlertUtils.AlertType.ERROR
+                    )
+                }
+                else -> {}
+            }
+        }
+
+        viewModel.sanctionsState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    sanctionsRule = result.data
+                    binding.tvSanctionsDescription.text = result.data?.description
+                        ?: "Aún no se ha configurado el régimen sancionatorio. Toca el lápiz para crearlo."
+                }
+                is NetworkResult.Error -> {
+                    binding.tvSanctionsDescription.text = "No se pudo cargar el régimen sancionatorio."
+                }
+                else -> {}
+            }
+        }
+
+        viewModel.saveState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    binding.btnSaveEdit.isEnabled = true
+                    binding.cardEditForm.visibility = View.GONE
+                    binding.tvSuccessTitle.text = if (isEditingSanctions) "¡Régimen Actualizado!" else "¡Publicado con Éxito!"
+                    binding.tvSuccessMessage.text = "La norma ha sido actualizada y los cambios son visibles para todos."
+                    binding.cardSuccess.visibility = View.VISIBLE
+
+                    sendUpdateNotification(
+                        if (isEditingSanctions) "El régimen sancionatorio fue actualizado"
+                        else "Reglamento de la comunidad actualizado"
+                    )
+
+                    // Refrescamos desde el servidor para que la lista y el régimen
+                    // sancionatorio queden como los ve cualquier otro dispositivo.
+                    viewModel.cargarTodo()
+                    viewModel.resetSaveState()
+                }
+                is NetworkResult.Error -> {
+                    binding.btnSaveEdit.isEnabled = true
+                    binding.cardEditForm.visibility = View.GONE
+                    binding.tvErrorMessage.text = result.message ?: "No se pudieron guardar los cambios. Intenta de nuevo."
+                    binding.cardError.visibility = View.VISIBLE
+                    viewModel.resetSaveState()
+                }
+                else -> {}
+            }
+        }
+
+        viewModel.deleteState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    binding.cardDeleteConfirm.visibility = View.GONE
+                    binding.tvSuccessTitle.text = "¡Norma Eliminada!"
+                    binding.tvSuccessMessage.text = "La norma ha sido eliminada permanentemente y se ha notificado a los usuarios."
+                    binding.cardSuccess.visibility = View.VISIBLE
+                    sendUpdateNotification("Una norma ha sido eliminada")
+                    viewModel.cargarReglas()
+                    viewModel.resetDeleteState()
+                }
+                is NetworkResult.Error -> {
+                    binding.cardDeleteConfirm.visibility = View.GONE
+                    binding.tvErrorMessage.text = result.message ?: "No se pudo eliminar la norma."
+                    binding.cardError.visibility = View.VISIBLE
+                    viewModel.resetDeleteState()
+                }
+                else -> {}
+            }
         }
     }
 
@@ -136,111 +215,93 @@ class NormsAdminActivity : AppCompatActivity() {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            com.classdrop.utils.AlertUtils.showCustomAlert(
+            AlertUtils.showCustomAlert(
                 context = this,
                 title = "Error de Contacto",
                 message = "No se encontró una aplicación de correo instalada para realizar esta acción.",
-                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                type = AlertUtils.AlertType.ERROR
             )
         }
     }
 
     private fun confirmDeletion(rule: CommunityRule) {
         selectedRule = rule
-        com.classdrop.utils.AlertUtils.showCustomAlert(
-            context = this,
-            title = "¿Eliminar Norma?",
-            message = "¿Estás seguro de que deseas eliminar permanentemente la norma: ${rule.title}?",
-            type = com.classdrop.utils.AlertUtils.AlertType.ERROR,
-            primaryButtonText = "Eliminar",
-            secondaryButtonText = "Cancelar",
-            onPrimaryClick = {
-                rulesList.remove(rule)
-                normsRepository.saveRules(rulesList)
-                adapter.updateData(rulesList.toList())
-                sendUpdateNotification("Una norma ha sido eliminada: ${rule.title}")
-                
-                com.classdrop.utils.AlertUtils.showCustomAlert(
-                    context = this,
-                    title = "¡Eliminado!",
-                    message = "La norma ha sido eliminada exitosamente.",
-                    type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS
-                )
-            }
-        )
-    }
-
-    private fun showEditOverlay(rule: CommunityRule?) {
-        selectedRule = rule
-        showEditForm()
-        if (rule != null) {
-            binding.tvOverlayTitle.text = "Editar Norma"
-            binding.etEditRuleTitle.setText(rule.title)
-            binding.etEditRuleDescription.setText(rule.description)
-        } else {
-            binding.tvOverlayTitle.text = "Crear Nueva Norma"
-            binding.etEditRuleTitle.text = null
-            binding.etEditRuleDescription.text = null
-        }
+        binding.cardEditForm.visibility = View.GONE
+        binding.cardSuccess.visibility = View.GONE
+        binding.cardError.visibility = View.GONE
+        binding.cardDeleteConfirm.visibility = View.VISIBLE
         binding.clEditOverlay.visibility = View.VISIBLE
+        binding.tvDeleteMessage.text = "¿Estás seguro de que deseas eliminar permanentemente la norma: ${rule.title}?"
+
+        binding.btnConfirmDelete.setOnClickListener {
+            viewModel.eliminarRegla(rule.id)
+        }
     }
 
-    private fun showEditForm() {
+    private fun showEditOverlay(rule: CommunityRule?, editingSanctions: Boolean = false) {
+        selectedRule = rule
+        isEditingSanctions = editingSanctions
+
+        binding.cardSuccess.visibility = View.GONE
+        binding.cardError.visibility = View.GONE
+        binding.cardDeleteConfirm.visibility = View.GONE
+
+        when {
+            editingSanctions -> {
+                binding.tvOverlayTitle.text = "Editar Régimen Sancionatorio"
+                binding.etEditRuleTitle.setText("Régimen Sancionatorio")
+                binding.etEditRuleDescription.setText(rule?.description)
+                binding.etEditRuleTitle.isEnabled = false
+            }
+            rule != null -> {
+                binding.tvOverlayTitle.text = "Editar Norma"
+                binding.etEditRuleTitle.setText(rule.title)
+                binding.etEditRuleDescription.setText(rule.description)
+                binding.etEditRuleTitle.isEnabled = true
+            }
+            else -> {
+                binding.tvOverlayTitle.text = "Crear Nueva Norma"
+                binding.etEditRuleTitle.text = null
+                binding.etEditRuleDescription.text = null
+                binding.etEditRuleTitle.isEnabled = true
+            }
+        }
+
         binding.cardEditForm.visibility = View.VISIBLE
+        binding.clEditOverlay.visibility = View.VISIBLE
     }
 
     private fun hideOverlay() {
         binding.clEditOverlay.visibility = View.GONE
+        binding.cardEditForm.visibility = View.GONE
+        binding.cardSuccess.visibility = View.GONE
+        binding.cardError.visibility = View.GONE
+        binding.cardDeleteConfirm.visibility = View.GONE
         selectedRule = null
+        isEditingSanctions = false
     }
 
     private fun saveRule() {
-        val title = binding.etEditRuleTitle.text.toString()
-        val description = binding.etEditRuleDescription.text.toString()
+        val title = binding.etEditRuleTitle.text.toString().trim()
+        val description = binding.etEditRuleDescription.text.toString().trim()
 
-        if (title.isBlank() || description.isBlank()) {
-            com.classdrop.utils.AlertUtils.showCustomAlert(
-                context = this,
-                title = "Datos incompletos",
-                message = "Por favor completa todos los campos de la norma.",
-                type = com.classdrop.utils.AlertUtils.AlertType.WARNING
-            )
+        val faltaAlgo = description.isBlank() || (!isEditingSanctions && title.isBlank())
+        if (faltaAlgo) {
+            binding.cardEditForm.visibility = View.GONE
+            binding.tvErrorMessage.text = "Por favor completa todos los campos de la norma."
+            binding.cardError.visibility = View.VISIBLE
             return
         }
 
-        val isEditing = selectedRule != null
-        if (selectedRule == null) {
-            val newRule = CommunityRule(
-                id = System.currentTimeMillis().toString(),
-                title = title,
-                description = description
-            )
-            rulesList.add(newRule)
-            normsRepository.saveRules(rulesList)
-            sendUpdateNotification("Nueva norma añadida: $title")
-        } else {
-            if (selectedRule?.id == "sanctions") {
-                normsRepository.saveSanctions(description)
-                displaySanctions()
-            } else {
-                val index = rulesList.indexOfFirst { it.id == selectedRule?.id }
-                if (index != -1) {
-                    rulesList[index] = selectedRule!!.copy(title = title, description = description)
-                }
-                normsRepository.saveRules(rulesList)
-            }
-            sendUpdateNotification("Norma actualizada: $title")
-        }
+        // Se deshabilita para evitar doble-tap mientras la petición está en curso;
+        // se vuelve a habilitar en los observers de éxito/error.
+        binding.btnSaveEdit.isEnabled = false
 
-        adapter.updateData(rulesList.toList())
-        
-        com.classdrop.utils.AlertUtils.showCustomAlert(
-            context = this,
-            title = if (isEditing) "¡Actualizado!" else "¡Publicado!",
-            message = if (isEditing) "La norma ha sido actualizada y los usuarios notificados." else "La nueva norma ha sido creada y los usuarios notificados.",
-            type = com.classdrop.utils.AlertUtils.AlertType.SUCCESS,
-            onPrimaryClick = { hideOverlay() }
-        )
+        if (isEditingSanctions) {
+            viewModel.guardarSanciones(sanctionsRule?.id, description)
+        } else {
+            viewModel.guardarRegla(selectedRule?.id, title, description)
+        }
     }
 
     private fun sendUpdateNotification(message: String) {
@@ -252,7 +313,7 @@ class NormsAdminActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .build()
-        
+
         notificationManager.notify(1, notification)
     }
 
@@ -267,11 +328,5 @@ class NormsAdminActivity : AppCompatActivity() {
             val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-    }
-
-    private fun loadData() {
-        val savedRules = normsRepository.getRules()
-        rulesList = savedRules.toMutableList()
-        adapter.updateData(rulesList)
     }
 }

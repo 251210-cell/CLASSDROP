@@ -4,18 +4,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.classdrop.databinding.ActivityCommunityRulesBinding
-import com.classdrop.repository.NormsRepository
-import com.classdrop.utils.SessionManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.classdrop.databinding.ActivityCommunityRulesBinding
+import com.classdrop.network.NetworkResult
+import com.classdrop.utils.AlertUtils
+import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.NormsViewModel
 
 class CommunityRulesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCommunityRulesBinding
     private lateinit var sessionManager: SessionManager
-    private lateinit var normsRepository: NormsRepository
     private lateinit var adapter: UserNormsAdapter
+    private val viewModel: NormsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +26,14 @@ class CommunityRulesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this)
-        normsRepository = NormsRepository(this)
 
         setupHeader()
         setupRecyclerView()
-        loadData()
+        setupViewModel()
         setupListeners()
+
+        // Trae siempre la versión más reciente publicada por el admin.
+        viewModel.cargarTodo()
     }
 
     private fun setupRecyclerView() {
@@ -37,12 +42,37 @@ class CommunityRulesActivity : AppCompatActivity() {
         binding.rvUserNorms.adapter = adapter
     }
 
-    private fun loadData() {
-        val rules = normsRepository.getRules()
-        if (rules.isNotEmpty()) {
-            adapter.updateData(rules)
+    private fun setupViewModel() {
+        // Lista de normas, igual para todos los estudiantes
+        viewModel.rulesState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    adapter.updateData(result.data.orEmpty())
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        this,
+                        result.message ?: "No se pudieron cargar las normas",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> {}
+            }
         }
-        binding.tvSanctionsDescription.text = normsRepository.getSanctions()
+
+        // Régimen sancionatorio, tal como lo dejó el admin en el servidor
+        viewModel.sanctionsState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    binding.tvSanctionsDescription.text = result.data?.description
+                        ?: "Aún no se ha publicado el régimen sancionatorio."
+                }
+                is NetworkResult.Error -> {
+                    binding.tvSanctionsDescription.text = "No se pudo cargar el régimen sancionatorio."
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun setupHeader() {
@@ -52,7 +82,7 @@ class CommunityRulesActivity : AppCompatActivity() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarInitials.text = initials
     }
 
@@ -82,11 +112,11 @@ class CommunityRulesActivity : AppCompatActivity() {
         try {
             startActivity(Intent.createChooser(intent, "Enviar correo con..."))
         } catch (e: Exception) {
-            com.classdrop.utils.AlertUtils.showCustomAlert(
+            AlertUtils.showCustomAlert(
                 context = this,
                 title = "Error",
                 message = "No se encontró una aplicación de correo en este dispositivo",
-                type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                type = AlertUtils.AlertType.ERROR
             )
         }
     }
