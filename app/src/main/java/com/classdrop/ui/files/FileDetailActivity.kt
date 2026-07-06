@@ -1,9 +1,11 @@
 package com.classdrop.ui.files
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -12,6 +14,7 @@ import com.classdrop.R
 import com.classdrop.databinding.ActivityFileDetailBinding
 import com.classdrop.network.NetworkResult
 import com.classdrop.utils.AlertUtils
+import com.classdrop.utils.DownloadUtils
 import com.classdrop.viewmodel.CommentsViewModel
 import com.classdrop.viewmodel.FilesViewModel
 
@@ -34,6 +37,23 @@ class FileDetailActivity : AppCompatActivity() {
     private var likesCount = 0
     private var dislikesCount = 0
     private var downloadsCount = 0
+
+    // Launcher para pedir el permiso de escritura en Android 9 (API 28) y anteriores.
+    // Desde Android 10 (API 29) el DownloadManager puede escribir en la carpeta
+    // pública de Descargas sin necesitar este permiso.
+    private val requestStoragePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            descargarArchivoReal()
+        } else {
+            Toast.makeText(
+                this,
+                "Se necesita permiso de almacenamiento para descargar el archivo",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +89,39 @@ class FileDetailActivity : AppCompatActivity() {
         updateBookmarkUI()
         updateDownloadUI()
         binding.tvDownloadsDetail.text = downloadsCount.toString()
+    }
+
+    private fun verificarPermisoYDescargar() {
+        if (!DownloadUtils.necesitaPermisoDeEscritura() || DownloadUtils.tienePermisoConcedido(this)) {
+            descargarArchivoReal()
+        } else {
+            requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun descargarArchivoReal() {
+        val url = fileUrl
+        if (url.isNullOrEmpty()) {
+            AlertUtils.showCustomAlert(
+                context = this,
+                title = "Sin archivo adjunto",
+                message = "Este archivo no tiene una URL disponible para descargar.",
+                type = AlertUtils.AlertType.ERROR
+            )
+            return
+        }
+
+        try {
+            val nombreArchivo = DownloadUtils.encolarDescarga(this, url, fileName, fileType)
+            Toast.makeText(this, "Descargando '$nombreArchivo'...", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            AlertUtils.showCustomAlert(
+                context = this,
+                title = "Error al descargar",
+                message = e.message ?: "No se pudo iniciar la descarga del archivo.",
+                type = AlertUtils.AlertType.ERROR
+            )
+        }
     }
 
     private fun setupObservers() {
@@ -188,9 +241,6 @@ class FileDetailActivity : AppCompatActivity() {
                     isDisliked = false
                     dislikesCount--
                     updateDislikeUI()
-                    // Avisamos al backend que el dislike anterior debe quitarse,
-                    // si no, el contador de dislikes queda desincronizado en el servidor.
-                    if (archivoId.isNotEmpty()) filesViewModel.actualizarDislike(archivoId, false)
                 }
             } else {
                 likesCount--
@@ -208,9 +258,6 @@ class FileDetailActivity : AppCompatActivity() {
                     isLiked = false
                     likesCount--
                     updateLikeUI()
-                    // Avisamos al backend que el like anterior debe quitarse,
-                    // si no, el contador de likes queda desincronizado en el servidor.
-                    if (archivoId.isNotEmpty()) filesViewModel.actualizarLike(archivoId, false)
                 }
             } else {
                 dislikesCount--
@@ -244,16 +291,7 @@ class FileDetailActivity : AppCompatActivity() {
 
                     if (archivoId.isNotEmpty()) filesViewModel.registrarDescarga(archivoId)
 
-                    if (!fileUrl.isNullOrEmpty()) {
-                        startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(fileUrl)))
-                    } else {
-                        AlertUtils.showCustomAlert(
-                            context = this,
-                            title = "Sin archivo adjunto",
-                            message = "Este archivo no tiene una URL disponible para abrir.",
-                            type = AlertUtils.AlertType.ERROR
-                        )
-                    }
+                    verificarPermisoYDescargar()
                 }
             )
         }
