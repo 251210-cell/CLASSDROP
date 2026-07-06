@@ -24,7 +24,7 @@ class AuthRepository(private val authService: AuthService) {
             NetworkResult.Error("No se pudo conectar con el servidor: ${e.message}")
         }
     }
-    
+
     suspend fun register(nombre: String, correo: String, contrasena: String): NetworkResult<RegisterResponse> {
         return try {
             val request = RegisterRequest(nombre.trim(), correo.trim().lowercase(), contrasena)
@@ -47,6 +47,19 @@ class AuthRepository(private val authService: AuthService) {
                 // Si el código es 404, 400, 500, etc. extraeremos el mensaje real del errorBody
                 val errorResponseBody = response.errorBody()?.string()
                 NetworkResult.Error("Error del servidor (${response.code()}): $errorResponseBody")
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error("No se pudo conectar con el servidor: ${e.message}")
+        }
+    }
+
+    suspend fun logout(): NetworkResult<Unit> {
+        return try {
+            val response = authService.logout()
+            if (response.isSuccessful) {
+                NetworkResult.Success(Unit)
+            } else {
+                NetworkResult.Error("El servidor no pudo cerrar la sesión (${response.code()})")
             }
         } catch (e: Exception) {
             NetworkResult.Error("No se pudo conectar con el servidor: ${e.message}")

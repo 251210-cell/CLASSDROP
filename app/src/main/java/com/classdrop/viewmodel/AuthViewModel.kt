@@ -59,4 +59,19 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    /**
+     * Avisa al backend que revoque el token (para que no se pueda reusar aunque
+     * alguien lo tenga guardado), y SIEMPRE llama a [onFinally] al final, sin
+     * importar si la llamada de red tuvo éxito o no. Esto es intencional: el
+     * usuario debe poder cerrar sesión localmente incluso sin internet; la
+     * revocación en el servidor es una medida de seguridad extra, no un
+     * requisito para que el botón funcione.
+     */
+    fun logout(onFinally: () -> Unit) {
+        viewModelScope.launch {
+            authRepository.logout()
+            onFinally()
+        }
+    }
 }

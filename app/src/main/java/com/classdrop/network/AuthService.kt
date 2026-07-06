@@ -16,4 +16,9 @@ interface AuthService {
     suspend fun register(
         @Body request: RegisterRequest
     ): Response<ApiResponse<RegisterResponse>>
+
+    // El AuthInterceptor ya manda el Bearer token automáticamente, así que
+    // el backend sabe exactamente qué token revocar sin que se lo mandemos aparte.
+    @POST("auth/logout")
+    suspend fun logout(): Response<Unit>
 }

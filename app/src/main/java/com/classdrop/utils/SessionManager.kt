@@ -48,12 +48,13 @@ class SessionManager(context: Context) {
         prefs.edit().clear().apply()
     }
 
-    fun clearSessionData() {
-        prefs.edit()
-            .remove("auth_token")
-            .remove("user_role")
-            .apply()
-    }
+    // OJO: antes este método solo borraba "auth_token" y "user_role", dejando
+    // nombre, correo, y hasta los likes/favoritos guardados localmente del
+    // usuario anterior en el dispositivo. Ahora delega en clearSession() para
+    // que un logout SIEMPRE sea una limpieza completa, sin importar desde
+    // dónde se llame.
+    @Deprecated("Usa clearSession() directamente.", ReplaceWith("clearSession()"))
+    fun clearSessionData() = clearSession()
 
     // --- FAVORITOS SYNC ---
     fun toggleFavorite(postId: String) {

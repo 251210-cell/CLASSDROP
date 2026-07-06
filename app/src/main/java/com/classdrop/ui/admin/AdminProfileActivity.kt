@@ -2,17 +2,20 @@ package com.classdrop.ui.admin
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.databinding.ActivityAdminProfileBinding
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.AuthViewModel
 
 
 class AdminProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminProfileBinding
     private lateinit var sessionManager: SessionManager
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +31,7 @@ class AdminProfileActivity : AppCompatActivity() {
     private fun setupUI() {
         val userName = sessionManager.fetchUserName()
         var userEmail = sessionManager.fetchUserEmail()
-        
+
         if (userEmail.isBlank()) {
             userEmail = "admin.classdrop@gmail.com"
         }
@@ -43,7 +46,7 @@ class AdminProfileActivity : AppCompatActivity() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarLarge.text = initials
     }
 
@@ -73,10 +76,12 @@ class AdminProfileActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        sessionManager.clearSession()
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finishAffinity()
+        authViewModel.logout {
+            sessionManager.clearSession()
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finishAffinity()
+        }
     }
 }

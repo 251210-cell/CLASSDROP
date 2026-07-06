@@ -13,6 +13,7 @@ import com.classdrop.model.FileModel
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.ui.explore.toPost
 import com.classdrop.utils.SessionManager
+import com.classdrop.viewmodel.AuthViewModel
 import com.classdrop.viewmodel.FilesViewModel
 
 class ProfileFragment : Fragment() {
@@ -21,6 +22,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
     private val filesViewModel: FilesViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -204,10 +206,12 @@ class ProfileFragment : Fragment() {
             secondaryButtonText = "Cancelar",
             showIcon = false,
             onPrimaryClick = {
-                sessionManager.clearSessionData()
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                authViewModel.logout {
+                    sessionManager.clearSession()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
             }
         )
     }
