@@ -202,7 +202,7 @@
                 app:strokeWidth="0dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_nav_upload" app:tint="@color/primary" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="14" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
+                    <TextView android:id="@+id/tvUploadsCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="0" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Archivos\nsubidos" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -222,7 +222,7 @@
                 app:strokeWidth="0dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_download" app:tint="@color/primary" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="38" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
+                    <TextView android:id="@+id/tvDownloadsCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="0" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Descargas" android:textColor="@color/text_secondary" android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -242,7 +242,7 @@
                 app:strokeWidth="0dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="vertical" android:padding="16dp">
                     <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_favorite" app:tint="@color/primary" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="24" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
+                    <TextView android:id="@+id/tvFavoritesCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="0" android:textColor="@color/on_background" android:textSize="20sp" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Favoritos" android:textColor="@color/text_secondary" android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -276,10 +276,12 @@
         </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardUploadsPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
@@ -288,13 +290,24 @@
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_app_logo" app:tint="@color/primary" /></FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Derivadas Parciales" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cálculo - hace 2 días" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                        <TextView android:id="@+id/tvUploadsPreviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
+                        <TextView android:id="@+id/tvUploadsPreviewSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="10sp" />
                     </LinearLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_input_pill" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="PDF" android:textColor="@color/primary" android:textStyle="bold" android:textSize="10sp" />
+                    <TextView android:id="@+id/tvUploadsPreviewType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_input_pill" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="PDF" android:textColor="@color/primary" android:textStyle="bold" android:textSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvUploadsEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Aún no has subido ningún archivo."
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:visibility="visible" />
 
         <!-- Descargas Section Header -->
         <RelativeLayout
@@ -324,10 +337,12 @@
         </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardDownloadsPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
@@ -336,13 +351,24 @@
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_app_logo" app:tint="@color/primary" /></FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Guía de Estudio Redes" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="14sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Redes I - hace 1 día" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                        <TextView android:id="@+id/tvDownloadsPreviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="14sp" />
+                        <TextView android:id="@+id/tvDownloadsPreviewSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="10sp" />
                     </LinearLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_input_pill" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="PDF" android:textColor="@color/primary" android:textStyle="bold" android:textSize="10sp" />
+                    <TextView android:id="@+id/tvDownloadsPreviewType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_input_pill" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="PDF" android:textColor="@color/primary" android:textStyle="bold" android:textSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvDownloadsEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Aún no has descargado ningún archivo."
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:visibility="visible" />
 
         <!-- Favoritos Section Header -->
         <RelativeLayout
@@ -372,10 +398,12 @@
         </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardFavoritesPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/surface"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
@@ -384,13 +412,24 @@
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_app_logo" app:tint="@color/primary" /></FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cálculo Vectorial" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cálculo - hace 1 día" android:textColor="@color/text_secondary" android:textSize="10sp" />
+                        <TextView android:id="@+id/tvFavoritesPreviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
+                        <TextView android:id="@+id/tvFavoritesPreviewSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="@color/text_secondary" android:textSize="10sp" />
                     </LinearLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_input_pill" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="PDF" android:textColor="@color/primary" android:textStyle="bold" android:textSize="10sp" />
+                    <TextView android:id="@+id/tvFavoritesPreviewType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_input_pill" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:text="PDF" android:textColor="@color/primary" android:textStyle="bold" android:textSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvFavoritesEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Aún no tienes archivos favoritos."
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:visibility="visible" />
 
         <!-- Normas y Políticas -->
         <TextView
@@ -443,22 +482,22 @@
                     app:layout_constraintEnd_toStartOf="@id/ivHelpIcon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvHelpTitle" />
-                
-                <com.google.android.material.card.MaterialCardView 
-                    android:id="@+id/ivHelpIcon" 
-                    android:layout_width="64dp" 
-                    android:layout_height="64dp" 
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ivHelpIcon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     app:cardBackgroundColor="@color/surface"
-                    app:cardCornerRadius="32dp" 
-                    app:cardElevation="4dp" 
-                    app:layout_constraintBottom_toBottomOf="parent" 
-                    app:layout_constraintEnd_toEndOf="parent" 
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
-                    <ImageView 
-                        android:layout_width="28dp" 
-                        android:layout_height="28dp" 
-                        android:layout_gravity="center" 
-                        android:src="@drawable/ic_help" 
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_help"
                         app:tint="@color/primary" />
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>

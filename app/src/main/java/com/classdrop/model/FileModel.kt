@@ -42,6 +42,9 @@ data class FileModel(
     val totalDislikes: Int = 0,
     val totalDescargas: Int = 0,
     val totalComentarios: Int = 0,
+    val isLikedByMe: Boolean = false,
+    val isDislikedByMe: Boolean = false,
+    val isGuardadoByMe: Boolean = false,
     @SerializedName("creado_en") val creadoEn: String? = null
 )
 
