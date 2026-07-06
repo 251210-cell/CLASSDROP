@@ -64,21 +64,25 @@ class CommentsViewModel(application: Application) : AndroidViewModel(application
     }
 
     // isActivo = true significa que el usuario acaba de activarlo (ya se refleja
-    // optimistamente en el adapter); solo avisamos si falla, sin revertir la UI.
+    // optimistamente en el adapter); en cuanto el backend responde, volvemos a
+    // pedir la lista completa para mostrar el conteo REAL (el que calcula el
+    // servidor con COUNT(*), que nunca puede quedar negativo ni desincronizado).
     private val _reactionError = MutableLiveData<String?>()
     val reactionError: LiveData<String?> = _reactionError
 
-    fun actualizarLike(comentarioId: String, isActivo: Boolean) {
+    fun actualizarLike(archivoId: String, comentarioId: String, isActivo: Boolean) {
         viewModelScope.launch {
             val result = if (isActivo) repository.darLike(comentarioId) else repository.quitarLike(comentarioId)
             if (result is NetworkResult.Error) _reactionError.value = result.message
+            fetchComments(archivoId)
         }
     }
 
-    fun actualizarDislike(comentarioId: String, isActivo: Boolean) {
+    fun actualizarDislike(archivoId: String, comentarioId: String, isActivo: Boolean) {
         viewModelScope.launch {
             val result = if (isActivo) repository.darDislike(comentarioId) else repository.quitarDislike(comentarioId)
             if (result is NetworkResult.Error) _reactionError.value = result.message
+            fetchComments(archivoId)
         }
     }
 }

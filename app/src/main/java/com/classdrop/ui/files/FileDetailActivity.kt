@@ -219,8 +219,8 @@ class FileDetailActivity : AppCompatActivity() {
     private fun setupCommentsList() {
         commentsAdapter = CommentsAdapter(
             onDeleteClick = { comentarioId -> commentsViewModel.deleteComment(comentarioId) },
-            onLikeChanged = { comment -> commentsViewModel.actualizarLike(comment.id, comment.isLiked) },
-            onDislikeChanged = { comment -> commentsViewModel.actualizarDislike(comment.id, comment.isDisliked) }
+            onLikeChanged = { comment -> commentsViewModel.actualizarLike(archivoId, comment.id, comment.isLiked) },
+            onDislikeChanged = { comment -> commentsViewModel.actualizarDislike(archivoId, comment.id, comment.isDisliked) }
         )
         binding.rvComments.apply {
             layoutManager = LinearLayoutManager(this@FileDetailActivity)

@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemCommentBinding
 import com.classdrop.model.Comment
-import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
 
 class CommentsAdapter(
-    private val sessionManager: SessionManager? = null,
     private val onDeleteClick: (String) -> Unit,
     private val onLikeChanged: ((Comment) -> Unit)? = null,
     private val onDislikeChanged: ((Comment) -> Unit)? = null
@@ -19,7 +17,7 @@ class CommentsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CommentViewHolder(binding, sessionManager, onDeleteClick, onLikeChanged, onDislikeChanged)
+        return CommentViewHolder(binding, onDeleteClick, onLikeChanged, onDislikeChanged)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
@@ -28,7 +26,6 @@ class CommentsAdapter(
 
     class CommentViewHolder(
         private val binding: ItemCommentBinding,
-        private val sessionManager: SessionManager?,
         private val onDeleteClick: (String) -> Unit,
         private val onLikeChanged: ((Comment) -> Unit)?,
         private val onDislikeChanged: ((Comment) -> Unit)?
@@ -48,49 +45,26 @@ class CommentsAdapter(
 
                 tvCommentTime.text = TimeUtils.tiempoRelativo(comment.creadoEn)
 
-                // El backend no nos dice si YO ya di like/dislike a este comentario
-                // cuando se recarga la lista (por ejemplo al enviar un comentario nuevo),
-                // así que lo restauramos desde el almacenamiento local para que el botón
-                // se mantenga resaltado.
-                comment.isLiked = sessionManager?.isCommentLiked(comment.id) ?: comment.isLiked
-                comment.isDisliked = sessionManager?.isCommentDisliked(comment.id) ?: comment.isDisliked
-
+                // IMPORTANTE: totalLikes, totalDislikes, isLiked e isDisliked ahora
+                // vienen calculados en vivo desde el backend (COUNT(*) real sobre
+                // likes_comentarios / dislikes_comentarios), igual que ya pasa con
+                // los archivos. Ya NO hacemos matemática local (comment.totalLikes++/--)
+                // ni dependemos de SessionManager para saber si el usuario ya
+                // reaccionó: eso es justo lo que causaba que el contador se
+                // desincronizara y llegara a mostrar números negativos.
                 updateReactionsUI(comment)
 
                 btnLike.setOnClickListener {
-                    if (comment.isLiked) {
-                        comment.isLiked = false
-                        comment.totalLikes--
-                    } else {
-                        comment.isLiked = true
-                        comment.totalLikes++
-                        if (comment.isDisliked) {
-                            comment.isDisliked = false
-                            comment.totalDislikes--
-                            sessionManager?.setCommentDisliked(comment.id, false)
-                        }
-                    }
-                    sessionManager?.setCommentLiked(comment.id, comment.isLiked)
-                    updateReactionsUI(comment)
-                    onLikeChanged?.invoke(comment)
+                    // Optimista SOLO para que el ícono responda al instante; el
+                    // número real y definitivo llega en el próximo fetchComments(),
+                    // que se dispara justo después de esta llamada.
+                    val nuevoEstado = !comment.isLiked
+                    onLikeChanged?.invoke(comment.copy(isLiked = nuevoEstado))
                 }
 
                 btnDislike.setOnClickListener {
-                    if (comment.isDisliked) {
-                        comment.isDisliked = false
-                        comment.totalDislikes--
-                    } else {
-                        comment.isDisliked = true
-                        comment.totalDislikes++
-                        if (comment.isLiked) {
-                            comment.isLiked = false
-                            comment.totalLikes--
-                            sessionManager?.setCommentLiked(comment.id, false)
-                        }
-                    }
-                    sessionManager?.setCommentDisliked(comment.id, comment.isDisliked)
-                    updateReactionsUI(comment)
-                    onDislikeChanged?.invoke(comment)
+                    val nuevoEstado = !comment.isDisliked
+                    onDislikeChanged?.invoke(comment.copy(isDisliked = nuevoEstado))
                 }
 
                 // Clic largo para activar la lambda de borrado usando comment.id
