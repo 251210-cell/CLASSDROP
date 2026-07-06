@@ -8,7 +8,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityPrivacyPolicyBinding
-import com.classdrop.repository.NormsRepository
+import com.classdrop.network.NetworkResult
+import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.PrivacyViewModel
 
@@ -16,7 +17,6 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPrivacyPolicyBinding
     private lateinit var sessionManager: SessionManager
-    private lateinit var normsRepository: NormsRepository
     private lateinit var adapter: UserNormsAdapter
     private val viewModel: PrivacyViewModel by viewModels()
 
@@ -26,13 +26,15 @@ class PrivacyPolicyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this)
-        normsRepository = NormsRepository(this)
 
         setupHeader()
         setupRecyclerView()
         setupViewModel()
         setupListeners()
-        
+
+        // Trae siempre la versión más reciente publicada por el admin.
+        viewModel.cargarTodo()
+
         binding.btnBack.setOnClickListener {
             finish()
         }
@@ -48,11 +50,11 @@ class PrivacyPolicyActivity : AppCompatActivity() {
             try {
                 startActivity(Intent.createChooser(intent, "Enviar correo..."))
             } catch (e: Exception) {
-                com.classdrop.utils.AlertUtils.showCustomAlert(
+                AlertUtils.showCustomAlert(
                     context = this,
                     title = "Error",
                     message = "No se encontró una aplicación de correo en este dispositivo",
-                    type = com.classdrop.utils.AlertUtils.AlertType.ERROR
+                    type = AlertUtils.AlertType.ERROR
                 )
             }
         }
@@ -71,19 +73,39 @@ class PrivacyPolicyActivity : AppCompatActivity() {
             .mapNotNull { it.firstOrNull()?.uppercase() }
             .take(2)
             .joinToString("")
-        
+
         binding.tvAvatarInitials.text = initials
     }
 
     private fun setupViewModel() {
-        // Observar el encabezado de privacidad
-        binding.tvPrivacyHeaderDesc.text = normsRepository.getPrivacyHeader()
+        // Mensaje principal, tal como lo dejó el admin en el servidor
+        viewModel.headerState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    binding.tvPrivacyHeaderDesc.text = result.data?.description
+                        ?: "Aún no se ha publicado un mensaje principal de privacidad."
+                }
+                is NetworkResult.Error -> {
+                    binding.tvPrivacyHeaderDesc.text = "No se pudo cargar el mensaje principal."
+                }
+                else -> {}
+            }
+        }
 
-        // Observar las reglas de privacidad desde el ViewModel (Room Database)
-        // Esto asegura que los cambios hechos por el admin se reflejen aquí
-        viewModel.privacyRules.observe(this) { rules ->
-            if (rules.isNotEmpty()) {
-                adapter.updateData(rules)
+        // Lista de políticas de privacidad, igual para todos los estudiantes
+        viewModel.rulesState.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    adapter.updateData(result.data.orEmpty())
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(
+                        this,
+                        result.message ?: "No se pudieron cargar las políticas",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> {}
             }
         }
     }
