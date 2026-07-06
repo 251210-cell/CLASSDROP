@@ -123,9 +123,9 @@ class FilesRepository(
         if (r.isSuccessful) Result.success(Unit) else Result.failure(Exception("Error ${r.code()}"))
     } catch (e: Exception) { Result.failure(e) }
 
-    suspend fun obtenerFavoritos(): Result<List<GuardadoResponse>> {
+    suspend fun obtenerFavoritos(): Result<List<FileModel>> {
         return try {
-            val response = filesService.getFavoritos()
+            val response = filesService.getArchivosGuardados()
             val body = response.body()
             if (response.isSuccessful && body?.success == true && body.data != null) {
                 Result.success(body.data)
@@ -212,6 +212,35 @@ class FilesRepository(
             } else {
                 val errorMsg = body?.error?.message ?: "Error API: ${response.code()} ${response.message()}"
                 Result.failure(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun obtenerDescargados(): Result<List<FileModel>> {
+        return try {
+            val response = filesService.getArchivosDescargados()
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data)
+            } else {
+                Result.failure(Exception(body?.error?.message ?: "Error API: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** "Mis archivos" para el perfil: todos los que YO subí, sin importar su estado. */
+    suspend fun obtenerMisArchivos(): Result<List<FileModel>> {
+        return try {
+            val response = filesService.getMisArchivos()
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data.rows)
+            } else {
+                Result.failure(Exception(body?.error?.message ?: "Error API: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

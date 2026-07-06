@@ -60,10 +60,15 @@ interface FilesService {
     @DELETE("guardados/{archivoId}")
     suspend fun quitarFavorito(@Path("archivoId") archivoId: String): Response<Unit>
 
-    @GET("guardados/usuario")
-    suspend fun getFavoritos(): Response<ApiResponse<List<GuardadoResponse>>>
+    // Devuelve los archivos completos (autor, materia, contadores, mi like/dislike/guardado),
+    // listos para pintarse con el mismo PostsAdapter que el resto de la app.
+    @GET("guardados/usuario/archivos")
+    suspend fun getArchivosGuardados(): Response<ApiResponse<List<FileModel>>>
 
     // --- Descargas ---
     @POST("descargas")
     suspend fun registrarDescarga(@Body body: Map<String, String>): Response<Unit>
+
+    @GET("descargas/usuario/archivos")
+    suspend fun getArchivosDescargados(): Response<ApiResponse<List<FileModel>>>
 }

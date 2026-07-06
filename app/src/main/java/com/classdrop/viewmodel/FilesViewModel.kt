@@ -148,4 +148,41 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
     }
+
+    // --- Perfil: mis archivos / descargados / favoritos ---
+    private val _misArchivos = MutableLiveData<List<FileModel>>()
+    val misArchivos: LiveData<List<FileModel>> = _misArchivos
+
+    private val _descargados = MutableLiveData<List<FileModel>>()
+    val descargados: LiveData<List<FileModel>> = _descargados
+
+    private val _favoritos = MutableLiveData<List<FileModel>>()
+    val favoritos: LiveData<List<FileModel>> = _favoritos
+
+    fun cargarMisArchivos() {
+        viewModelScope.launch {
+            repository.obtenerMisArchivos().fold(
+                onSuccess = { _misArchivos.value = it },
+                onFailure = { _listError.value = it.message }
+            )
+        }
+    }
+
+    fun cargarDescargados() {
+        viewModelScope.launch {
+            repository.obtenerDescargados().fold(
+                onSuccess = { _descargados.value = it },
+                onFailure = { _listError.value = it.message }
+            )
+        }
+    }
+
+    fun cargarFavoritos() {
+        viewModelScope.launch {
+            repository.obtenerFavoritos().fold(
+                onSuccess = { _favoritos.value = it },
+                onFailure = { _listError.value = it.message }
+            )
+        }
+    }
 }
