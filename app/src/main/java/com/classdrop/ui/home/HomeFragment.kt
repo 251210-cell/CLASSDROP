@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
     private val filesViewModel: FilesViewModel by viewModels()
     private lateinit var adapter: SubjectsAdapter
     private lateinit var postsAdapter: PostsAdapter
+    private var skipNextResumeRefresh = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,28 +47,64 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
 
+        skipNextResumeRefresh = true
         setupUI()
         setupListeners()
         setupNovedades()
 
-        refreshData()
+        refreshData(showLoading = true)
     }
 
     override fun onResume() {
         super.onResume()
-        refreshData()
+        if (skipNextResumeRefresh) {
+            skipNextResumeRefresh = false
+            return
+        }
+        // Vuelve desde otra Activity (p. ej. notificaciones): refresco silencioso.
+        refreshData(showLoading = false)
     }
 
-    private fun refreshData() {
-        binding.pbSubjects.visibility = View.VISIBLE
-        binding.rvSubjects.visibility = View.GONE
+    private fun refreshData(showLoading: Boolean) {
+        val materiasCache = viewModel.materias.value
+        if (materiasCache != null) {
+            renderMaterias(materiasCache)
+        } else if (showLoading) {
+            binding.pbSubjects.visibility = View.VISIBLE
+            binding.rvSubjects.visibility = View.GONE
+        }
         viewModel.fetchAllMaterias()
 
         if (sessionManager.fetchUserRole() != UserRole.ADMIN) {
-            binding.pbNovedades.visibility = View.VISIBLE
-            binding.rvNovedades.visibility = View.GONE
-            binding.tvNovedadesVacio.visibility = View.GONE
+            val archivosCache = filesViewModel.archivosPublicados.value
+            if (archivosCache != null) {
+                renderNovedades(archivosCache)
+            } else if (showLoading) {
+                binding.pbNovedades.visibility = View.VISIBLE
+                binding.rvNovedades.visibility = View.GONE
+                binding.tvNovedadesVacio.visibility = View.GONE
+            }
             filesViewModel.cargarArchivosPublicados()
+        }
+    }
+
+    private fun renderMaterias(materias: List<MateriaResponse>) {
+        binding.pbSubjects.visibility = View.GONE
+        binding.rvSubjects.visibility = View.VISIBLE
+        adapter.submitList(materias)
+    }
+
+    private fun renderNovedades(archivos: List<FileModel>) {
+        binding.pbNovedades.visibility = View.GONE
+        val posts = archivos.map { it.toPost() }
+        postsAdapter.submitList(posts)
+
+        if (posts.isEmpty()) {
+            binding.tvNovedadesVacio.visibility = View.VISIBLE
+            binding.rvNovedades.visibility = View.GONE
+        } else {
+            binding.tvNovedadesVacio.visibility = View.GONE
+            binding.rvNovedades.visibility = View.VISIBLE
         }
     }
 
@@ -136,9 +173,7 @@ class HomeFragment : Fragment() {
         binding.rvSubjects.adapter = adapter
 
         viewModel.materias.observe(viewLifecycleOwner) { listaMaterias ->
-            binding.pbSubjects.visibility = View.GONE
-            binding.rvSubjects.visibility = View.VISIBLE
-            adapter.submitList(listaMaterias)
+            renderMaterias(listaMaterias)
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -157,17 +192,7 @@ class HomeFragment : Fragment() {
         binding.rvNovedades.adapter = postsAdapter
 
         filesViewModel.archivosPublicados.observe(viewLifecycleOwner) { archivos ->
-            binding.pbNovedades.visibility = View.GONE
-            val posts = archivos.map { it.toPost() }
-            postsAdapter.submitList(posts)
-
-            if (posts.isEmpty()) {
-                binding.tvNovedadesVacio.visibility = View.VISIBLE
-                binding.rvNovedades.visibility = View.GONE
-            } else {
-                binding.tvNovedadesVacio.visibility = View.GONE
-                binding.rvNovedades.visibility = View.VISIBLE
-            }
+            renderNovedades(archivos)
         }
 
         filesViewModel.listError.observe(viewLifecycleOwner) {
