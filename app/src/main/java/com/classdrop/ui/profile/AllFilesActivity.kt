@@ -55,7 +55,6 @@ class AllFilesActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = PostsAdapter(
-            sessionManager = sessionManager,
             onBookmarkChanged = { post ->
                 filesViewModel.actualizarFavorito(post.id, post.isBookmarked)
                 // En la vista de Favoritos, si el usuario quita el corazón,

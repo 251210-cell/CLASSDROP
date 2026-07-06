@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.classdrop.model.FileModel
+import com.classdrop.network.NetworkResult
 import com.classdrop.repository.FilesRepository
 import kotlinx.coroutines.launch
 
@@ -164,6 +165,20 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
             repository.obtenerMisArchivos().fold(
                 onSuccess = { _misArchivos.value = it },
                 onFailure = { _listError.value = it.message }
+            )
+        }
+    }
+
+    // --- Detalle de un archivo (FileDetailActivity) ---
+    private val _archivoDetalle = MutableLiveData<NetworkResult<FileModel>>()
+    val archivoDetalle: LiveData<NetworkResult<FileModel>> = _archivoDetalle
+
+    fun cargarArchivo(archivoId: String) {
+        _archivoDetalle.value = NetworkResult.Loading()
+        viewModelScope.launch {
+            repository.obtenerPorId(archivoId).fold(
+                onSuccess = { _archivoDetalle.value = NetworkResult.Success(it) },
+                onFailure = { _archivoDetalle.value = NetworkResult.Error(it.message ?: "No se pudo cargar el archivo") }
             )
         }
     }

@@ -29,7 +29,6 @@ data class Post(
 )
 
 class PostsAdapter(
-    private val sessionManager: com.classdrop.utils.SessionManager? = null,
     private val onBookmarkChanged: ((Post) -> Unit)? = null,
     private val onLikeChanged: ((Post) -> Unit)? = null,
     private val onDislikeChanged: ((Post) -> Unit)? = null,
@@ -66,13 +65,10 @@ class PostsAdapter(
             // Configurar icono y color dinámico
             setupFileTypeIcon(holder, post.fileType)
 
-            // El backend no nos dice si YO ya di like/dislike/favorito a este archivo
-            // cuando se recarga la lista, así que lo restauramos desde el almacenamiento
-            // local (SessionManager) para que el botón se mantenga resaltado sin
-            // importar cuántas veces se recargue la pantalla.
-            post.isLiked = sessionManager?.isFileLiked(post.id) ?: post.isLiked
-            post.isDisliked = sessionManager?.isFileDisliked(post.id) ?: post.isDisliked
-            post.isBookmarked = sessionManager?.isFavorite(post.id) ?: post.isBookmarked
+            // post.isLiked / isDisliked / isBookmarked ya vienen calculados por el backend
+            // (isLikedByMe / isDislikedByMe / isGuardadoByMe), igual que con los comentarios.
+            // Ya NO se sobreescriben con SessionManager: ese almacenamiento local era
+            // por dispositivo, no por cuenta, y se perdía al cerrar sesión.
 
             // Lógica de Like
             updateLikeUI(holder, post.isLiked)
@@ -83,7 +79,6 @@ class PostsAdapter(
                     if (post.isDisliked) {
                         post.isDisliked = false
                         post.dislikes--
-                        sessionManager?.setFileDisliked(post.id, false)
                         updateDislikeUI(holder, false, post.dislikes)
                         // Avisamos al backend que el dislike anterior debe quitarse,
                         // si no, el contador de dislikes queda desincronizado en el servidor.
@@ -92,7 +87,6 @@ class PostsAdapter(
                 } else {
                     post.likes--
                 }
-                sessionManager?.setFileLiked(post.id, post.isLiked)
 
                 tvLikes.text = post.likes.toString()
                 updateLikeUI(holder, post.isLiked)
@@ -109,7 +103,6 @@ class PostsAdapter(
                     if (post.isLiked) {
                         post.isLiked = false
                         post.likes--
-                        sessionManager?.setFileLiked(post.id, false)
                         tvLikes.text = post.likes.toString()
                         updateLikeUI(holder, false)
                         // Avisamos al backend que el like anterior debe quitarse,
@@ -119,7 +112,6 @@ class PostsAdapter(
                 } else {
                     post.dislikes--
                 }
-                sessionManager?.setFileDisliked(post.id, post.isDisliked)
                 updateDislikeUI(holder, post.isDisliked, post.dislikes)
                 animateButton(ivDislikeIcon)
                 onDislikeChanged?.invoke(post)
@@ -130,7 +122,6 @@ class PostsAdapter(
 
             btnBookmark.setOnClickListener {
                 post.isBookmarked = !post.isBookmarked
-                sessionManager?.toggleFavorite(post.id)
                 updateBookmarkUI(holder, post.isBookmarked)
                 animateButton(btnBookmark)
                 onBookmarkChanged?.invoke(post)

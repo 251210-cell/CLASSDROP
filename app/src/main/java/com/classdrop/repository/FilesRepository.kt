@@ -246,4 +246,22 @@ class FilesRepository(
             Result.failure(e)
         }
     }
+
+    /** Un solo archivo, con sus contadores y mi like/dislike/guardado reales y actuales
+     * (isLikedByMe/isDislikedByMe/isGuardadoByMe), tal como los calcula el backend en
+     * este momento. Se usa en FileDetailActivity para no depender de lo que traía el
+     * Intent ni de almacenamiento local, que se puede desactualizar o perder. */
+    suspend fun obtenerPorId(archivoId: String): Result<FileModel> {
+        return try {
+            val response = filesService.getArchivoPorId(archivoId)
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && body.data != null) {
+                Result.success(body.data)
+            } else {
+                Result.failure(Exception(body?.error?.message ?: "Error API: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

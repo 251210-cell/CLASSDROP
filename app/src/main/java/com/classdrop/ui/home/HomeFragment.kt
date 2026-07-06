@@ -148,7 +148,6 @@ class HomeFragment : Fragment() {
 
     private fun setupNovedades() {
         postsAdapter = PostsAdapter(
-            sessionManager = sessionManager,
             onLikeChanged = { post -> filesViewModel.actualizarLike(post.id, post.isLiked) },
             onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) },
             onBookmarkChanged = { post -> filesViewModel.actualizarFavorito(post.id, post.isBookmarked) },
@@ -186,7 +185,12 @@ class HomeFragment : Fragment() {
         likes = totalLikes,
         dislikes = totalDislikes,
         downloads = totalDescargas,
-        comments = totalComentarios
+        comments = totalComentarios,
+        // Verdad real del backend (calculada por usuario en cada consulta), igual que
+        // ya se hace con los comentarios. Ya no dependemos de SessionManager para esto.
+        isLiked = isLikedByMe,
+        isDisliked = isDislikedByMe,
+        isBookmarked = isGuardadoByMe
     )
 
     private fun navigateToSubject(subject: MateriaResponse) {

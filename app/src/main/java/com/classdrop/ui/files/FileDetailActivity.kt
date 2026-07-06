@@ -15,7 +15,6 @@ import com.classdrop.databinding.ActivityFileDetailBinding
 import com.classdrop.network.NetworkResult
 import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.DownloadUtils
-import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.CommentsViewModel
 import com.classdrop.viewmodel.FilesViewModel
 
@@ -23,7 +22,6 @@ class FileDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFileDetailBinding
     private lateinit var commentsAdapter: CommentsAdapter
-    private lateinit var sessionManager: SessionManager
     private val filesViewModel: FilesViewModel by viewModels()
     private val commentsViewModel: CommentsViewModel by viewModels()
 
@@ -67,23 +65,15 @@ class FileDetailActivity : AppCompatActivity() {
         fileName = intent.getStringExtra("FILE_NAME") ?: "Archivo"
         fileType = intent.getStringExtra("FILE_TYPE") ?: "PDF"
 
-        sessionManager = SessionManager(this)
-
-        // Contadores y estado real, tal como venían del Post en la lista de donde se abrió esta pantalla
+        // Contadores y estado tal como venían del Post en la lista de donde se abrió esta
+        // pantalla: se usan solo como vista previa instantánea mientras llega la respuesta
+        // real del servidor (evita que la pantalla se vea vacía un instante).
         likesCount = intent.getIntExtra("FILE_LIKES", 0)
         dislikesCount = intent.getIntExtra("FILE_DISLIKES", 0)
         downloadsCount = intent.getIntExtra("FILE_DOWNLOADS", 0)
-
-        // El backend no nos dice si YO ya di like/dislike/favorito a este archivo,
-        // así que lo restauramos desde el almacenamiento local (SessionManager) en vez
-        // de confiar solo en los extras del Intent: así se mantiene resaltado sin
-        // importar desde dónde se abrió esta pantalla ni cuántas veces se recargue.
-        isLiked = if (archivoId.isNotEmpty()) sessionManager.isFileLiked(archivoId)
-        else intent.getBooleanExtra("FILE_IS_LIKED", false)
-        isDisliked = if (archivoId.isNotEmpty()) sessionManager.isFileDisliked(archivoId)
-        else intent.getBooleanExtra("FILE_IS_DISLIKED", false)
-        isBookmarked = if (archivoId.isNotEmpty()) sessionManager.isFavorite(archivoId)
-        else intent.getBooleanExtra("FILE_IS_BOOKMARKED", false)
+        isLiked = intent.getBooleanExtra("FILE_IS_LIKED", false)
+        isDisliked = intent.getBooleanExtra("FILE_IS_DISLIKED", false)
+        isBookmarked = intent.getBooleanExtra("FILE_IS_BOOKMARKED", false)
 
         setupToolbar()
         setupCommentsList()
@@ -93,6 +83,9 @@ class FileDetailActivity : AppCompatActivity() {
 
         if (archivoId.isNotEmpty()) {
             commentsViewModel.fetchComments(archivoId)
+            // Trae el archivo real (contadores + mi like/dislike/guardado actuales),
+            // en vez de confiar solo en lo que traía el Intent.
+            filesViewModel.cargarArchivo(archivoId)
         }
 
         // UI Initial states
@@ -137,6 +130,39 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
+        filesViewModel.archivoDetalle.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    val archivo = result.data ?: return@observe
+                    // Reemplazamos la vista previa del Intent con la verdad real y actual
+                    // del servidor: contadores exactos y si YO ya le di like/dislike/guardado.
+                    likesCount = archivo.totalLikes
+                    dislikesCount = archivo.totalDislikes
+                    downloadsCount = archivo.totalDescargas
+                    isLiked = archivo.isLikedByMe
+                    isDisliked = archivo.isDislikedByMe
+                    isBookmarked = archivo.isGuardadoByMe
+                    fileUrl = archivo.adjuntos?.firstOrNull()?.urlStorage ?: fileUrl
+                    fileType = com.classdrop.utils.FileTypeUtils.resolverTipoReal(
+                        archivo.adjuntos?.firstOrNull(), archivo.tipo
+                    )
+                    fileName = archivo.titulo
+
+                    loadFileData()
+                    updateLikeUI()
+                    updateDislikeUI()
+                    updateBookmarkUI()
+                    binding.tvDownloadsDetail.text = downloadsCount.toString()
+                }
+                is NetworkResult.Error -> {
+                    // No bloqueamos la pantalla: seguimos mostrando la vista previa del
+                    // Intent y solo avisamos que no se pudo confirmar el estado más reciente.
+                    Toast.makeText(this, result.message ?: "No se pudo actualizar el estado del archivo", Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+        }
+
         commentsViewModel.commentsState.observe(this) { result ->
             when (result) {
                 is NetworkResult.Loading -> { }
@@ -252,13 +278,11 @@ class FileDetailActivity : AppCompatActivity() {
                 if (isDisliked) {
                     isDisliked = false
                     dislikesCount--
-                    if (archivoId.isNotEmpty()) sessionManager.setFileDisliked(archivoId, false)
                     updateDislikeUI()
                 }
             } else {
                 likesCount--
             }
-            if (archivoId.isNotEmpty()) sessionManager.setFileLiked(archivoId, isLiked)
             updateLikeUI()
             animateButton(binding.ivLikeIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarLike(archivoId, isLiked)
@@ -271,13 +295,11 @@ class FileDetailActivity : AppCompatActivity() {
                 if (isLiked) {
                     isLiked = false
                     likesCount--
-                    if (archivoId.isNotEmpty()) sessionManager.setFileLiked(archivoId, false)
                     updateLikeUI()
                 }
             } else {
                 dislikesCount--
             }
-            if (archivoId.isNotEmpty()) sessionManager.setFileDisliked(archivoId, isDisliked)
             updateDislikeUI()
             animateButton(binding.ivDislikeIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarDislike(archivoId, isDisliked)
@@ -285,9 +307,6 @@ class FileDetailActivity : AppCompatActivity() {
 
         binding.llBookmarkDetail.setOnClickListener {
             isBookmarked = !isBookmarked
-            if (archivoId.isNotEmpty()) {
-                if (isBookmarked) sessionManager.addFavorite(archivoId) else sessionManager.removeFavorite(archivoId)
-            }
             updateBookmarkUI()
             animateButton(binding.ivBookmarkIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarFavorito(archivoId, isBookmarked)

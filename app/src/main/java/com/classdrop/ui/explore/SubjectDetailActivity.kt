@@ -104,7 +104,6 @@ class SubjectDetailActivity : AppCompatActivity() {
         filesViewModel = ViewModelProvider(this)[FilesViewModel::class.java]
 
         postsAdapter = PostsAdapter(
-            sessionManager = sessionManager,
             onLikeChanged = { post -> filesViewModel.actualizarLike(post.id, post.isLiked) },
             onDislikeChanged = { post -> filesViewModel.actualizarDislike(post.id, post.isDisliked) },
             onBookmarkChanged = { post -> filesViewModel.actualizarFavorito(post.id, post.isBookmarked) },
@@ -160,7 +159,12 @@ class SubjectDetailActivity : AppCompatActivity() {
         likes = file.totalLikes,
         dislikes = file.totalDislikes,
         downloads = file.totalDescargas,
-        comments = file.totalComentarios
+        comments = file.totalComentarios,
+        // Verdad real del backend (calculada por usuario en cada consulta), igual que
+        // ya se hace con los comentarios. Ya no dependemos de SessionManager para esto.
+        isLiked = file.isLikedByMe,
+        isDisliked = file.isDislikedByMe,
+        isBookmarked = file.isGuardadoByMe
     )
 
     /** Registra la descarga en la API y descarga el archivo real con el DownloadManager del sistema. */
