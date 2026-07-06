@@ -51,32 +51,46 @@ class CommentsAdapter(
                     if (comment.isLiked) {
                         comment.isLiked = false
                         comment.totalLikes--
+                        updateReactionsUI(comment)
+                        onLikeChanged?.invoke(comment)
                     } else {
                         comment.isLiked = true
                         comment.totalLikes++
                         if (comment.isDisliked) {
                             comment.isDisliked = false
                             comment.totalDislikes--
+                            updateReactionsUI(comment)
+                            // Avisamos al backend que el dislike anterior debe quitarse,
+                            // si no, el contador de dislikes queda desincronizado en el servidor.
+                            onDislikeChanged?.invoke(comment)
+                        } else {
+                            updateReactionsUI(comment)
                         }
+                        onLikeChanged?.invoke(comment)
                     }
-                    updateReactionsUI(comment)
-                    onLikeChanged?.invoke(comment)
                 }
 
                 btnDislike.setOnClickListener {
                     if (comment.isDisliked) {
                         comment.isDisliked = false
                         comment.totalDislikes--
+                        updateReactionsUI(comment)
+                        onDislikeChanged?.invoke(comment)
                     } else {
                         comment.isDisliked = true
                         comment.totalDislikes++
                         if (comment.isLiked) {
                             comment.isLiked = false
                             comment.totalLikes--
+                            updateReactionsUI(comment)
+                            // Avisamos al backend que el like anterior debe quitarse,
+                            // si no, el contador de likes queda desincronizado en el servidor.
+                            onLikeChanged?.invoke(comment)
+                        } else {
+                            updateReactionsUI(comment)
                         }
+                        onDislikeChanged?.invoke(comment)
                     }
-                    updateReactionsUI(comment)
-                    onDislikeChanged?.invoke(comment)
                 }
 
                 // Clic largo para activar la lambda de borrado usando comment.id

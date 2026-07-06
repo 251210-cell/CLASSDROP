@@ -188,6 +188,9 @@ class FileDetailActivity : AppCompatActivity() {
                     isDisliked = false
                     dislikesCount--
                     updateDislikeUI()
+                    // Avisamos al backend que el dislike anterior debe quitarse,
+                    // si no, el contador de dislikes queda desincronizado en el servidor.
+                    if (archivoId.isNotEmpty()) filesViewModel.actualizarDislike(archivoId, false)
                 }
             } else {
                 likesCount--
@@ -205,6 +208,9 @@ class FileDetailActivity : AppCompatActivity() {
                     isLiked = false
                     likesCount--
                     updateLikeUI()
+                    // Avisamos al backend que el like anterior debe quitarse,
+                    // si no, el contador de likes queda desincronizado en el servidor.
+                    if (archivoId.isNotEmpty()) filesViewModel.actualizarLike(archivoId, false)
                 }
             } else {
                 dislikesCount--

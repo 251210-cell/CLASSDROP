@@ -9,6 +9,7 @@ import com.classdrop.databinding.ActivityModerationBinding
 import com.classdrop.model.FileModel
 import com.classdrop.model.ModerationTask
 import com.classdrop.utils.AlertUtils
+import com.classdrop.utils.FileTypeUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
 import com.classdrop.viewmodel.FilesViewModel
@@ -97,7 +98,7 @@ class ModerationActivity : AppCompatActivity() {
         // el riesgo real ya lo calcula el microservicio (riesgoIa) y las funciones de BD.
         flagReason = "Pendiente de revisión manual del administrador.",
         fileUrl = adjuntos?.firstOrNull()?.urlStorage,
-        fileType = tipo.uppercase()
+        fileType = FileTypeUtils.resolverTipoReal(adjuntos?.firstOrNull(), tipo)
     )
 
     private fun showApprovalDialog(task: ModerationTask) {

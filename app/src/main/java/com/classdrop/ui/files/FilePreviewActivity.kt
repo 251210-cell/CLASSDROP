@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.classdrop.databinding.ActivityFilePreviewBinding
 import com.classdrop.utils.AlertUtils
+import java.net.URLEncoder
 
 class FilePreviewActivity : AppCompatActivity() {
 
@@ -106,10 +107,14 @@ class FilePreviewActivity : AppCompatActivity() {
             useWideViewPort = true
             domStorageEnabled = true
         }
-        
-        // Usando el visor de Google Docs para previsualizar el PDF remoto
-        val googleDocsUrl = "https://docs.google.com/viewer?embedded=true&url=$url"
-        
+
+        // IMPORTANTE: la URL del PDF (Firebase Storage) trae su propio "?alt=media&token=..."
+        // Si se pega tal cual dentro de la query string de Google Docs Viewer, el "&token=..."
+        // se interpreta como un parámetro nuevo de docs.google.com y rompe la URL real del PDF.
+        // Por eso hay que codificarla (URL-encode) antes de concatenarla.
+        val urlCodificada = URLEncoder.encode(url, "UTF-8")
+        val googleDocsUrl = "https://docs.google.com/viewer?embedded=true&url=$urlCodificada"
+
         binding.wvPreview.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 binding.progressBar.visibility = View.GONE
@@ -117,7 +122,13 @@ class FilePreviewActivity : AppCompatActivity() {
 
             override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this@FilePreviewActivity, "Error al cargar PDF", Toast.LENGTH_SHORT).show()
+                binding.wvPreview.visibility = View.GONE
+                AlertUtils.showCustomAlert(
+                    this@FilePreviewActivity,
+                    "No se pudo previsualizar",
+                    "No fue posible cargar la vista previa del PDF. Puedes descargarlo para verlo.",
+                    AlertUtils.AlertType.ERROR
+                )
             }
         }
         binding.wvPreview.loadUrl(googleDocsUrl)

@@ -76,6 +76,9 @@ class PostsAdapter(
                         post.isDisliked = false
                         post.dislikes--
                         updateDislikeUI(holder, false, post.dislikes)
+                        // Avisamos al backend que el dislike anterior debe quitarse,
+                        // si no, el contador de dislikes queda desincronizado en el servidor.
+                        onDislikeChanged?.invoke(post)
                     }
                 } else {
                     post.likes--
@@ -98,6 +101,9 @@ class PostsAdapter(
                         post.likes--
                         tvLikes.text = post.likes.toString()
                         updateLikeUI(holder, false)
+                        // Avisamos al backend que el like anterior debe quitarse,
+                        // si no, el contador de likes queda desincronizado en el servidor.
+                        onLikeChanged?.invoke(post)
                     }
                 } else {
                     post.dislikes--

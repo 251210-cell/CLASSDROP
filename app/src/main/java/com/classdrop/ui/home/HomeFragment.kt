@@ -17,6 +17,7 @@ import com.classdrop.ui.explore.PostsAdapter
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.ui.notifications.NotificationsActivity
+import com.classdrop.utils.FileTypeUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
 import com.classdrop.viewmodel.FilesViewModel
@@ -180,7 +181,7 @@ class HomeFragment : Fragment() {
         userName = autor?.nombreCompleto ?: "Usuario",
         time = "${TimeUtils.tiempoRelativo(creadoEn)} • ${materia?.nombre ?: ""}",
         fileName = titulo,
-        fileType = tipo.uppercase(),
+        fileType = FileTypeUtils.resolverTipoReal(adjuntos?.firstOrNull(), tipo),
         fileUrl = adjuntos?.firstOrNull()?.urlStorage,
         likes = totalLikes,
         dislikes = totalDislikes,

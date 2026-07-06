@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivitySubjectDetailBinding
 import com.classdrop.ui.main.MainActivity
+import com.classdrop.utils.FileTypeUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
 import com.classdrop.viewmodel.FilesViewModel
@@ -128,7 +129,7 @@ class SubjectDetailActivity : AppCompatActivity() {
         userName = file.autor?.nombreCompleto ?: "Usuario",
         time = "${TimeUtils.tiempoRelativo(file.creadoEn)} • ${file.materia?.nombre ?: ""}",
         fileName = file.titulo,
-        fileType = file.tipo.uppercase(),
+        fileType = FileTypeUtils.resolverTipoReal(file.adjuntos?.firstOrNull(), file.tipo),
         fileUrl = file.adjuntos?.firstOrNull()?.urlStorage,
         likes = file.totalLikes,
         dislikes = file.totalDislikes,
