@@ -5,7 +5,8 @@ data class User(
     val id: String,
     val nombreCompleto: String,
     val correo: String,
-    val rol: UserRole
+    val rol: UserRole,
+    @SerializedName("isTwoFactorEnabled") val isTwoFactorEnabled: Boolean = false
 )
 
 /**
@@ -19,4 +20,3 @@ enum class UserRole {
     @SerializedName("admin")
     ADMIN
 }
-

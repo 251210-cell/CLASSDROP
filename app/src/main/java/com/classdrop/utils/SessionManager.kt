@@ -35,6 +35,14 @@ class SessionManager(context: Context) {
         return prefs.getString("user_email", "") ?: ""
     }
 
+    fun save2FAEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean("2fa_enabled", enabled).apply()
+    }
+
+    fun is2FAEnabled(): Boolean {
+        return prefs.getBoolean("2fa_enabled", false)
+    }
+
     fun fetchUserRole(): UserRole {
         val roleName = prefs.getString("user_role", UserRole.STUDENT.name)
         return try {
@@ -48,11 +56,6 @@ class SessionManager(context: Context) {
         prefs.edit().clear().apply()
     }
 
-    // OJO: antes este método solo borraba "auth_token" y "user_role", dejando
-    // nombre, correo, y hasta los likes/favoritos guardados localmente del
-    // usuario anterior en el dispositivo. Ahora delega en clearSession() para
-    // que un logout SIEMPRE sea una limpieza completa, sin importar desde
-    // dónde se llame.
     @Deprecated("Usa clearSession() directamente.", ReplaceWith("clearSession()"))
     fun clearSessionData() = clearSession()
 
@@ -91,12 +94,7 @@ class SessionManager(context: Context) {
         return prefs.getStringSet("favorite_ids", emptySet()) ?: emptySet()
     }
 
-    // --- LIKES / DISLIKES SYNC (archivos y comentarios) ---
-    // El backend no nos devuelve si YO ya di like/dislike a un archivo o comentario
-    // cuando se recarga la lista, así que lo recordamos localmente (igual que con
-    // favoritos) para que el botón se quede resaltado sin importar cuántas veces
-    // se recargue la pantalla o la lista.
-
+    // --- LIKES / DISLIKES SYNC ---
     private fun fetchIds(key: String): Set<String> = prefs.getStringSet(key, emptySet()) ?: emptySet()
 
     private fun setActivo(key: String, id: String, activo: Boolean) {

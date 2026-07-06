@@ -29,6 +29,16 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _registerState = MutableLiveData<NetworkResult<RegisterResponse>>()
     val registerState: LiveData<NetworkResult<RegisterResponse>> = _registerState
 
+    private val _verify2FAState = MutableLiveData<NetworkResult<LoginResponse>>()
+    val verify2FAState: LiveData<NetworkResult<LoginResponse>> = _verify2FAState
+
+    // Nuevos estados para activación de 2FA desde Perfil
+    private val _generate2FAState = MutableLiveData<NetworkResult<String>>()
+    val generate2FAState: LiveData<NetworkResult<String>> = _generate2FAState
+
+    private val _activate2FAState = MutableLiveData<NetworkResult<String>>()
+    val activate2FAState: LiveData<NetworkResult<String>> = _activate2FAState
+
     fun login(correo: String, contrsena: String) {
         when (val resultado = validarCredenciales(correo, contrsena)) {
             is ValidarCredencialesUseCase.Resultado.Invalido -> {
@@ -44,8 +54,38 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun verifyCode(userId: String, code: String) {
+        if (code.length < 6) {
+            _validationError.value = "El código debe ser de 6 dígitos"
+            return
+        }
+        _verify2FAState.value = NetworkResult.Loading()
+        viewModelScope.launch {
+            _verify2FAState.value = authRepository.verify2FA(userId, code)
+        }
+    }
+
+    // --- ACTIVACIÓN DESDE PERFIL ---
+
+    fun generate2FACode() {
+        _generate2FAState.value = NetworkResult.Loading()
+        viewModelScope.launch {
+            _generate2FAState.value = authRepository.generar2FACodigo()
+        }
+    }
+
+    fun activate2FA(code: String) {
+        if (code.length < 6) {
+            _validationError.value = "Ingresa los 6 dígitos"
+            return
+        }
+        _activate2FAState.value = NetworkResult.Loading()
+        viewModelScope.launch {
+            _activate2FAState.value = authRepository.activar2FA(code)
+        }
+    }
+
     fun register(nombre: String, correo: String, contrasena: String) {
-        // Primero validamos las credenciales usando tu UseCase existente
         when (val resultado = validarCredenciales(correo, contrasena)) {
             is ValidarCredencialesUseCase.Resultado.Invalido -> {
                 _validationError.value = resultado.mensaje
@@ -60,18 +100,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /**
-     * Avisa al backend que revoque el token (para que no se pueda reusar aunque
-     * alguien lo tenga guardado), y SIEMPRE llama a [onFinally] al final, sin
-     * importar si la llamada de red tuvo éxito o no. Esto es intencional: el
-     * usuario debe poder cerrar sesión localmente incluso sin internet; la
-     * revocación en el servidor es una medida de seguridad extra, no un
-     * requisito para que el botón funcione.
-     */
-    fun logout(onFinally: () -> Unit) {
+    fun logout(onComplete: () -> Unit) {
         viewModelScope.launch {
             authRepository.logout()
-            onFinally()
+            onComplete()
         }
     }
 }

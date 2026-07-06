@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.classdrop.R
@@ -15,7 +14,6 @@ import com.classdrop.ui.admin.AdminHomeActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.AuthViewModel
-import com.classdrop.model.User
 
 class LoginActivity : AppCompatActivity() {
 
@@ -40,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnTogglePassword.setOnClickListener { togglePasswordVisibility() }
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString()
+            val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString()
             viewModel.login(email, password)
         }
@@ -49,7 +47,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
-        // Recuperar contraseña interna
         binding.tvForgotPassword.setOnClickListener {
             startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
@@ -87,21 +84,24 @@ class LoginActivity : AppCompatActivity() {
                 is NetworkResult.Success -> {
                     setLoading(false)
                     val loginData = result.data
+                    
+                    // LÓGICA DE VERIFICACIÓN EN DOS PASOS (2FA)
+                    if (loginData?.requires2FA == true) {
+                        val intent = Intent(this, VerifyOTPActivity::class.java).apply {
+                            putExtra("USER_ID", loginData.userId)
+                        }
+                        startActivity(intent)
+                        return@observe
+                    }
+
+                    // Login Directo (si no tiene 2FA activo)
                     val user = loginData?.usuario
                     val role = user?.rol ?: UserRole.STUDENT
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
                     sessionManager.saveUserRole(role)
                     
-                    // Preservar el nombre del registro si el servidor devuelve uno genérico
                     val serverName = user?.nombreCompleto ?: "Usuario"
-                    val savedName = sessionManager.fetchUserName()
-                    val finalName = if ((serverName == "Estudiante" || serverName == "Administrador") && savedName != "Usuario") {
-                        savedName
-                    } else {
-                        serverName
-                    }
-                    
-                    sessionManager.saveUserName(finalName)
+                    sessionManager.saveUserName(serverName)
                     sessionManager.saveUserEmail(user?.correo ?: "")
                     
                     com.classdrop.utils.AlertUtils.showCustomAlert(
@@ -127,12 +127,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateByRole(role: UserRole) {
         val destination = if (role == UserRole.ADMIN) AdminHomeActivity::class.java else MainActivity::class.java
-        startActivity(Intent(this, destination))
+        val intent = Intent(this, destination)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
         finish()
     }
 
     private fun setLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.btnLogin.isEnabled = !isLoading
+        binding.etEmail.isEnabled = !isLoading
+        binding.etPassword.isEnabled = !isLoading
     }
 }
