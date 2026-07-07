@@ -57,15 +57,14 @@
                     android:layout_height="wrap_content"
                     android:padding="32dp">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ivFileTypeIconLarge"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/bg_rounded_square_primary"
-                        android:backgroundTint="@color/file_pdf_bg"
-                        android:padding="16dp"
-                        android:src="@drawable/ic_mortarboard"
-                        app:tint="@color/file_pdf_text" />
+                        android:scaleType="centerInside"
+                        app:shapeAppearanceOverlay="@style/RoundedSquare"
+                        tools:background="@color/file_pdf_bg"
+                        tools:src="@drawable/ic_mortarboard" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -95,6 +94,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvFileTypeBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

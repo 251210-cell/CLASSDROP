@@ -58,7 +58,6 @@ class ProfileFragment : Fragment() {
         binding.tvUserInfoName.text = userName
         binding.tvUserInfoEmail.text = userEmail
 
-        // Determinamos la carrera automáticamente por el correo según el contexto de UPChiapas
         val career = when {
             userEmail.contains("@ids", ignoreCase = true) -> "Ingeniería de Desarrollo de Software"
             userEmail.contains("@it2id", ignoreCase = true) -> "Ingeniería en Tecnologías de Información e Innovación Digital"
@@ -133,41 +132,47 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        // Clics en las tarjetas de actividad para hacer scroll
         binding.cardUploads.setOnClickListener {
-            binding.scrollViewProfile.post {
-                binding.scrollViewProfile.smoothScrollTo(0, binding.titleUploads.top - 20)
-            }
+            binding.scrollViewProfile.smoothScrollTo(0, binding.titleUploads.top)
+        }
+        binding.cardDownloads.setOnClickListener {
+            binding.scrollViewProfile.smoothScrollTo(0, binding.titleDownloads.top)
+        }
+        binding.cardFavorites.setOnClickListener {
+            binding.scrollViewProfile.smoothScrollTo(0, binding.titleFavorites.top)
         }
 
+        // Clics en "Ver más"
         binding.tvSeeMoreUploads.setOnClickListener {
-            val intent = Intent(requireContext(), AllFilesActivity::class.java).apply {
-                putExtra("FILE_TYPE", "Mis Archivos")
-            }
-            startActivity(intent)
+            startAllFilesActivity("Mis Archivos")
+        }
+        binding.tvSeeMoreDownloads.setOnClickListener {
+            startAllFilesActivity("Descargas")
+        }
+        binding.tvSeeMoreFavorites.setOnClickListener {
+            startAllFilesActivity("Favoritos")
         }
 
-        binding.btnLogout.setOnClickListener {
-            showLogoutConfirmation()
-        }
-
+        binding.btnLogout.setOnClickListener { showLogoutConfirmation() }
         binding.btnPrivacy.setOnClickListener {
-            val intent = Intent(requireContext(), PrivacyPolicyActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(requireContext(), PrivacyPolicyActivity::class.java))
         }
-
         binding.btnNorms.setOnClickListener {
-            val intent = Intent(requireContext(), CommunityRulesActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(requireContext(), CommunityRulesActivity::class.java))
         }
-
-        binding.tvHelpDescription.setOnClickListener {
-            sendEmail()
-        }
-
+        binding.tvHelpDescription.setOnClickListener { sendEmail() }
         binding.ivNotification.setOnClickListener {
             binding.viewNotificationDot.visibility = View.GONE
             startActivity(Intent(requireContext(), com.classdrop.ui.notifications.NotificationsActivity::class.java))
         }
+    }
+
+    private fun startAllFilesActivity(type: String) {
+        val intent = Intent(requireContext(), AllFilesActivity::class.java).apply {
+            putExtra("FILE_TYPE", type)
+        }
+        startActivity(intent)
     }
 
     private fun showLogoutConfirmation() {

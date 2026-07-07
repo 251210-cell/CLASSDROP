@@ -2,12 +2,13 @@ package com.classdrop.ui.explore
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemPostBinding
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.classdrop.R
 
 data class Post(
@@ -62,13 +63,8 @@ class PostsAdapter(
             tvDownloads.text = post.downloads.toString()
             tvComments.text = post.comments.toString()
 
-            // Configurar icono y color dinámico
-            setupFileTypeIcon(holder, post.fileType)
-
-            // post.isLiked / isDisliked / isBookmarked ya vienen calculados por el backend
-            // (isLikedByMe / isDislikedByMe / isGuardadoByMe), igual que con los comentarios.
-            // Ya NO se sobreescriben con SessionManager: ese almacenamiento local era
-            // por dispositivo, no por cuenta, y se perdía al cerrar sesión.
+            // Configurar imagen o icono dinámico
+            setupFileTypeIcon(holder, post)
 
             // Lógica de Like
             updateLikeUI(holder, post.isLiked)
@@ -80,8 +76,6 @@ class PostsAdapter(
                         post.isDisliked = false
                         post.dislikes--
                         updateDislikeUI(holder, false, post.dislikes)
-                        // Avisamos al backend que el dislike anterior debe quitarse,
-                        // si no, el contador de dislikes queda desincronizado en el servidor.
                         onDislikeChanged?.invoke(post)
                     }
                 } else {
@@ -105,8 +99,6 @@ class PostsAdapter(
                         post.likes--
                         tvLikes.text = post.likes.toString()
                         updateLikeUI(holder, false)
-                        // Avisamos al backend que el like anterior debe quitarse,
-                        // si no, el contador de likes queda desincronizado en el servidor.
                         onLikeChanged?.invoke(post)
                     }
                 } else {
@@ -117,9 +109,8 @@ class PostsAdapter(
                 onDislikeChanged?.invoke(post)
             }
 
-            // Lógica de Favoritos (Bookmark) en ROJO
+            // Lógica de Favoritos
             updateBookmarkUI(holder, post.isBookmarked)
-
             btnBookmark.setOnClickListener {
                 post.isBookmarked = !post.isBookmarked
                 updateBookmarkUI(holder, post.isBookmarked)
@@ -127,8 +118,7 @@ class PostsAdapter(
                 onBookmarkChanged?.invoke(post)
             }
 
-            // Lógica de Descarga: confirmamos localmente, pero el registro real en la API
-            // (y la apertura del archivo) lo maneja quien use este adapter.
+            // Lógica de Descarga
             updateDownloadUI(holder, post.isDownloaded)
             llDownload.setOnClickListener {
                 com.classdrop.utils.AlertUtils.showCustomAlert(
@@ -147,15 +137,67 @@ class PostsAdapter(
                 )
             }
 
-            // Lógica de Comentarios
+            // Lógica de Comentarios y Tarjeta
             llComments.setOnClickListener {
                 animateButton(ivCommentIcon)
                 openFileDetail(holder, post)
             }
-
-            // Click en la tarjeta principal también abre el detalle
             root.setOnClickListener {
                 openFileDetail(holder, post)
+            }
+        }
+    }
+
+    private fun setupFileTypeIcon(holder: PostViewHolder, post: Post) {
+        val context = holder.itemView.context
+        val fileType = post.fileType.uppercase()
+        
+        val (iconRes, bgColor, textColor) = when (fileType) {
+            "PDF" -> Triple(
+                R.drawable.ic_mortarboard,
+                ContextCompat.getColor(context, R.color.file_pdf_bg),
+                ContextCompat.getColor(context, R.color.file_pdf_text)
+            )
+            "DOCX", "DOC" -> Triple(
+                R.drawable.ic_file_doc,
+                ContextCompat.getColor(context, R.color.file_pink_bg),
+                ContextCompat.getColor(context, R.color.file_pink_text)
+            )
+            "JPG", "PNG", "IMG", "JPEG" -> Triple(
+                R.drawable.ic_image,
+                ContextCompat.getColor(context, R.color.file_teal_bg),
+                ContextCompat.getColor(context, R.color.file_teal_text)
+            )
+            else -> Triple(
+                R.drawable.ic_file_doc,
+                ContextCompat.getColor(context, R.color.surface_variant),
+                ContextCompat.getColor(context, R.color.text_secondary)
+            )
+        }
+
+        holder.binding.ivFileTypeIcon.apply {
+            // Si es imagen y tenemos URL, cargamos la imagen real con Glide
+            if ((fileType == "JPG" || fileType == "PNG" || fileType == "IMG" || fileType == "JPEG") && !post.fileUrl.isNullOrEmpty()) {
+                setPadding(0, 0, 0, 0)
+                background = null
+                backgroundTintList = null
+                setColorFilter(null)
+                
+                Glide.with(context)
+                    .load(post.fileUrl)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .placeholder(iconRes)
+                    .error(iconRes)
+                    .into(this)
+            } else {
+                // Restaurar padding e iconografía para documentos
+                val p = (8 * resources.displayMetrics.density).toInt()
+                setPadding(p, p, p, p)
+                setImageResource(iconRes)
+                setBackgroundResource(R.drawable.bg_rounded_square_primary)
+                backgroundTintList = android.content.res.ColorStateList.valueOf(bgColor)
+                setColorFilter(textColor)
             }
         }
     }
@@ -178,24 +220,14 @@ class PostsAdapter(
     }
 
     private fun animateButton(view: android.view.View) {
-        view.animate()
-            .scaleX(1.3f)
-            .scaleY(1.3f)
-            .setDuration(100)
-            .withEndAction {
-                view.animate()
-                    .scaleX(1.0f)
-                    .scaleY(1.0f)
-                    .setDuration(100)
-                    .start()
-            }
-            .start()
+        view.animate().scaleX(1.3f).scaleY(1.3f).setDuration(100).withEndAction {
+            view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+        }.start()
     }
 
     private fun updateLikeUI(holder: PostViewHolder, isLiked: Boolean) {
         val context = holder.itemView.context
         val typedValue = android.util.TypedValue()
-
         val color = if (isLiked) {
             context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
             typedValue.data
@@ -203,7 +235,6 @@ class PostsAdapter(
             context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
             typedValue.data
         }
-
         holder.binding.ivLikeIcon.setColorFilter(color)
         holder.binding.tvLikes.setTextColor(color)
     }
@@ -211,7 +242,6 @@ class PostsAdapter(
     private fun updateDislikeUI(holder: PostViewHolder, isDisliked: Boolean, count: Int) {
         val context = holder.itemView.context
         val typedValue = android.util.TypedValue()
-
         val color = if (isDisliked) {
             context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
             typedValue.data
@@ -220,10 +250,7 @@ class PostsAdapter(
             typedValue.data
         }
         holder.binding.ivDislikeIcon.setColorFilter(color)
-        holder.binding.tvDislikes.apply {
-            text = count.toString()
-            setTextColor(color)
-        }
+        holder.binding.tvDislikes.apply { text = count.toString(); setTextColor(color) }
     }
 
     private fun updateBookmarkUI(holder: PostViewHolder, isBookmarked: Boolean) {
@@ -240,7 +267,6 @@ class PostsAdapter(
     private fun updateDownloadUI(holder: PostViewHolder, isDownloaded: Boolean) {
         val context = holder.itemView.context
         val typedValue = android.util.TypedValue()
-
         val color = if (isDownloaded) {
             context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
             typedValue.data
@@ -250,39 +276,6 @@ class PostsAdapter(
         }
         holder.binding.ivDownloadIcon.setColorFilter(color)
         holder.binding.tvDownloads.setTextColor(color)
-    }
-
-    private fun setupFileTypeIcon(holder: PostViewHolder, fileType: String) {
-        val context = holder.itemView.context
-        val (iconRes, bgColor, textColor) = when (fileType.uppercase()) {
-            "PDF" -> Triple(
-                R.drawable.ic_mortarboard,
-                ContextCompat.getColor(context, R.color.file_pdf_bg),
-                ContextCompat.getColor(context, R.color.file_pdf_text)
-            )
-            "DOCX", "DOC" -> Triple(
-                R.drawable.ic_file_doc,
-                ContextCompat.getColor(context, R.color.file_pink_bg),
-                ContextCompat.getColor(context, R.color.file_pink_text)
-            )
-            "JPG", "PNG", "IMG" -> Triple(
-                R.drawable.ic_image,
-                ContextCompat.getColor(context, R.color.file_teal_bg),
-                ContextCompat.getColor(context, R.color.file_teal_text)
-            )
-            else -> Triple(
-                R.drawable.ic_file_doc,
-                ContextCompat.getColor(context, R.color.surface_variant),
-                ContextCompat.getColor(context, R.color.text_secondary)
-            )
-        }
-
-        holder.binding.ivFileTypeIcon.apply {
-            setImageResource(iconRes)
-            setBackgroundResource(R.drawable.bg_rounded_square_primary)
-            backgroundTintList = android.content.res.ColorStateList.valueOf(bgColor)
-            setColorFilter(textColor)
-        }
     }
 
     class PostDiffCallback : DiffUtil.ItemCallback<Post>() {

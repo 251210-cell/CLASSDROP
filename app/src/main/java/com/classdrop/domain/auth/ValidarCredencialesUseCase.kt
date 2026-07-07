@@ -17,8 +17,15 @@ class ValidarCredencialesUseCase {
             return Resultado.Invalido("El formato del correo electrónico no es válido")
         }
         
-        val allowedDomains = listOf("@it2id.upchiapas.edu.mx", "@ids.upchiapas.edu.mx", "@classdrop.com")
-        if (allowedDomains.none { email.endsWith(it, ignoreCase = true) }) {
+        // Dominios autorizados para estudiantes
+        val allowedDomains = listOf("@it2id.upchiapas.edu.mx", "@ids.upchiapas.edu.mx")
+        // Correo único para administrador
+        val adminEmail = "classdrop.admi@gmail.com"
+
+        val isStudentEmail = allowedDomains.any { email.endsWith(it, ignoreCase = true) }
+        val isAdminEmail = email.equals(adminEmail, ignoreCase = true)
+
+        if (!isStudentEmail && !isAdminEmail) {
             return Resultado.Invalido("El dominio del correo no está autorizado")
         }
 

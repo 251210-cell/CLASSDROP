@@ -4,12 +4,15 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.classdrop.R
 import com.classdrop.databinding.ActivityFileDetailBinding
 import com.classdrop.network.NetworkResult
@@ -38,21 +41,11 @@ class FileDetailActivity : AppCompatActivity() {
     private var dislikesCount = 0
     private var downloadsCount = 0
 
-    // Launcher para pedir el permiso de escritura en Android 9 (API 28) y anteriores.
-    // Desde Android 10 (API 29) el DownloadManager puede escribir en la carpeta
-    // pública de Descargas sin necesitar este permiso.
     private val requestStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) {
-            descargarArchivoReal()
-        } else {
-            Toast.makeText(
-                this,
-                "Se necesita permiso de almacenamiento para descargar el archivo",
-                Toast.LENGTH_LONG
-            ).show()
-        }
+        if (granted) descargarArchivoReal()
+        else Toast.makeText(this, "Se necesita permiso para descargar el archivo", Toast.LENGTH_LONG).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,9 +58,6 @@ class FileDetailActivity : AppCompatActivity() {
         fileName = intent.getStringExtra("FILE_NAME") ?: "Archivo"
         fileType = intent.getStringExtra("FILE_TYPE") ?: "PDF"
 
-        // Contadores y estado tal como venían del Post en la lista de donde se abrió esta
-        // pantalla: se usan solo como vista previa instantánea mientras llega la respuesta
-        // real del servidor (evita que la pantalla se vea vacía un instante).
         likesCount = intent.getIntExtra("FILE_LIKES", 0)
         dislikesCount = intent.getIntExtra("FILE_DISLIKES", 0)
         downloadsCount = intent.getIntExtra("FILE_DOWNLOADS", 0)
@@ -83,12 +73,9 @@ class FileDetailActivity : AppCompatActivity() {
 
         if (archivoId.isNotEmpty()) {
             commentsViewModel.fetchComments(archivoId)
-            // Trae el archivo real (contadores + mi like/dislike/guardado actuales),
-            // en vez de confiar solo en lo que traía el Intent.
             filesViewModel.cargarArchivo(archivoId)
         }
 
-        // UI Initial states
         updateLikeUI()
         updateDislikeUI()
         updateBookmarkUI()
@@ -96,195 +83,111 @@ class FileDetailActivity : AppCompatActivity() {
         binding.tvDownloadsDetail.text = downloadsCount.toString()
     }
 
-    private fun verificarPermisoYDescargar() {
-        if (!DownloadUtils.necesitaPermisoDeEscritura() || DownloadUtils.tienePermisoConcedido(this)) {
-            descargarArchivoReal()
+    private fun loadFileData() {
+        val fileSize = intent.getStringExtra("FILE_SIZE") ?: "0.0 MB"
+        binding.tvFileNameLarge.text = fileName
+        binding.tvFileTypeLarge.text = getString(R.string.file_type_size_format, fileType.uppercase(), fileSize)
+        
+        binding.tvFileTypeBadge.text = fileType.uppercase()
+
+        val fileTypeUpper = fileType.uppercase()
+        val isImage = fileTypeUpper in listOf("PNG", "JPG", "JPEG", "IMG", "IMAGE") || 
+                      (fileUrl?.lowercase()?.let { it.contains(".jpg") || it.contains(".png") || it.contains(".jpeg") } ?: false)
+        
+        if (isImage && !fileUrl.isNullOrEmpty()) {
+            binding.ivFileTypeIconLarge.apply {
+                // LIMPIEZA TOTAL: Forzamos que no haya fondos ni tintes previos
+                setPadding(0, 0, 0, 0)
+                setBackgroundResource(0) 
+                background = null
+                backgroundTintList = null
+                imageTintList = null
+                setColorFilter(null)
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                
+                Glide.with(this@FileDetailActivity)
+                    .load(fileUrl)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .placeholder(R.drawable.ic_image)
+                    .error(R.drawable.ic_image)
+                    .into(this)
+            }
+            binding.tvFileTypeBadge.setTextColor(ContextCompat.getColor(this, R.color.file_teal_text))
+            binding.tvFileTypeBadge.backgroundTintList = ContextCompat.getColorStateList(this, R.color.file_teal_bg)
         } else {
-            requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            when (fileTypeUpper) {
+                "PDF" -> setupIconUI(R.drawable.ic_mortarboard, R.color.file_pdf_bg, R.color.file_pdf_text)
+                "DOCX", "DOC" -> setupIconUI(R.drawable.ic_file_doc, R.color.file_pink_bg, R.color.file_pink_text)
+                else -> setupIconUI(R.drawable.ic_file_doc, R.color.surface_variant, R.color.text_secondary)
+            }
         }
     }
 
-    private fun descargarArchivoReal() {
-        val url = fileUrl
-        if (url.isNullOrEmpty()) {
-            AlertUtils.showCustomAlert(
-                context = this,
-                title = "Sin archivo adjunto",
-                message = "Este archivo no tiene una URL disponible para descargar.",
-                type = AlertUtils.AlertType.ERROR
-            )
-            return
+    private fun setupIconUI(iconRes: Int, bgColorRes: Int, textColorRes: Int) {
+        binding.ivFileTypeIconLarge.apply {
+            val p = (20 * resources.displayMetrics.density).toInt()
+            setPadding(p, p, p, p)
+            setImageResource(iconRes)
+            background = ContextCompat.getDrawable(this@FileDetailActivity, R.drawable.bg_rounded_square_primary)
+            backgroundTintList = ContextCompat.getColorStateList(this@FileDetailActivity, bgColorRes)
+            setColorFilter(ContextCompat.getColor(this@FileDetailActivity, textColorRes))
+            scaleType = ImageView.ScaleType.CENTER_INSIDE
         }
-
-        try {
-            val nombreArchivo = DownloadUtils.encolarDescarga(this, url, fileName, fileType)
-            Toast.makeText(this, "Descargando '$nombreArchivo'...", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            AlertUtils.showCustomAlert(
-                context = this,
-                title = "Error al descargar",
-                message = e.message ?: "No se pudo iniciar la descarga del archivo.",
-                type = AlertUtils.AlertType.ERROR
-            )
-        }
+        binding.tvFileTypeBadge.setTextColor(ContextCompat.getColor(this, textColorRes))
+        binding.tvFileTypeBadge.backgroundTintList = ContextCompat.getColorStateList(this, bgColorRes)
     }
 
     private fun setupObservers() {
         filesViewModel.archivoDetalle.observe(this) { result ->
-            when (result) {
-                is NetworkResult.Success -> {
-                    val archivo = result.data ?: return@observe
-                    // Reemplazamos la vista previa del Intent con la verdad real y actual
-                    // del servidor: contadores exactos y si YO ya le di like/dislike/guardado.
-                    likesCount = archivo.totalLikes
-                    dislikesCount = archivo.totalDislikes
-                    downloadsCount = archivo.totalDescargas
-                    isLiked = archivo.isLikedByMe
-                    isDisliked = archivo.isDislikedByMe
-                    isBookmarked = archivo.isGuardadoByMe
-                    fileUrl = archivo.adjuntos?.firstOrNull()?.urlStorage ?: fileUrl
-                    fileType = com.classdrop.utils.FileTypeUtils.resolverTipoReal(
-                        archivo.adjuntos?.firstOrNull(), archivo.tipo
-                    )
-                    fileName = archivo.titulo
-
-                    loadFileData()
-                    updateLikeUI()
-                    updateDislikeUI()
-                    updateBookmarkUI()
-                    binding.tvDownloadsDetail.text = downloadsCount.toString()
+            if (result is NetworkResult.Success) {
+                val archivo = result.data ?: return@observe
+                likesCount = archivo.totalLikes
+                dislikesCount = archivo.totalDislikes
+                downloadsCount = archivo.totalDescargas
+                isLiked = archivo.isLikedByMe
+                isDisliked = archivo.isDislikedByMe
+                isBookmarked = archivo.isGuardadoByMe
+                
+                archivo.adjuntos?.firstOrNull()?.let { adjunto ->
+                    fileUrl = adjunto.urlStorage ?: fileUrl
+                    fileType = com.classdrop.utils.FileTypeUtils.resolverTipoReal(adjunto, archivo.tipo)
                 }
-                is NetworkResult.Error -> {
-                    // No bloqueamos la pantalla: seguimos mostrando la vista previa del
-                    // Intent y solo avisamos que no se pudo confirmar el estado más reciente.
-                    Toast.makeText(this, result.message ?: "No se pudo actualizar el estado del archivo", Toast.LENGTH_SHORT).show()
-                }
-                else -> {}
+                
+                fileName = archivo.titulo
+                loadFileData()
+                updateLikeUI()
+                updateDislikeUI()
+                updateBookmarkUI()
+                binding.tvDownloadsDetail.text = downloadsCount.toString()
             }
         }
 
         commentsViewModel.commentsState.observe(this) { result ->
-            when (result) {
-                is NetworkResult.Loading -> { }
-                is NetworkResult.Success -> {
-                    val listaReal = result.data ?: emptyList()
-                    commentsAdapter.submitList(listaReal)
-                }
-                is NetworkResult.Error -> {
-                    Toast.makeText(this, result.message, Toast.LENGTH_LONG).show()
-                }
-            }
+            if (result is NetworkResult.Success) commentsAdapter.submitList(result.data ?: emptyList())
         }
 
         commentsViewModel.addCommentState.observe(this) { result ->
-            if (result == null) return@observe
-            when (result) {
-                is NetworkResult.Loading -> {
-                    binding.btnSendComment.isEnabled = false
-                }
-                is NetworkResult.Success -> {
-                    binding.btnSendComment.isEnabled = true
-                    binding.etComment.text.clear()
-                    commentsViewModel.fetchComments(archivoId)
-                    binding.rvComments.scrollToPosition(0)
-                }
-                is NetworkResult.Error -> {
-                    binding.btnSendComment.isEnabled = true
-                    AlertUtils.showCustomAlert(
-                        context = this,
-                        title = "Error al comentar",
-                        message = result.message ?: "Inténtalo de nuevo",
-                        type = AlertUtils.AlertType.ERROR
-                    )
-                    commentsViewModel.resetAddCommentState()
-                }
-            }
-        }
-
-        commentsViewModel.deleteCommentState.observe(this) { result ->
             if (result is NetworkResult.Success) {
-                Toast.makeText(this, "Comentario eliminado", Toast.LENGTH_SHORT).show()
+                binding.btnSendComment.isEnabled = true
+                binding.etComment.text.clear()
                 commentsViewModel.fetchComments(archivoId)
-            } else if (result is NetworkResult.Error) {
-                Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun loadFileData() {
-        val fileSize = intent.getStringExtra("FILE_SIZE") ?: "0.0 MB"
-
-        binding.tvFileNameLarge.text = fileName
-        binding.tvFileTypeLarge.text = getString(R.string.file_type_size_format, fileType, fileSize)
-
-        when (fileType.uppercase()) {
-            "PDF" -> {
-                binding.ivFileTypeIconLarge.setImageResource(R.drawable.ic_file_doc)
-                binding.ivFileTypeIconLarge.backgroundTintList = ContextCompat.getColorStateList(this, R.color.file_pdf_bg)
-                binding.ivFileTypeIconLarge.setColorFilter(ContextCompat.getColor(this, R.color.file_pdf_text))
-            }
-            "PNG", "JPG", "JPEG" -> {
-                binding.ivFileTypeIconLarge.setImageResource(R.drawable.ic_image)
-                binding.ivFileTypeIconLarge.backgroundTintList = ContextCompat.getColorStateList(this, R.color.file_pink_bg)
-                binding.ivFileTypeIconLarge.setColorFilter(ContextCompat.getColor(this, R.color.file_pink_text))
-            }
-            else -> {
-                binding.ivFileTypeIconLarge.setImageResource(R.drawable.ic_app_logo)
-                binding.ivFileTypeIconLarge.backgroundTintList = ContextCompat.getColorStateList(this, R.color.file_teal_bg)
-                binding.ivFileTypeIconLarge.setColorFilter(ContextCompat.getColor(this, R.color.file_teal_text))
-            }
-        }
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        binding.toolbar.setNavigationOnClickListener { finish() }
-    }
-
-    private fun setupCommentsList() {
-        commentsAdapter = CommentsAdapter(
-            onDeleteClick = { comentarioId -> commentsViewModel.deleteComment(comentarioId) },
-            onLikeChanged = { comment -> commentsViewModel.actualizarLike(archivoId, comment.id, comment.isLiked) },
-            onDislikeChanged = { comment -> commentsViewModel.actualizarDislike(archivoId, comment.id, comment.isDisliked) }
-        )
-        binding.rvComments.apply {
-            layoutManager = LinearLayoutManager(this@FileDetailActivity)
-            adapter = commentsAdapter
+                binding.rvComments.scrollToPosition(0)
+            } else if (result is NetworkResult.Loading) binding.btnSendComment.isEnabled = false
         }
     }
 
     private fun setupListeners() {
-        // PREVISUALIZACIÓN: Al hacer clic en la tarjeta del archivo
-        binding.root.findViewById<View>(R.id.ivFileTypeIconLarge).parent.let { card ->
-            (card as View).setOnClickListener {
-                if (!fileUrl.isNullOrEmpty()) {
-                    val intent = Intent(this, FilePreviewActivity::class.java).apply {
-                        putExtra("FILE_URL", fileUrl)
-                        putExtra("FILE_NAME", fileName)
-                        putExtra("FILE_TYPE", fileType)
-                    }
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "La previsualización no está disponible para este archivo", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        // PREVISUALIZACIÓN: Al tocar la imagen o el nombre se abre el visor interno
+        binding.ivFileTypeIconLarge.setOnClickListener { openFilePreview() }
+        binding.tvFileNameLarge.setOnClickListener { openFilePreview() }
 
         binding.llLikeDetail.setOnClickListener {
             isLiked = !isLiked
             if (isLiked) {
                 likesCount++
-                if (isDisliked) {
-                    isDisliked = false
-                    dislikesCount--
-                    updateDislikeUI()
-                }
-            } else {
-                likesCount--
-            }
-            updateLikeUI()
-            animateButton(binding.ivLikeIconDetail)
+                if (isDisliked) { isDisliked = false; dislikesCount--; updateDislikeUI() }
+            } else { likesCount-- }
+            updateLikeUI(); animateButton(binding.ivLikeIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarLike(archivoId, isLiked)
         }
 
@@ -292,43 +195,25 @@ class FileDetailActivity : AppCompatActivity() {
             isDisliked = !isDisliked
             if (isDisliked) {
                 dislikesCount++
-                if (isLiked) {
-                    isLiked = false
-                    likesCount--
-                    updateLikeUI()
-                }
-            } else {
-                dislikesCount--
-            }
-            updateDislikeUI()
-            animateButton(binding.ivDislikeIconDetail)
+                if (isLiked) { isLiked = false; likesCount--; updateLikeUI() }
+            } else { dislikesCount-- }
+            updateDislikeUI(); animateButton(binding.ivDislikeIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarDislike(archivoId, isDisliked)
         }
 
         binding.llBookmarkDetail.setOnClickListener {
             isBookmarked = !isBookmarked
-            updateBookmarkUI()
-            animateButton(binding.ivBookmarkIconDetail)
+            updateBookmarkUI(); animateButton(binding.ivBookmarkIconDetail)
             if (archivoId.isNotEmpty()) filesViewModel.actualizarFavorito(archivoId, isBookmarked)
         }
 
         binding.llDownloadDetail.setOnClickListener {
-            AlertUtils.showCustomAlert(
-                context = this,
-                title = "Descargar archivo",
-                message = "¿Deseas descargar este archivo en tu dispositivo?",
-                type = AlertUtils.AlertType.CONFIRMATION,
-                primaryButtonText = "Descargar",
-                secondaryButtonText = "Cancelar",
+            AlertUtils.showCustomAlert(this, "Descargar", "¿Deseas descargar este archivo?", AlertUtils.AlertType.CONFIRMATION, primaryButtonText = "Descargar", secondaryButtonText = "Cancelar",
                 onPrimaryClick = {
-                    isDownloaded = true
-                    downloadsCount++
-                    updateDownloadUI()
+                    isDownloaded = true; downloadsCount++; updateDownloadUI()
                     binding.tvDownloadsDetail.text = downloadsCount.toString()
                     animateButton(binding.ivDownloadIconDetail)
-
                     if (archivoId.isNotEmpty()) filesViewModel.registrarDescarga(archivoId)
-
                     verificarPermisoYDescargar()
                 }
             )
@@ -336,81 +221,70 @@ class FileDetailActivity : AppCompatActivity() {
 
         binding.btnSendComment.setOnClickListener {
             val content = binding.etComment.text.toString().trim()
-            if (content.isNotBlank() && archivoId.isNotEmpty()) {
-                commentsViewModel.postComment(archivoId, content)
-            }
+            if (content.isNotBlank() && archivoId.isNotEmpty()) commentsViewModel.postComment(archivoId, content)
         }
+    }
+
+    private fun openFilePreview() {
+        if (!fileUrl.isNullOrEmpty()) {
+            val intent = Intent(this, FilePreviewActivity::class.java).apply {
+                putExtra("FILE_NAME", fileName)
+                putExtra("FILE_URL", fileUrl)
+                putExtra("FILE_TYPE", fileType)
+            }
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "La URL del archivo no está disponible todavía", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun verificarPermisoYDescargar() {
+        if (!DownloadUtils.necesitaPermisoDeEscritura() || DownloadUtils.tienePermisoConcedido(this)) descargarArchivoReal()
+        else requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    private fun descargarArchivoReal() {
+        fileUrl?.let { url ->
+            val nombreArchivo = DownloadUtils.encolarDescarga(this, url, fileName, fileType)
+            Toast.makeText(this, "Descargando '$nombreArchivo'...", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbar); supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    private fun setupCommentsList() {
+        commentsAdapter = CommentsAdapter(
+            onDeleteClick = { id -> commentsViewModel.deleteComment(id) },
+            onLikeChanged = { c -> commentsViewModel.actualizarLike(archivoId, c.id, c.isLiked) },
+            onDislikeChanged = { c -> commentsViewModel.actualizarDislike(archivoId, c.id, c.isDisliked) }
+        )
+        binding.rvComments.apply { layoutManager = LinearLayoutManager(this@FileDetailActivity); adapter = commentsAdapter }
     }
 
     private fun updateLikeUI() {
-        val typedValue = android.util.TypedValue()
-        val color = if (isLiked) {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-            typedValue.data
-        } else {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
-            typedValue.data
-        }
-        binding.ivLikeIconDetail.setColorFilter(color)
-        binding.tvLikesDetail.apply {
-            text = likesCount.toString()
-            setTextColor(color)
-        }
+        val color = if (isLiked) ContextCompat.getColor(this, R.color.primary) else ContextCompat.getColor(this, R.color.outline)
+        binding.ivLikeIconDetail.setColorFilter(color); binding.tvLikesDetail.apply { text = likesCount.toString(); setTextColor(color) }
     }
 
     private fun updateDislikeUI() {
-        val typedValue = android.util.TypedValue()
-        val color = if (isDisliked) {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-            typedValue.data
-        } else {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
-            typedValue.data
-        }
-        binding.ivDislikeIconDetail.setColorFilter(color)
-        binding.tvDislikesDetail.apply {
-            text = dislikesCount.toString()
-            setTextColor(color)
-        }
+        val color = if (isDisliked) ContextCompat.getColor(this, R.color.primary) else ContextCompat.getColor(this, R.color.outline)
+        binding.ivDislikeIconDetail.setColorFilter(color); binding.tvDislikesDetail.apply { text = dislikesCount.toString(); setTextColor(color) }
     }
 
     private fun updateBookmarkUI() {
-        val typedValue = android.util.TypedValue()
-        val color = if (isBookmarked) {
-            ContextCompat.getColor(this, android.R.color.holo_red_light)
-        } else {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
-            typedValue.data
-        }
-        binding.ivBookmarkIconDetail.setColorFilter(color)
-        binding.tvBookmarkLabel.setTextColor(color)
+        val color = if (isBookmarked) ContextCompat.getColor(this, android.R.color.holo_red_light) else ContextCompat.getColor(this, R.color.outline)
+        binding.ivBookmarkIconDetail.setColorFilter(color); binding.tvBookmarkLabel.setTextColor(color)
     }
 
     private fun updateDownloadUI() {
-        val typedValue = android.util.TypedValue()
-        val color = if (isDownloaded) {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-            typedValue.data
-        } else {
-            theme.resolveAttribute(com.google.android.material.R.attr.colorOutline, typedValue, true)
-            typedValue.data
-        }
-        binding.ivDownloadIconDetail.setColorFilter(color)
-        binding.tvDownloadsDetail.setTextColor(color)
+        val color = if (isDownloaded) ContextCompat.getColor(this, R.color.primary) else ContextCompat.getColor(this, R.color.outline)
+        binding.ivDownloadIconDetail.setColorFilter(color); binding.tvDownloadsDetail.setTextColor(color)
     }
 
-    private fun animateButton(view: android.view.View) {
-        view.animate()
-            .scaleX(1.3f)
-            .scaleY(1.3f)
-            .setDuration(100)
-            .withEndAction {
-                view.animate()
-                    .scaleX(1.0f)
-                    .scaleY(1.0f)
-                    .setDuration(100)
-                    .start()
-            }
-            .start()
+    private fun animateButton(view: View) {
+        view.animate().scaleX(1.3f).scaleY(1.3f).setDuration(100).withEndAction { view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start() }.start()
     }
 }
