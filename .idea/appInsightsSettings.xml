@@ -6,6 +6,14 @@
         <entry key="Firebase Crashlytics">
           <value>
             <InsightsFilterSettings>
+              <option name="connection">
+                <ConnectionSetting>
+                  <option name="appId" value="com.classdrop" />
+                  <option name="mobileSdkAppId" value="1:956492054525:android:72ccb1f27d85eca904e394" />
+                  <option name="projectId" value="classdrop-11c53" />
+                  <option name="projectNumber" value="956492054525" />
+                </ConnectionSetting>
+              </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />
               <option name="visibilityType" value="ALL" />

@@ -3,6 +3,8 @@ package com.classdrop.repository
 import com.classdrop.model.*
 import com.classdrop.network.AuthService
 import com.classdrop.network.NetworkResult
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class AuthRepository(private val authService: AuthService) {
 
@@ -17,16 +19,24 @@ class AuthRepository(private val authService: AuthService) {
                     NetworkResult.Error(body?.error?.message ?: "Error desconocido")
                 }
             } else {
-                NetworkResult.Error("Credenciales inválidas o error del servidor (${response.code()})")
+                parseError<LoginResponse>(response)
             }
         } catch (e: Exception) {
             NetworkResult.Error("No se pudo conectar con el servidor: ${e.message}")
         }
     }
 
-    suspend fun verify2FA(userId: String, code: String): NetworkResult<LoginResponse> {
+    /**
+     * Verifica el código de 2FA. 
+     * Se añade rememberMe = true por defecto para registrar el dispositivo como de confianza.
+     */
+    suspend fun verify2FA(userId: String, code: String, rememberMe: Boolean = true): NetworkResult<LoginResponse> {
         return try {
-            val request = Verify2FARequest(userId, code)
+            val request = Verify2FARequest(
+                userId = userId,
+                tokenVerificacion = code,
+                rememberMe = rememberMe
+            )
             val response = authService.verify2FA(request)
             if (response.isSuccessful) {
                 val body = response.body()
@@ -36,14 +46,12 @@ class AuthRepository(private val authService: AuthService) {
                     NetworkResult.Error(body?.error?.message ?: "Código incorrecto")
                 }
             } else {
-                NetworkResult.Error("Error en la verificación (${response.code()})")
+                parseError<LoginResponse>(response)
             }
         } catch (e: Exception) {
             NetworkResult.Error("Fallo de conexión: ${e.message}")
         }
     }
-
-    // --- MÉTODOS PARA ACTIVACIÓN DESDE PERFIL ---
 
     suspend fun generar2FACodigo(): NetworkResult<String> {
         return try {
@@ -52,7 +60,7 @@ class AuthRepository(private val authService: AuthService) {
             if (response.isSuccessful && body?.success == true) {
                 NetworkResult.Success(body.data?.get("mensaje")?.toString() ?: "Código enviado")
             } else {
-                NetworkResult.Error(body?.error?.message ?: "No se pudo generar el código")
+                parseError<String>(response)
             }
         } catch (e: Exception) {
             NetworkResult.Error("Error: ${e.message}")
@@ -61,13 +69,13 @@ class AuthRepository(private val authService: AuthService) {
 
     suspend fun activar2FA(code: String): NetworkResult<String> {
         return try {
-            val bodyMap = mapOf("token" to code)
+            val bodyMap = mapOf("tokenVerificacion" to code)
             val response = authService.activar2FA(bodyMap)
             val body = response.body()
             if (response.isSuccessful && body?.success == true) {
                 NetworkResult.Success(body.data?.get("mensaje")?.toString() ?: "Activado")
             } else {
-                NetworkResult.Error(body?.error?.message ?: "Código incorrecto")
+                parseError<String>(response)
             }
         } catch (e: Exception) {
             NetworkResult.Error("Error: ${e.message}")
@@ -86,8 +94,7 @@ class AuthRepository(private val authService: AuthService) {
                     NetworkResult.Error(body?.error?.message ?: "Error desconocido")
                 }
             } else {
-                val errorResponseBody = response.errorBody()?.string()
-                NetworkResult.Error("Error del servidor (${response.code()}): $errorResponseBody")
+                parseError<RegisterResponse>(response)
             }
         } catch (e: Exception) {
             NetworkResult.Error("No se pudo conectar con el servidor: ${e.message}")
@@ -100,10 +107,22 @@ class AuthRepository(private val authService: AuthService) {
             if (response.isSuccessful) {
                 NetworkResult.Success(Unit)
             } else {
-                NetworkResult.Error("El servidor no pudo cerrar la sesión (${response.code()})")
+                parseError<Unit>(response)
             }
         } catch (e: Exception) {
             NetworkResult.Error("No se pudo conectar con el servidor: ${e.message}")
         }
+    }
+
+    private fun <T> parseError(response: retrofit2.Response<*>): NetworkResult<T> {
+        val errorBody = response.errorBody()?.string()
+        val message = try {
+            val type = object : TypeToken<ApiResponse<Any>>() {}.type
+            val apiResponse: ApiResponse<Any> = Gson().fromJson(errorBody, type)
+            apiResponse.error?.message ?: "Error del servidor (${response.code()})"
+        } catch (e: Exception) {
+            "Error del servidor (${response.code()})"
+        }
+        return NetworkResult.Error(message)
     }
 }

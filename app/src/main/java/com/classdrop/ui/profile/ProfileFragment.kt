@@ -6,11 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.classdrop.R
 import com.classdrop.databinding.FragmentProfileBinding
 import com.classdrop.model.FileModel
 import com.classdrop.ui.auth.LoginActivity
@@ -19,8 +16,6 @@ import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.AuthViewModel
 import com.classdrop.viewmodel.FilesViewModel
-import com.classdrop.network.NetworkResult
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ProfileFragment : Fragment() {
 
@@ -62,9 +57,14 @@ class ProfileFragment : Fragment() {
         binding.tvUserName.text = userName
         binding.tvUserInfoName.text = userName
         binding.tvUserInfoEmail.text = userEmail
-        
-        // Cargar estado inicial del switch desde la sesión
-        binding.switch2FA.isChecked = sessionManager.is2FAEnabled()
+
+        // Determinamos la carrera automáticamente por el correo según el contexto de UPChiapas
+        val career = when {
+            userEmail.contains("@ids", ignoreCase = true) -> "Ingeniería de Desarrollo de Software"
+            userEmail.contains("@it2id", ignoreCase = true) -> "Ingeniería en Tecnologías de Información e Innovación Digital"
+            else -> "Estudiante"
+        }
+        binding.tvUserCareer.text = career
 
         binding.tvAvatarInitials.text = userName.split(" ")
             .filter { it.isNotBlank() }
@@ -74,44 +74,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        // Observador para la generación del código (PASO 1)
-        authViewModel.generate2FAState.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is NetworkResult.Loading -> {
-                    binding.switch2FA.isEnabled = false
-                }
-                is NetworkResult.Success -> {
-                    binding.switch2FA.isEnabled = true
-                    showOtpInputDialog() // Pedir el código al usuario
-                }
-                is NetworkResult.Error -> {
-                    binding.switch2FA.isEnabled = true
-                    binding.switch2FA.isChecked = false
-                    Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        // Observador para la activación final (PASO 2)
-        authViewModel.activate2FAState.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is NetworkResult.Loading -> { }
-                is NetworkResult.Success -> {
-                    sessionManager.save2FAEnabled(true)
-                    AlertUtils.showCustomAlert(
-                        requireContext(),
-                        "¡Activado!",
-                        "La verificación en dos pasos está lista.",
-                        AlertUtils.AlertType.SUCCESS
-                    )
-                }
-                is NetworkResult.Error -> {
-                    binding.switch2FA.isChecked = false
-                    Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
         filesViewModel.misArchivos.observe(viewLifecycleOwner) { archivos ->
             binding.tvUploadsCount.text = archivos.size.toString()
             bindPreview(
@@ -123,33 +85,30 @@ class ProfileFragment : Fragment() {
                 tvType = binding.tvUploadsPreviewType
             )
         }
-        
-        // ... (resto de observadores de archivos)
-    }
 
-    private fun showOtpInputDialog() {
-        val input = EditText(requireContext())
-        input.hint = "000000"
-        input.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-        
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Confirmar Activación")
-            .setMessage("Ingresa el código de 6 dígitos que enviamos a tu correo institucional.")
-            .setView(input)
-            .setPositiveButton("Activar") { _, _ ->
-                val code = input.text.toString().trim()
-                if (code.length == 6) {
-                    authViewModel.activate2FA(code)
-                } else {
-                    binding.switch2FA.isChecked = false
-                    Toast.makeText(context, "El código debe ser de 6 dígitos", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Cancelar") { _, _ ->
-                binding.switch2FA.isChecked = false
-            }
-            .setCancelable(false)
-            .show()
+        filesViewModel.descargados.observe(viewLifecycleOwner) { archivos ->
+            binding.tvDownloadsCount.text = archivos.size.toString()
+            bindPreview(
+                archivo = archivos.firstOrNull(),
+                card = binding.cardDownloadsPreview,
+                empty = binding.tvDownloadsEmpty,
+                tvTitle = binding.tvDownloadsPreviewTitle,
+                tvSubtitle = binding.tvDownloadsPreviewSubtitle,
+                tvType = binding.tvDownloadsPreviewType
+            )
+        }
+
+        filesViewModel.favoritos.observe(viewLifecycleOwner) { archivos ->
+            binding.tvFavoritesCount.text = archivos.size.toString()
+            bindPreview(
+                archivo = archivos.firstOrNull(),
+                card = binding.cardFavoritesPreview,
+                empty = binding.tvFavoritesEmpty,
+                tvTitle = binding.tvFavoritesPreviewTitle,
+                tvSubtitle = binding.tvFavoritesPreviewSubtitle,
+                tvType = binding.tvFavoritesPreviewType
+            )
+        }
     }
 
     private fun bindPreview(
@@ -174,18 +133,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Switch de 2FA
-        binding.switch2FA.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked && !sessionManager.is2FAEnabled()) {
-                // El usuario quiere ACTIVAR el 2FA
-                authViewModel.generate2FACode()
-            } else if (!isChecked && sessionManager.is2FAEnabled()) {
-                // Aquí podrías implementar la lógica para desactivarlo en el backend
-                sessionManager.save2FAEnabled(false)
-                Toast.makeText(context, "2FA desactivado localmente", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         binding.cardUploads.setOnClickListener {
             binding.scrollViewProfile.post {
                 binding.scrollViewProfile.smoothScrollTo(0, binding.titleUploads.top - 20)

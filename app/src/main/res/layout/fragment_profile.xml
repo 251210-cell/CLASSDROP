@@ -169,78 +169,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- SEGURIDAD Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
-            android:text="SEGURIDAD"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_status_shield"
-                        app:tint="@color/primary" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Verificación en dos pasos (2FA)"
-                            android:textColor="@color/on_background"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Protege tu cuenta con un código enviado a tu correo."
-                            android:textColor="@color/text_secondary"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switch2FA"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:thumbTint="@color/white"
-                        app:trackTint="@color/primary" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- MI ACTIVIDAD Section -->
         <TextView
             android:layout_width="wrap_content"
@@ -330,8 +258,6 @@
         </com.google.android.material.card.MaterialCardView>
         <TextView android:id="@+id/tvUploadsEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="24dp" android:layout_marginTop="8dp" android:text="No hay archivos subidos." android:textColor="@color/text_secondary" android:textSize="12sp" />
 
-        <!-- Repite estructura similar para descargas y favoritos si es necesario, 
-             mantengo los IDs para que el ProfileFragment no falle -->
         <RelativeLayout android:id="@+id/titleDownloads" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
         <com.google.android.material.card.MaterialCardView android:id="@+id/cardDownloadsPreview" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
         <TextView android:id="@+id/tvDownloadsEmpty" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
@@ -344,7 +270,6 @@
         <TextView android:id="@+id/tvFavoritesPreviewTitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
         <TextView android:id="@+id/tvFavoritesPreviewSubtitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
         <TextView android:id="@+id/tvFavoritesPreviewType" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
-
 
         <!-- Normas y Políticas -->
         <TextView

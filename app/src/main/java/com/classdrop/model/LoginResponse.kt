@@ -1,11 +1,13 @@
 package com.classdrop.model
 
+import com.google.gson.annotations.SerializedName
+
 data class LoginResponse(
     val token: String? = null,
     val usuario: User? = null,
     
-    // Campos para 2FA detectados en tu auth.controller.js
-    val requires2FA: Boolean = false,
-    val userId: String? = null,
-    val mensaje: String? = null
+    // CAMPOS PARA 2FA (Sincronizados con auth.controller.js)
+    @SerializedName("requires2FA") val requires2FA: Boolean = false,
+    @SerializedName("userId") val userId: String? = null,
+    @SerializedName("mensaje") val mensaje: String? = null
 )

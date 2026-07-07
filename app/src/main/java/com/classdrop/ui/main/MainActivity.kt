@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.classdrop.databinding.ActivityMainBinding
-import com.classdrop.model.FcmTokenRequest
 import com.classdrop.network.RetrofitClient
 import com.classdrop.ui.explore.ExploreFragment
 import com.classdrop.ui.files.UploadFileActivity
@@ -125,8 +124,8 @@ class MainActivity : AppCompatActivity() {
                         val retrofit = RetrofitClient.create(this@MainActivity)
                         val authService = retrofit.create(com.classdrop.network.AuthService::class.java)
 
-                        // Guardamos la respuesta del servidor
-                        val response = authService.updateFcmToken(FcmTokenRequest(token))
+                        // Guardamos la respuesta del servidor con el nombre correcto y Map
+                        val response = authService.actualizarFcmToken(mapOf("fcmToken" to token))
 
                         // VERIFICAMOS SI REALMENTE FUE EXITOSA LA PETICIÓN HTTP
                         if (response.isSuccessful) {

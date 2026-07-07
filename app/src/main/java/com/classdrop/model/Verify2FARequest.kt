@@ -1,10 +1,13 @@
 package com.classdrop.model
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Modelo para la verificación en dos pasos.
- * Coincide con lo esperado en AuthController.login2FA del backend.
+ * Sincronizado exactamente con AuthController.login2FA del backend.
  */
 data class Verify2FARequest(
-    val userId: String,
-    val token: String // Este es el código de 6 dígitos
+    @SerializedName("userId") val userId: String,
+    @SerializedName("tokenVerificacion") val tokenVerificacion: String, // 👈 Nombre corregido
+    @SerializedName("rememberMe") val rememberMe: Boolean = false
 )

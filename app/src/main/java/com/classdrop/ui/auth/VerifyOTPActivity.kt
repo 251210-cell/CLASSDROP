@@ -49,11 +49,6 @@ class VerifyOTPActivity : AppCompatActivity() {
                 viewModel.verifyCode(id, code)
             }
         }
-
-        binding.tvResendCode.setOnClickListener {
-            // Aquí podrías llamar a un endpoint de reenvío si tu API lo tiene
-            Toast.makeText(this, "Funcionalidad de reenvío no disponible aún", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun setupObservers() {
