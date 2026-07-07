@@ -2,6 +2,8 @@ package com.classdrop.ui.files
 
 import android.Manifest
 import android.app.DownloadManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.classdrop.R
 import com.classdrop.databinding.ActivityFilePreviewBinding
 import com.classdrop.utils.AlertUtils
 import java.net.URLEncoder
@@ -86,16 +89,10 @@ class FilePreviewActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnDownloadPreview.setOnClickListener {
-            AlertUtils.showCustomAlert(
-                this,
-                "Descargar",
-                "¿Deseas descargar '$fileName'?",
-                AlertUtils.AlertType.CONFIRMATION,
-                primaryButtonText = "Descargar",
-                onPrimaryClick = { verificarPermisoYDescargar() }
-            )
-        }
+        // El botón flotante hace cosas distintas según el tipo:
+        // - Enlace (URL/LINK) -> copiar al portapapeles
+        // - Archivo real (PDF, imagen, etc.) -> descargar como antes
+        configurarBotonAccion(urlActual)
     }
 
     private fun setupToolbar(title: String) {
@@ -178,12 +175,12 @@ class FilePreviewActivity : AppCompatActivity() {
     /**
      * Para archivos tipo "url"/"link": no hay nada que "previsualizar" dentro de
      * la app, así que abrimos el enlace directamente con el navegador del sistema
-     * (Chrome, o el que el usuario tenga por defecto) usando un Intent implícito,
-     * y cerramos esta pantalla de preview porque ya no tiene contenido que mostrar.
+     * (Chrome, o el que el usuario tenga por defecto) usando un Intent implícito.
+     * Ya NO cerramos esta pantalla: la dejamos abierta para que, al volver del
+     * navegador, el usuario pueda usar el botón "Copiar enlace".
      */
     private fun abrirUrlEnNavegador(url: String) {
         binding.progressBar.visibility = View.GONE
-        binding.btnDownloadPreview.visibility = View.GONE // Un enlace no se "descarga" como un archivo
 
         // Por si el enlace llega sin esquema (http/https), se lo agregamos,
         // porque sin esquema el Uri.parse no abre nada en el navegador.
@@ -199,15 +196,54 @@ class FilePreviewActivity : AppCompatActivity() {
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlFormateada))
             startActivity(intent)
-            finish() // Cerramos el preview: el usuario ya está viendo el enlace en el navegador
         } catch (e: Exception) {
             AlertUtils.showCustomAlert(
                 this,
                 "No se pudo abrir el enlace",
                 "No fue posible abrir '$urlFormateada' en el navegador.",
-                AlertUtils.AlertType.ERROR,
-                onPrimaryClick = { finish() }
+                AlertUtils.AlertType.ERROR
             )
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // BOTÓN FLOTANTE: "Descargar" (archivos) vs "Copiar enlace" (URLs)
+    // ---------------------------------------------------------------------
+
+    private fun configurarBotonAccion(url: String) {
+        if (isUrlType(fileType)) {
+            binding.btnDownloadPreview.text = "Copiar enlace"
+            binding.btnDownloadPreview.setIconResource(R.drawable.ic_link)
+            binding.btnDownloadPreview.setOnClickListener {
+                copiarUrlAlPortapapeles(url)
+            }
+        } else {
+            binding.btnDownloadPreview.setOnClickListener {
+                AlertUtils.showCustomAlert(
+                    this,
+                    "Descargar",
+                    "¿Deseas descargar '$fileName'?",
+                    AlertUtils.AlertType.CONFIRMATION,
+                    primaryButtonText = "Descargar",
+                    onPrimaryClick = { verificarPermisoYDescargar() }
+                )
+            }
+        }
+    }
+
+    /**
+     * Copia la URL del enlace al portapapeles del sistema.
+     * Desde Android 13 (API 33) el propio sistema operativo ya muestra un aviso
+     * visual al copiar, así que en esos casos evitamos duplicar el mensaje con
+     * un Toast propio.
+     */
+    private fun copiarUrlAlPortapapeles(url: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Enlace ClassDrop", url)
+        clipboard.setPrimaryClip(clip)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            Toast.makeText(this, "Enlace copiado al portapapeles", Toast.LENGTH_SHORT).show()
         }
     }
 
