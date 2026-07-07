@@ -3,6 +3,7 @@ package com.classdrop.ui.files
 import android.Manifest
 import android.app.DownloadManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -72,6 +73,7 @@ class FilePreviewActivity : AppCompatActivity() {
         when {
             isImage(fileType) -> showImage(urlActual)
             fileType.equals("PDF", ignoreCase = true) -> showPdf(urlActual)
+            isUrlType(fileType) -> abrirUrlEnNavegador(urlActual)
             else -> {
                 binding.progressBar.visibility = View.GONE
                 AlertUtils.showCustomAlert(
@@ -106,6 +108,13 @@ class FilePreviewActivity : AppCompatActivity() {
     private fun isImage(type: String): Boolean {
         val imageTypes = listOf("JPG", "JPEG", "PNG", "GIF", "BMP", "WEBP")
         return imageTypes.contains(type.uppercase())
+    }
+
+    // Un archivo de tipo "url"/"link" (enlaces de GitHub, YouTube, etc. subidos
+    // desde la pestaña "URL" de UploadFileActivity) no es un archivo que se pueda
+    // previsualizar dentro de la app: hay que abrirlo en el navegador del teléfono.
+    private fun isUrlType(type: String): Boolean {
+        return type.equals("URL", ignoreCase = true) || type.equals("LINK", ignoreCase = true)
     }
 
     private fun showImage(url: String) {
@@ -160,6 +169,46 @@ class FilePreviewActivity : AppCompatActivity() {
             }
         }
         binding.wvPreview.loadUrl(googleDocsUrl)
+    }
+
+    // ---------------------------------------------------------------------
+    // ABRIR ENLACE EN EL NAVEGADOR DEL TELÉFONO
+    // ---------------------------------------------------------------------
+
+    /**
+     * Para archivos tipo "url"/"link": no hay nada que "previsualizar" dentro de
+     * la app, así que abrimos el enlace directamente con el navegador del sistema
+     * (Chrome, o el que el usuario tenga por defecto) usando un Intent implícito,
+     * y cerramos esta pantalla de preview porque ya no tiene contenido que mostrar.
+     */
+    private fun abrirUrlEnNavegador(url: String) {
+        binding.progressBar.visibility = View.GONE
+        binding.btnDownloadPreview.visibility = View.GONE // Un enlace no se "descarga" como un archivo
+
+        // Por si el enlace llega sin esquema (http/https), se lo agregamos,
+        // porque sin esquema el Uri.parse no abre nada en el navegador.
+        val urlFormateada = if (
+            !url.startsWith("http://", ignoreCase = true) &&
+            !url.startsWith("https://", ignoreCase = true)
+        ) {
+            "https://$url"
+        } else {
+            url
+        }
+
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlFormateada))
+            startActivity(intent)
+            finish() // Cerramos el preview: el usuario ya está viendo el enlace en el navegador
+        } catch (e: Exception) {
+            AlertUtils.showCustomAlert(
+                this,
+                "No se pudo abrir el enlace",
+                "No fue posible abrir '$urlFormateada' en el navegador.",
+                AlertUtils.AlertType.ERROR,
+                onPrimaryClick = { finish() }
+            )
+        }
     }
 
     // ---------------------------------------------------------------------
