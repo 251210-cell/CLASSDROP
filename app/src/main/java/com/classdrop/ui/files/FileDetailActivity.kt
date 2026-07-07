@@ -18,6 +18,7 @@ import com.classdrop.databinding.ActivityFileDetailBinding
 import com.classdrop.network.NetworkResult
 import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.DownloadUtils
+import com.classdrop.utils.FileUtils
 import com.classdrop.viewmodel.CommentsViewModel
 import com.classdrop.viewmodel.FilesViewModel
 
@@ -32,6 +33,8 @@ class FileDetailActivity : AppCompatActivity() {
     private var fileUrl: String? = null
     private var fileName: String = ""
     private var fileType: String = ""
+    private var fileMimeType: String? = null
+    private var fileSizeLong: Long = 0L
 
     private var isLiked = false
     private var isDisliked = false
@@ -84,14 +87,15 @@ class FileDetailActivity : AppCompatActivity() {
     }
 
     private fun loadFileData() {
-        val fileSize = intent.getStringExtra("FILE_SIZE") ?: "0.0 MB"
+        // Formateo dinámico del tamaño del archivo usando el Long de la API
+        val formattedSize = FileUtils.formatFileSize(fileSizeLong)
         binding.tvFileNameLarge.text = fileName
-        binding.tvFileTypeLarge.text = getString(R.string.file_type_size_format, fileType.uppercase(), fileSize)
+        binding.tvFileTypeLarge.text = getString(R.string.file_type_size_format, fileType.uppercase(), formattedSize)
         
         binding.tvFileTypeBadge.text = fileType.uppercase()
 
-        val fileTypeUpper = fileType.uppercase()
-        val isImage = fileTypeUpper in listOf("PNG", "JPG", "JPEG", "IMG", "IMAGE") || 
+        // Detección estándar por MIME Type (evita listas manuales de extensiones)
+        val isImage = FileUtils.isImageMimeType(fileMimeType) || 
                       (fileUrl?.lowercase()?.let { it.contains(".jpg") || it.contains(".png") || it.contains(".jpeg") } ?: false)
         
         if (isImage && !fileUrl.isNullOrEmpty()) {
@@ -115,6 +119,7 @@ class FileDetailActivity : AppCompatActivity() {
             binding.tvFileTypeBadge.setTextColor(ContextCompat.getColor(this, R.color.file_teal_text))
             binding.tvFileTypeBadge.backgroundTintList = ContextCompat.getColorStateList(this, R.color.file_teal_bg)
         } else {
+            val fileTypeUpper = fileType.uppercase()
             when (fileTypeUpper) {
                 "PDF" -> setupIconUI(R.drawable.ic_mortarboard, R.color.file_pdf_bg, R.color.file_pdf_text)
                 "DOCX", "DOC" -> setupIconUI(R.drawable.ic_file_doc, R.color.file_pink_bg, R.color.file_pink_text)
@@ -151,6 +156,9 @@ class FileDetailActivity : AppCompatActivity() {
                 archivo.adjuntos?.firstOrNull()?.let { adjunto ->
                     fileUrl = adjunto.urlStorage ?: fileUrl
                     fileType = com.classdrop.utils.FileTypeUtils.resolverTipoReal(adjunto, archivo.tipo)
+                    // Capturar datos dinámicos del servidor
+                    fileMimeType = adjunto.tipoMime
+                    fileSizeLong = adjunto.tamanoBytes
                 }
                 
                 fileName = archivo.titulo

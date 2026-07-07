@@ -74,7 +74,7 @@
             </FrameLayout>
         </LinearLayout>
 
-        <!-- Profile Info -->
+        <!-- Profile Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,14 +84,13 @@
 
             <TextView
                 android:id="@+id/tvAvatarInitials"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_button_primary"
-                android:backgroundTint="@color/primary"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_circle_primary"
                 android:gravity="center"
                 android:text="MA"
                 android:textColor="@color/white"
-                android:textSize="44sp"
+                android:textSize="36sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -100,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-black"
-                android:text="Mariana Alvarez"
+                android:text="Nombre Usuario"
                 android:textColor="@color/on_background"
                 android:textSize="22sp" />
 
@@ -109,12 +108,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Ingeniería de Desarrollo de Software"
+                android:text="Carrera"
                 android:textColor="@color/primary"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- INFORMACIÓN Section -->
+        <!-- INFORMACIÓN PERSONAL Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -141,29 +140,29 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Nombre -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_nav_profile" app:tint="@color/primary" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nombre" android:textColor="@color/text_secondary" android:textSize="11sp" />
-                        <TextView android:id="@+id/tvUserInfoName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nombre Usuario" android:textColor="@color/on_background" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvUserInfoName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textColor="@color/on_background" android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="12dp" android:background="@color/outline_variant" />
 
-                <!-- Correo -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_google_logo" app:tint="@color/primary" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Correo Institucional" android:textColor="@color/text_secondary" android:textSize="11sp" />
-                        <TextView android:id="@+id/tvUserInfoEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="correo@upchiapas.edu.mx" android:textColor="@color/on_background" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvUserInfoEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textColor="@color/on_background" android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -239,14 +238,14 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Preview Section: MIS ARCHIVOS -->
+        <!-- Secciones de Previsualización -->
         <RelativeLayout android:id="@+id/titleUploads" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:paddingHorizontal="24dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mis Archivos" android:textColor="@color/on_background" android:textStyle="bold" />
             <TextView android:id="@+id/tvSeeMoreUploads" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Ver más →" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" />
         </RelativeLayout>
         <com.google.android.material.card.MaterialCardView android:id="@+id/cardUploadsPreview" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="8dp" android:visibility="gone" app:cardBackgroundColor="@color/surface" app:cardCornerRadius="24dp" app:cardElevation="2dp" app:strokeWidth="0dp">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_nav_upload" app:tint="@color/primary" /></FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:id="@+id/tvUploadsPreviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
@@ -258,14 +257,13 @@
         </com.google.android.material.card.MaterialCardView>
         <TextView android:id="@+id/tvUploadsEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="24dp" android:layout_marginTop="8dp" android:text="No hay archivos subidos." android:textColor="@color/text_secondary" android:textSize="12sp" />
 
-        <!-- Preview Section: DESCARGAS -->
         <RelativeLayout android:id="@+id/titleDownloads" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:paddingHorizontal="24dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Archivos Descargados" android:textColor="@color/on_background" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mis Descargas" android:textColor="@color/on_background" android:textStyle="bold" />
             <TextView android:id="@+id/tvSeeMoreDownloads" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Ver más →" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" />
         </RelativeLayout>
         <com.google.android.material.card.MaterialCardView android:id="@+id/cardDownloadsPreview" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="8dp" android:visibility="gone" app:cardBackgroundColor="@color/surface" app:cardCornerRadius="24dp" app:cardElevation="2dp" app:strokeWidth="0dp">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_download" app:tint="@color/primary" /></FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:id="@+id/tvDownloadsPreviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
@@ -275,16 +273,15 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        <TextView android:id="@+id/tvDownloadsEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="24dp" android:layout_marginTop="8dp" android:text="No hay archivos descargados." android:textColor="@color/text_secondary" android:textSize="12sp" />
+        <TextView android:id="@+id/tvDownloadsEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="24dp" android:layout_marginTop="8dp" android:text="No hay descargas." android:textColor="@color/text_secondary" android:textSize="12sp" />
 
-        <!-- Preview Section: FAVORITOS -->
         <RelativeLayout android:id="@+id/titleFavorites" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:paddingHorizontal="24dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mis Favoritos" android:textColor="@color/on_background" android:textStyle="bold" />
             <TextView android:id="@+id/tvSeeMoreFavorites" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Ver más →" android:textColor="@color/primary" android:textSize="12sp" android:textStyle="bold" />
         </RelativeLayout>
         <com.google.android.material.card.MaterialCardView android:id="@+id/cardFavoritesPreview" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:layout_marginTop="8dp" android:visibility="gone" app:cardBackgroundColor="@color/surface" app:cardCornerRadius="24dp" app:cardElevation="2dp" app:strokeWidth="0dp">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_favorite" app:tint="@color/primary" /></FrameLayout>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:id="@+id/tvFavoritesPreviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="13sp" />
@@ -294,9 +291,9 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        <TextView android:id="@+id/tvFavoritesEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="24dp" android:layout_marginTop="8dp" android:text="No hay archivos guardados." android:textColor="@color/text_secondary" android:textSize="12sp" />
+        <TextView android:id="@+id/tvFavoritesEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="24dp" android:layout_marginTop="8dp" android:text="No hay favoritos." android:textColor="@color/text_secondary" android:textSize="12sp" />
 
-        <!-- Normas y Políticas -->
+        <!-- AYUDA Y SOPORTE Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -330,7 +327,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="20dp"
+                    android:orientation="horizontal">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_app_logo" app:tint="@color/primary" /></FrameLayout>
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:text="Políticas de Privacidad" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="14sp" />
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:rotation="-90" android:src="@drawable/ic_chevron_down" app:tint="@color/placeholder" />
@@ -346,7 +344,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="20dp"
+                    android:orientation="horizontal">
                     <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_input_pill"><ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_notification" app:tint="@color/primary" /></FrameLayout>
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:text="Normas de ClassDrop" android:textColor="@color/on_background" android:textStyle="bold" android:textSize="14sp" />
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:rotation="-90" android:src="@drawable/ic_chevron_down" app:tint="@color/placeholder" />
@@ -372,7 +371,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:backgroundTint="@color/file_pink_bg"
             android:text="Cerrar sesión"
             android:textAllCaps="false"

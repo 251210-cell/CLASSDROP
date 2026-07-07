@@ -24,7 +24,7 @@
                 android:id="@+id/tvUserAvatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/bg_button_primary"
+                android:background="@drawable/bg_rounded_square_primary"
                 android:backgroundTint="@color/primary"
                 android:gravity="center"
                 android:text="EG"
@@ -87,7 +87,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    android:background="@drawable/bg_input_pill"
+                    android:background="@drawable/bg_rounded_square_primary"
                     android:src="@drawable/ic_app_logo" />
 
                 <LinearLayout
@@ -123,7 +123,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- Like -->
+            <!-- Acciones Like, Dislike, Download, Comments... -->
             <LinearLayout
                 android:id="@+id/llLike"
                 android:layout_width="wrap_content"
@@ -134,25 +134,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp">
-
-                <ImageView
-                    android:id="@+id/ivLikeIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_thumb_up"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <TextView
-                    android:id="@+id/tvLikes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="42"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="12sp" />
+                <ImageView android:id="@+id/ivLikeIcon" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_thumb_up" app:tint="?attr/colorOnSurfaceVariant" />
+                <TextView android:id="@+id/tvLikes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="0" android:textColor="?attr/colorOnSurfaceVariant" android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- Dislike -->
             <LinearLayout
                 android:id="@+id/llDislike"
                 android:layout_width="wrap_content"
@@ -164,25 +149,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp">
-
-                <ImageView
-                    android:id="@+id/ivDislikeIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_thumb_down"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <TextView
-                    android:id="@+id/tvDislikes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="5"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="12sp" />
+                <ImageView android:id="@+id/ivDislikeIcon" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_thumb_down" app:tint="?attr/colorOnSurfaceVariant" />
+                <TextView android:id="@+id/tvDislikes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="0" android:textColor="?attr/colorOnSurfaceVariant" android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- Descargar -->
             <LinearLayout
                 android:id="@+id/llDownload"
                 android:layout_width="wrap_content"
@@ -194,25 +164,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp">
-
-                <ImageView
-                    android:id="@+id/ivDownloadIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_download"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <TextView
-                    android:id="@+id/tvDownloads"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="128"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="12sp" />
+                <ImageView android:id="@+id/ivDownloadIcon" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_download" app:tint="?attr/colorOnSurfaceVariant" />
+                <TextView android:id="@+id/tvDownloads" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="0" android:textColor="?attr/colorOnSurfaceVariant" android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- Comentarios -->
             <LinearLayout
                 android:id="@+id/llComments"
                 android:layout_width="wrap_content"
@@ -224,25 +179,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp">
-
-                <ImageView
-                    android:id="@+id/ivCommentIcon"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_comment"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <TextView
-                    android:id="@+id/tvComments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="8"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="12sp" />
+                <ImageView android:id="@+id/ivCommentIcon" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/ic_comment" app:tint="?attr/colorOnSurfaceVariant" />
+                <TextView android:id="@+id/tvComments" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="0" android:textColor="?attr/colorOnSurfaceVariant" android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>
