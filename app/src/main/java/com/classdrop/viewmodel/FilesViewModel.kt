@@ -46,9 +46,6 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // isActivo = true significa "el usuario acaba de activar" (ya se refleja optimistamente en la UI);
-    // si falla la llamada al backend, no revertimos la UI para no complicar el ejemplo, pero queda
-    // el error disponible en listError para mostrarlo si quieres agregar esa lógica después.
     fun actualizarLike(archivoId: String, isActivo: Boolean) {
         viewModelScope.launch {
             val result = if (isActivo) repository.darLike(archivoId) else repository.quitarLike(archivoId)
@@ -79,7 +76,6 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // --- Guardados (favoritos) ---
     fun actualizarFavorito(archivoId: String, isActivo: Boolean) {
         viewModelScope.launch {
             val result = if (isActivo) repository.guardarFavorito(archivoId) else repository.quitarFavorito(archivoId)
@@ -87,9 +83,6 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // --- Descargas ---
-    // El fileUrl real ya viaja en el Post (adjuntos.urlStorage vía backend), así que aquí solo
-    // registramos la descarga como estadística; abrir el archivo lo hace quien tenga la URL.
     fun registrarDescarga(archivoId: String) {
         viewModelScope.launch {
             repository.registrarDescarga(archivoId)
@@ -107,7 +100,33 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // --- Moderación (admin) ---
+    // --- Perfil: mis archivos / descargados / favoritos ---
+    private val _misArchivos = MutableLiveData<List<FileModel>>()
+    val misArchivos: LiveData<List<FileModel>> = _misArchivos
+
+    private val _isLoadingMisArchivos = MutableLiveData<Boolean>()
+    val isLoadingMisArchivos: LiveData<Boolean> = _isLoadingMisArchivos
+
+    fun cargarMisArchivos(forceRefresh: Boolean = false) {
+        _isLoadingMisArchivos.value = true
+        if (forceRefresh) {
+            _misArchivos.value = emptyList() // Limpiamos para evitar mostrar datos viejos
+        }
+        viewModelScope.launch {
+            repository.obtenerMisArchivos().fold(
+                onSuccess = { 
+                    _misArchivos.value = it
+                    _isLoadingMisArchivos.value = false
+                },
+                onFailure = { 
+                    _listError.value = it.message
+                    _isLoadingMisArchivos.value = false
+                }
+            )
+        }
+    }
+
+    // --- Otros métodos existentes ---
     private val _pendientes = MutableLiveData<List<FileModel>>()
     val pendientes: LiveData<List<FileModel>> = _pendientes
 
@@ -150,26 +169,6 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // --- Perfil: mis archivos / descargados / favoritos ---
-    private val _misArchivos = MutableLiveData<List<FileModel>>()
-    val misArchivos: LiveData<List<FileModel>> = _misArchivos
-
-    private val _descargados = MutableLiveData<List<FileModel>>()
-    val descargados: LiveData<List<FileModel>> = _descargados
-
-    private val _favoritos = MutableLiveData<List<FileModel>>()
-    val favoritos: LiveData<List<FileModel>> = _favoritos
-
-    fun cargarMisArchivos() {
-        viewModelScope.launch {
-            repository.obtenerMisArchivos().fold(
-                onSuccess = { _misArchivos.value = it },
-                onFailure = { _listError.value = it.message }
-            )
-        }
-    }
-
-    // --- Detalle de un archivo (FileDetailActivity) ---
     private val _archivoDetalle = MutableLiveData<NetworkResult<FileModel>>()
     val archivoDetalle: LiveData<NetworkResult<FileModel>> = _archivoDetalle
 
@@ -182,6 +181,12 @@ class FilesViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
     }
+
+    private val _descargados = MutableLiveData<List<FileModel>>()
+    val descargados: LiveData<List<FileModel>> = _descargados
+
+    private val _favoritos = MutableLiveData<List<FileModel>>()
+    val favoritos: LiveData<List<FileModel>> = _favoritos
 
     fun cargarDescargados() {
         viewModelScope.launch {
