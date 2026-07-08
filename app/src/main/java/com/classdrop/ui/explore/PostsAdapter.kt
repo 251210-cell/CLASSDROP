@@ -154,9 +154,14 @@ class PostsAdapter(
         
         val (iconRes, bgColor, textColor) = when (fileType) {
             "PDF" -> Triple(
-                R.drawable.ic_mortarboard,
+                R.drawable.ic_file_doc,
                 ContextCompat.getColor(context, R.color.file_pdf_bg),
                 ContextCompat.getColor(context, R.color.file_pdf_text)
+            )
+            "URL" -> Triple(
+                R.drawable.ic_link,
+                ContextCompat.getColor(context, R.color.file_teal_bg),
+                ContextCompat.getColor(context, R.color.file_teal_text)
             )
             "DOCX", "DOC" -> Triple(
                 R.drawable.ic_file_doc,
@@ -176,7 +181,6 @@ class PostsAdapter(
         }
 
         holder.binding.ivFileTypeIcon.apply {
-            // Si es imagen y tenemos URL, cargamos la imagen real con Glide
             if ((fileType == "JPG" || fileType == "PNG" || fileType == "IMG" || fileType == "JPEG") && !post.fileUrl.isNullOrEmpty()) {
                 setPadding(0, 0, 0, 0)
                 background = null
@@ -191,7 +195,6 @@ class PostsAdapter(
                     .error(iconRes)
                     .into(this)
             } else {
-                // Restaurar padding e iconografía para documentos
                 val p = (8 * resources.displayMetrics.density).toInt()
                 setPadding(p, p, p, p)
                 setImageResource(iconRes)

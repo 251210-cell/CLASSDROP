@@ -121,7 +121,8 @@ class FileDetailActivity : AppCompatActivity() {
         } else {
             val fileTypeUpper = fileType.uppercase()
             when (fileTypeUpper) {
-                "PDF" -> setupIconUI(R.drawable.ic_mortarboard, R.color.file_pdf_bg, R.color.file_pdf_text)
+                "PDF" -> setupIconUI(R.drawable.ic_file_doc, R.color.file_pdf_bg, R.color.file_pdf_text)
+                "URL" -> setupIconUI(R.drawable.ic_link, R.color.file_teal_bg, R.color.file_teal_text)
                 "DOCX", "DOC" -> setupIconUI(R.drawable.ic_file_doc, R.color.file_pink_bg, R.color.file_pink_text)
                 else -> setupIconUI(R.drawable.ic_file_doc, R.color.surface_variant, R.color.text_secondary)
             }
