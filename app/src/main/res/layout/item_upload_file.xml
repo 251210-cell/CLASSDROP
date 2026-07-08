@@ -18,11 +18,26 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_nav_upload"
-            app:tint="?attr/colorPrimary" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivFilePreview"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+            <ImageView
+                android:id="@+id/ivFileIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_nav_upload"
+                app:tint="?attr/colorPrimary" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tvSelectedFileName"
@@ -33,6 +48,18 @@
             android:paddingHorizontal="32dp"
             android:text="Toca para seleccionar archivo"
             android:textColor="?attr/colorPrimary"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:ellipsize="middle"
+            android:singleLine="true"/>
+
+        <TextView
+            android:id="@+id/tvChangeFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Cambiar archivo"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

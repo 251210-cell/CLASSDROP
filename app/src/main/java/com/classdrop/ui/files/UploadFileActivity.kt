@@ -64,9 +64,9 @@ class UploadFileActivity : AppCompatActivity() {
             uri?.let {
                 selectedFileUri = it
                 selectedFileMime = contentResolver.getType(it) ?: "application/octet-stream"
-                val name = it.path?.substringAfterLast('/') ?: "archivo_seleccionado.pdf"
+                val name = it.path?.substringAfterLast('/') ?: "archivo_seleccionado"
                 selectedFileName = name
-                pagerAdapter.setSelectedFileName(name)
+                pagerAdapter.setSelectedFile(name, it)
             }
         }
     }
