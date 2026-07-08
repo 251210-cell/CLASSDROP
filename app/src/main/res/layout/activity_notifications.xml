@@ -33,6 +33,22 @@
             android:text="Notificaciones"
             android:textColor="@color/primary"
             android:textSize="24sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvMarkAllRead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Marcar todo leído"
+            android:textColor="@color/primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
