@@ -18,5 +18,9 @@ data class Comment(
     var totalLikes: Int = 0,
     var totalDislikes: Int = 0,
     var isLiked: Boolean = false,
-    var isDisliked: Boolean = false
+    var isDisliked: Boolean = false,
+    // Solo viene poblado (con id/titulo) cuando el comentario llega dentro de
+    // un Reporte (GET /reportes/pendientes), para mostrar en qué archivo se
+    // publicó el comentario reportado. En el resto de endpoints queda null.
+    val archivo: FileModel? = null
 )

@@ -6,12 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.classdrop.databinding.ItemReportCommentBinding
-import com.classdrop.model.CommentReport
+import com.classdrop.model.Reporte
+import com.classdrop.utils.TimeUtils
+
+// Al llegar a este número de dislikes el contenido se oculta automáticamente
+// (coincide con UMBRAL_DISLIKES_ARCHIVO / UMBRAL_DISLIKES_COMENTARIO del backend).
+private const val UMBRAL_DISLIKES = 5
 
 class ReportsAdapter(
-    private val onKeep: (CommentReport) -> Unit,
-    private val onRemove: (CommentReport) -> Unit
-) : ListAdapter<CommentReport, ReportsAdapter.ViewHolder>(ReportDiffCallback()) {
+    private val onKeep: (Reporte) -> Unit,
+    private val onRemove: (Reporte) -> Unit
+) : ListAdapter<Reporte, ReportsAdapter.ViewHolder>(ReportDiffCallback()) {
 
     inner class ViewHolder(val binding: ItemReportCommentBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,27 +26,52 @@ class ReportsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val report = getItem(position)
+        val reporte = getItem(position)
         holder.binding.apply {
-            tvReporterAvatar.text = report.reporterName.split(" ")
-                .filter { it.isNotBlank() }
-                .mapNotNull { it.firstOrNull()?.uppercase() }
-                .take(2)
-                .joinToString("")
-            tvReporterName.text = "Reportado por ${report.reporterName}"
-            tvReportTime.text = report.time
-            tvDislikeCount.text = report.dislikes
-            tvReportContext.text = report.contextTitle
-            tvReportedUser.text = "Comentario Reportado (Usuario: ${report.reportedUserName}):"
-            tvCommentContent.text = report.commentContent
+            val esArchivo = reporte.tipoContenido == "archivo"
 
-            btnKeep.setOnClickListener { onKeep(report) }
-            btnRemove.setOnClickListener { onRemove(report) }
+            // --- Quién reportó ---
+            // reportador == null significa que fue el sistema el que lo mandó
+            // aquí automáticamente por llegar a 5 dislikes, no una persona.
+            if (reporte.reportador != null) {
+                tvReporterAvatar.text = reporte.reportador.nombreCompleto.split(" ")
+                    .filter { it.isNotBlank() }
+                    .mapNotNull { it.firstOrNull()?.uppercase() }
+                    .take(2)
+                    .joinToString("")
+                tvReporterName.text = "Reportado por ${reporte.reportador.nombreCompleto}"
+            } else {
+                tvReporterAvatar.text = "IA"
+                tvReporterName.text = "Reportado automáticamente por dislikes"
+            }
+            tvReportTime.text = TimeUtils.tiempoRelativo(reporte.creadoEn)
+            tvDislikeCount.text = "${reporte.totalDislikes}/$UMBRAL_DISLIKES"
+
+            if (esArchivo) {
+                val archivo = reporte.archivo
+                tvReportContext.text = archivo?.materia?.nombre ?: "Archivo"
+                tvReportedUser.text = "Archivo reportado (Usuario: ${archivo?.autor?.nombreCompleto ?: "desconocido"}):"
+                tvCommentContent.text = buildString {
+                    append(archivo?.titulo ?: "(sin título)")
+                    if (!archivo?.descripcion.isNullOrBlank()) {
+                        append("\n")
+                        append(archivo?.descripcion)
+                    }
+                }
+            } else {
+                val comentario = reporte.comentario
+                tvReportContext.text = comentario?.archivo?.titulo ?: "Comentario"
+                tvReportedUser.text = "Comentario reportado (Usuario: ${comentario?.autor?.nombreCompleto ?: "desconocido"}):"
+                tvCommentContent.text = comentario?.contenido ?: ""
+            }
+
+            btnKeep.setOnClickListener { onKeep(reporte) }
+            btnRemove.setOnClickListener { onRemove(reporte) }
         }
     }
 
-    class ReportDiffCallback : DiffUtil.ItemCallback<CommentReport>() {
-        override fun areItemsTheSame(oldItem: CommentReport, newItem: CommentReport): Boolean = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: CommentReport, newItem: CommentReport): Boolean = oldItem == newItem
+    class ReportDiffCallback : DiffUtil.ItemCallback<Reporte>() {
+        override fun areItemsTheSame(oldItem: Reporte, newItem: Reporte): Boolean = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Reporte, newItem: Reporte): Boolean = oldItem == newItem
     }
 }
