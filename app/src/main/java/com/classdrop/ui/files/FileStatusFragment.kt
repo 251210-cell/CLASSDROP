@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -29,12 +30,8 @@ class FileStatusFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private val filesViewModel: FilesViewModel by viewModels()
 
-    // El archivo que se está mostrando actualmente (el más reciente que subió el usuario)
     private var archivoActual: FileModel? = null
 
-    // Sondeo automático: mientras el archivo no tenga un resultado final (publicado/rechazado),
-    // se le vuelve a preguntar al servidor cada 8s para que el estudiante vea el avance real
-    // sin tener que salir y volver a entrar a la pantalla.
     private val pollingHandler = Handler(Looper.getMainLooper())
     private val pollingRunnable = Runnable { filesViewModel.cargarMisArchivos() }
     private val intervaloSondeoMs = 8000L
@@ -55,23 +52,35 @@ class FileStatusFragment : Fragment() {
         setupHeader()
         setupListeners()
         observeMisArchivos()
+        observeLoading()
 
-        filesViewModel.cargarMisArchivos()
+        filesViewModel.cargarMisArchivos(forceRefresh = true)
+    }
+
+    private fun observeLoading() {
+        filesViewModel.isLoadingMisArchivos.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading && archivoActual == null) {
+                binding.loadingStatus.visibility = View.VISIBLE
+                binding.contentLayout.alpha = 0.3f
+            } else {
+                binding.loadingStatus.visibility = View.GONE
+                binding.contentLayout.alpha = 1.0f
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        // Por si el estado cambió (el admin lo aprobó/rechazó) mientras esta pantalla
-        // estaba en segundo plano.
         filesViewModel.cargarMisArchivos()
     }
 
     private fun observeMisArchivos() {
         filesViewModel.misArchivos.observe(viewLifecycleOwner) { archivos ->
-            // El backend ya los devuelve del más reciente al más antiguo (creado_en DESC),
-            // así que el primero es la última subida del usuario: a ese le hacemos seguimiento.
             val ultimo = archivos.firstOrNull()
-            archivoActual = ultimo
+            
+            if (ultimo?.id != archivoActual?.id) {
+                archivoActual = ultimo
+            }
 
             if (ultimo == null) {
                 showEmptyState()
@@ -106,13 +115,39 @@ class FileStatusFragment : Fragment() {
         binding.tvFilePages.text = resumenAdjunto(archivo)
         binding.btnViewDetails.isEnabled = true
 
+        val type = archivo.tipo.uppercase()
+        val context = requireContext()
+        when (type) {
+            "PDF" -> {
+                binding.ivSummaryIcon.setImageResource(R.drawable.ic_file_doc)
+                binding.ivSummaryIconContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.file_pdf_bg))
+                binding.ivSummaryIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.file_pdf_text))
+            }
+            "URL" -> {
+                binding.ivSummaryIcon.setImageResource(R.drawable.ic_link)
+                binding.ivSummaryIconContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.file_teal_bg))
+                binding.ivSummaryIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.file_teal_text))
+            }
+            "DOCX", "DOC" -> {
+                binding.ivSummaryIcon.setImageResource(R.drawable.ic_file_doc)
+                binding.ivSummaryIconContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.file_pink_bg))
+                binding.ivSummaryIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.file_pink_text))
+            }
+            else -> {
+                binding.ivSummaryIcon.setImageResource(R.drawable.ic_file_doc)
+                binding.ivSummaryIconContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.surface_variant))
+                binding.ivSummaryIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.text_secondary))
+            }
+        }
+
+        // MAREO DE ESTADOS: Si el archivo ya existe en la DB, el paso 1 (Recibido) ya es un éxito.
+        // Por eso, "pendiente" ya activa el paso 2 (Escaneo).
         when (archivo.estado) {
-            "pendiente" -> updateStatusUI(DocumentStatus.RECEIVED)
-            "escaneando" -> updateStatusUI(DocumentStatus.SCANNING)
+            "pendiente", "escaneando" -> updateStatusUI(DocumentStatus.SCANNING)
             "revision_calidad" -> updateStatusUI(DocumentStatus.QUALITY_CHECK)
             "publicado" -> updateStatusUI(DocumentStatus.PUBLISHED)
             "rechazado" -> showRejectionUI(archivo.motivoRechazo)
-            else -> updateStatusUI(DocumentStatus.RECEIVED)
+            else -> updateStatusUI(DocumentStatus.SCANNING)
         }
     }
 
@@ -153,6 +188,8 @@ class FileStatusFragment : Fragment() {
         binding.tvDescriptionStep3.visibility = View.VISIBLE
         binding.tvDescriptionStep3.text = motivo?.takeIf { it.isNotBlank() }
             ?: "Tu archivo no cumple con las normas académicas tras la revisión manual."
+        
+        binding.statusProgressBar.visibility = View.GONE
     }
 
     enum class DocumentStatus { RECEIVED, SCANNING, QUALITY_CHECK, PUBLISHED }
@@ -164,42 +201,55 @@ class FileStatusFragment : Fragment() {
         val colorPlaceholder = ContextCompat.getColor(requireContext(), R.color.placeholder)
 
         resetAllSteps(colorPlaceholder)
+        binding.statusProgressBar.visibility = View.GONE
+        
+        binding.tvTitleStep4.text = "Publicación"
+        binding.tvDescriptionStep4.text = "El documento estará disponible pronto."
+        binding.tvDescriptionStep4.setTextColor(colorPlaceholder)
+
+        // IMPORTANTE: El paso 1 (Archivo Recibido) siempre se marca como completado 
+        // porque si el usuario está en esta pantalla, el servidor ya aceptó el archivo.
+        setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
 
         when (status) {
-            DocumentStatus.RECEIVED -> {
-                setActiveStep(binding.ivStep1, binding.tvTitleStep1, colorPrimary)
-            }
             DocumentStatus.SCANNING -> {
-                setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
                 setActiveStep(binding.ivStep2, binding.tvTitleStep2, colorPrimary)
+                binding.statusProgressBar.visibility = View.VISIBLE
+                binding.statusProgressBar.isIndeterminate = true
+                binding.tvDescriptionStep2.setTextColor(colorPrimary)
             }
             DocumentStatus.QUALITY_CHECK -> {
-                setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
                 setCompletedStep(binding.ivStep2, binding.line2, colorPrimary)
                 setActiveStep(binding.ivStep3, binding.tvTitleStep3, colorPrimary)
                 binding.tvLabelStep3.text = "En revisión por administrador"
                 binding.tvLabelStep3.setTextColor(colorPrimary)
                 binding.tvDescriptionStep3.visibility = View.VISIBLE
+                binding.tvDescriptionStep3.setTextColor(colorPrimary)
             }
             DocumentStatus.PUBLISHED -> {
-                setCompletedStep(binding.ivStep1, binding.line1, colorPrimary)
                 setCompletedStep(binding.ivStep2, binding.line2, colorPrimary)
                 setCompletedStep(binding.ivStep3, binding.line3, colorPrimary)
-                setActiveStep(binding.ivStep4, binding.tvTitleStep4, colorPrimary)
+                setCompletedStep(binding.ivStep4, null, colorPrimary)
+                binding.tvTitleStep4.text = "¡Publicado!"
+                binding.tvTitleStep4.setTextColor(colorPrimary)
+                binding.tvDescriptionStep4.text = "Tu documento ya está disponible para toda la comunidad."
+                binding.tvDescriptionStep4.setTextColor(colorPrimary)
             }
+            else -> { /* El estado RECEIVED ahora se maneja dentro de SCANNING por defecto */ }
         }
     }
 
-    private fun setActiveStep(icon: View, title: android.widget.TextView, color: Int) {
+    private fun setActiveStep(icon: View, title: TextView, color: Int) {
         icon.backgroundTintList = ColorStateList.valueOf(color)
         title.setTextColor(color)
     }
 
-    private fun setCompletedStep(icon: View, line: View, color: Int) {
+    private fun setCompletedStep(icon: View, line: View?, color: Int) {
         icon.backgroundTintList = ColorStateList.valueOf(color)
-        line.backgroundTintList = ColorStateList.valueOf(color)
+        line?.backgroundTintList = ColorStateList.valueOf(color)
         if (icon is android.widget.ImageView) {
             icon.setImageResource(R.drawable.ic_check_circle)
+            icon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
         }
     }
 
@@ -207,14 +257,22 @@ class FileStatusFragment : Fragment() {
         val textColor = ContextCompat.getColor(requireContext(), R.color.placeholder)
         binding.ivStep1.backgroundTintList = ColorStateList.valueOf(color)
         binding.ivStep1.setImageResource(R.drawable.ic_check_circle)
+        binding.ivStep1.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
         binding.line1.backgroundTintList = ColorStateList.valueOf(color)
+        
         binding.ivStep2.backgroundTintList = ColorStateList.valueOf(color)
         binding.ivStep2.setImageResource(R.drawable.ic_status_shield)
+        binding.ivStep2.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
         binding.line2.backgroundTintList = ColorStateList.valueOf(color)
+        
         binding.ivStep3.backgroundTintList = ColorStateList.valueOf(color)
         binding.ivStep3.setImageResource(R.drawable.ic_nav_notes)
+        binding.ivStep3.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
         binding.line3.backgroundTintList = ColorStateList.valueOf(color)
+        
         binding.ivStep4.backgroundTintList = ColorStateList.valueOf(color)
+        binding.ivStep4.setImageResource(R.drawable.ic_app_logo)
+        binding.ivStep4.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
 
         binding.tvTitleStep1.setTextColor(textColor)
         binding.tvTitleStep2.setTextColor(textColor)
@@ -223,6 +281,7 @@ class FileStatusFragment : Fragment() {
         binding.tvLabelStep3.text = "Pendiente de escaneo previo"
         binding.tvLabelStep3.setTextColor(textColor)
         binding.tvDescriptionStep3.visibility = View.GONE
+        binding.statusProgressBar.visibility = View.GONE
     }
 
     private fun setupHeader() {
