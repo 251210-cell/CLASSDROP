@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivitySubjectsAdminBinding
 import com.classdrop.model.MateriaResponse
 import com.classdrop.ui.explore.SubjectDetailActivity
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.viewmodel.SubjectsViewModel
 
 class SubjectsAdminActivity : AppCompatActivity() {
@@ -33,6 +35,7 @@ class SubjectsAdminActivity : AppCompatActivity() {
         // Refresca cada vez que se vuelve a esta pantalla (ej. después de crear/editar una
         // materia en CreateSubjectActivity), para no depender de salir y volver a entrar.
         viewModel.fetchAllMaterias()
+        NotificationBadgeUtil.actualizar(this, lifecycleScope, binding.ivNotificationAdmin)
     }
 
     private fun setupUI() {

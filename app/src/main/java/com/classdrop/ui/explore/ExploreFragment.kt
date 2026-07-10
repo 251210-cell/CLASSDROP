@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.FragmentExploreBinding
@@ -16,6 +17,7 @@ import com.classdrop.model.CuatrimestreResponse
 import com.classdrop.model.MateriaResponse
 import com.classdrop.ui.home.SubjectsAdapter
 import com.classdrop.ui.main.MainActivity
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.SubjectsViewModel
 
@@ -41,6 +43,12 @@ class ExploreFragment : Fragment() {
         _binding = FragmentExploreBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        NotificationBadgeUtil.actualizarDot(requireContext(), viewLifecycleOwner.lifecycleScope, binding.viewNotificationDot)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

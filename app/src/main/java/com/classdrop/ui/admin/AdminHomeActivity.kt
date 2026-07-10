@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.classdrop.databinding.ActivityAdminHomeBinding
 import com.classdrop.model.MateriaResponse
 import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.utils.IconMapper
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.SubjectsViewModel
 
@@ -42,11 +44,11 @@ class AdminHomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        NotificationBadgeUtil.actualizarDot(this, lifecycleScope, binding.viewNotificationDotAdmin)
         // Refresca cada vez que se vuelve a esta pantalla (ej. después de crear/editar/eliminar
         // una materia en otra Activity), para no depender de salir y volver a entrar manualmente.
         viewModel.fetchAllMaterias()
     }
-
     private fun setupHeader() {
         val userName = sessionManager.fetchUserName() ?: "Admin"
         val initials = userName.split(" ")

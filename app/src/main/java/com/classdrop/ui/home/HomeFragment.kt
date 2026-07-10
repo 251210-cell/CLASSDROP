@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.FragmentHomeBinding
 import com.classdrop.model.FileModel
@@ -18,6 +19,7 @@ import com.classdrop.ui.explore.SubjectDetailActivity
 import com.classdrop.ui.main.MainActivity
 import com.classdrop.ui.notifications.NotificationsActivity
 import com.classdrop.utils.FileTypeUtils
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
 import com.classdrop.viewmodel.FilesViewModel
@@ -57,6 +59,10 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        // Se recalcula SIEMPRE con datos reales (antes se quedaba pegado al
+        // valor fijo "visible" del XML y solo se apagaba al tocar la campana).
+        NotificationBadgeUtil.actualizarDot(requireContext(), viewLifecycleOwner.lifecycleScope, binding.viewNotificationDot)
+
         if (skipNextResumeRefresh) {
             skipNextResumeRefresh = false
             return

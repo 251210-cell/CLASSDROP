@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.classdrop.databinding.ActivityAllSubjectsBinding
 import com.classdrop.ui.explore.SubjectDetailActivity
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.SubjectsViewModel
 
@@ -32,6 +34,11 @@ class AllSubjectsActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
 
         refreshData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NotificationBadgeUtil.actualizar(this, lifecycleScope, binding.ivNotification)
     }
 
     private fun refreshData() {

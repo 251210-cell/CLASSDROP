@@ -11,12 +11,14 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.R
 import com.classdrop.databinding.ActivityNormsAdminBinding
 import com.classdrop.model.CommunityRule
 import com.classdrop.network.NetworkResult
 import com.classdrop.utils.AlertUtils
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.NormsViewModel
 
@@ -51,6 +53,11 @@ class NormsAdminActivity : AppCompatActivity() {
         setupViewModel()
 
         viewModel.cargarTodo()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NotificationBadgeUtil.actualizar(this, lifecycleScope, binding.ivNotificationAdmin)
     }
 
     private fun setupHeader() {

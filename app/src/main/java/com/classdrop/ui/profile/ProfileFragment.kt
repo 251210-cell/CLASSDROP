@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.classdrop.databinding.FragmentProfileBinding
 import com.classdrop.model.FileModel
 import com.classdrop.ui.auth.LoginActivity
 import com.classdrop.ui.explore.toPost
 import com.classdrop.utils.AlertUtils
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.AuthViewModel
 import com.classdrop.viewmodel.FilesViewModel
@@ -45,11 +47,11 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        NotificationBadgeUtil.actualizarDot(requireContext(), viewLifecycleOwner.lifecycleScope, binding.viewNotificationDot)
         filesViewModel.cargarMisArchivos()
         filesViewModel.cargarDescargados()
         filesViewModel.cargarFavoritos()
     }
-
     private fun setupUserData() {
         val userName = sessionManager.fetchUserName()
         val userEmail = sessionManager.fetchUserEmail()

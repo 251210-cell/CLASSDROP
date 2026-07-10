@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityModerationBinding
 import com.classdrop.model.FileModel
@@ -12,7 +13,10 @@ import com.classdrop.utils.AlertUtils
 import com.classdrop.utils.FileTypeUtils
 import com.classdrop.utils.SessionManager
 import com.classdrop.utils.TimeUtils
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.viewmodel.FilesViewModel
+
+
 
 class ModerationActivity : AppCompatActivity() {
 
@@ -38,6 +42,7 @@ class ModerationActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.cargarPendientes()
+        NotificationBadgeUtil.actualizar(this, lifecycleScope, binding.ivNotificationAdmin)
     }
 
     private fun setupHeader() {

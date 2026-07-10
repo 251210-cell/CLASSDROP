@@ -6,10 +6,12 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.classdrop.R
 import com.classdrop.databinding.ActivityCreateSubjectBinding
 import com.classdrop.model.MateriaResponse
 import com.classdrop.utils.IconMapper
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.SubjectsViewModel
 import com.google.android.material.card.MaterialCardView
@@ -206,5 +208,9 @@ class CreateSubjectActivity : AppCompatActivity() {
         if (indice != -1) {
             selectIcon(iconCards[indice], opciones[indice].key, iconCards)
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        NotificationBadgeUtil.actualizar(this, lifecycleScope, binding.ivNotificationAdmin)
     }
 }

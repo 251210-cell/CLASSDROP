@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.classdrop.databinding.ActivityReportsBinding
 import com.classdrop.model.Reporte
 import com.classdrop.utils.AlertUtils
+import com.classdrop.utils.NotificationBadgeUtil
 import com.classdrop.utils.SessionManager
 import com.classdrop.viewmodel.ReportsViewModel
 
@@ -37,6 +39,7 @@ class ReportsActivity : AppCompatActivity() {
         // Por si el admin resolvió reportes, salió, y volvió: refrescamos para
         // no mostrar una cola desactualizada.
         reportsViewModel.cargarPendientes()
+        NotificationBadgeUtil.actualizar(this, lifecycleScope, binding.ivNotificationAdmin)
     }
 
     private fun setupHeader() {
