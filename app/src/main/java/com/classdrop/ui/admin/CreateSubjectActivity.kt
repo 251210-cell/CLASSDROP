@@ -80,18 +80,21 @@ class CreateSubjectActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
         binding.btnCancel.setOnClickListener { finish() }
 
-        // El orden de estos botones debe coincidir con IconMapper.opciones()
-        // (code, sigma, database, structure, math, calc)
+        // El orden debe coincidir EXACTAMENTE con IconMapper.opciones()
         val iconCards = listOf(
-            binding.btnIcon1, binding.btnIcon2, binding.btnIcon3,
-            binding.btnIcon4, binding.btnIcon5, binding.btnIcon6
+            binding.btnIcon1, binding.btnIcon3, binding.btnIcon4,
+            binding.btnIconNetwork, binding.btnIconAI, binding.btnIconAnalytics,
+            binding.btnIconLanguage, binding.btnIconAndroid, binding.btnIconCooperation,
+            binding.btnIconHardware
         )
         val opciones = IconMapper.opciones()
 
         iconCards.forEachIndexed { index, card ->
-            val estilo = opciones[index]
-            card.setOnClickListener {
-                selectIcon(card, estilo.key, iconCards)
+            if (index < opciones.size) {
+                val estilo = opciones[index]
+                card.setOnClickListener {
+                    selectIcon(card, estilo.key, iconCards)
+                }
             }
         }
 
@@ -200,12 +203,14 @@ class CreateSubjectActivity : AppCompatActivity() {
         }
 
         val iconCards = listOf(
-            binding.btnIcon1, binding.btnIcon2, binding.btnIcon3,
-            binding.btnIcon4, binding.btnIcon5, binding.btnIcon6
+            binding.btnIcon1, binding.btnIcon3, binding.btnIcon4,
+            binding.btnIconNetwork, binding.btnIconAI, binding.btnIconAnalytics,
+            binding.btnIconLanguage, binding.btnIconAndroid, binding.btnIconCooperation,
+            binding.btnIconHardware
         )
         val opciones = IconMapper.opciones()
         val indice = opciones.indexOfFirst { it.key == materia.icono }
-        if (indice != -1) {
+        if (indice != -1 && indice < iconCards.size) {
             selectIcon(iconCards[indice], opciones[indice].key, iconCards)
         }
     }

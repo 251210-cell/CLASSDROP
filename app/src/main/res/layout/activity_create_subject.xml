@@ -130,102 +130,25 @@
                         android:textStyle="bold" />
 
                     <GridLayout
+                        android:id="@+id/glIcons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:columnCount="3"
+                        android:columnCount="4"
                         android:alignmentMode="alignMargins"
                         android:useDefaultMargins="true">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnIcon1"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_subject_code"
-                                app:tint="@color/primary" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnIcon2"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_subject_sigma"
-                                app:tint="@color/primary" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnIcon3"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_database"
-                                app:tint="@color/primary" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnIcon4"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_subject_structure"
-                                app:tint="@color/primary" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnIcon5"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_subject_math"
-                                app:tint="@color/primary" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btnIcon6"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_subject_calc"
-                                app:tint="@color/primary" />
-                        </com.google.android.material.card.MaterialCardView>
+                        
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIcon1" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_code" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIcon3" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_database" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIcon4" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_structure" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconNetwork" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_network" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconAI" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_ai" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconAnalytics" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_analytics" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconLanguage" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_language" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconAndroid" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_android" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconCooperation" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_cooperation" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView android:id="@+id/btnIconHardware" android:layout_width="60dp" android:layout_height="60dp" app:cardBackgroundColor="?attr/colorSurfaceVariant" app:cardCornerRadius="16dp" app:cardElevation="0dp"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_subject_hardware" app:tint="@color/primary" /></com.google.android.material.card.MaterialCardView>
+                        
                     </GridLayout>
 
                     <TextView

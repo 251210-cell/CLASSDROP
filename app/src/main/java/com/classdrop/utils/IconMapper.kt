@@ -4,10 +4,6 @@ import com.classdrop.R
 
 /**
  * Fuente única de verdad para los íconos de materia.
- *
- * El backend solo guarda una clave de texto en `MateriaResponse.icono` (ej. "code", "sigma").
- * Este objeto traduce esa clave al drawable + colores que se pintan en pantalla, y también
- * sirve para ir en la otra dirección cuando el admin elige un ícono en CreateSubjectActivity.
  */
 object IconMapper {
 
@@ -20,11 +16,15 @@ object IconMapper {
 
     private val ICONS = listOf(
         IconStyle("code", R.drawable.ic_subject_code, "#F5F3FF", "#7C3AED"),
-        IconStyle("sigma", R.drawable.ic_subject_sigma, "#EEF2FF", "#4F46E5"),
         IconStyle("database", R.drawable.ic_database, "#EFF6FF", "#2563EB"),
         IconStyle("structure", R.drawable.ic_subject_structure, "#FFF1F2", "#E11D48"),
-        IconStyle("math", R.drawable.ic_subject_math, "#F0FDFA", "#0D9488"),
-        IconStyle("calc", R.drawable.ic_subject_calc, "#FDF4FF", "#A21CAF")
+        IconStyle("network", R.drawable.ic_subject_network, "#F0F9FF", "#0369A1"),
+        IconStyle("ai", R.drawable.ic_subject_ai, "#F0FDF4", "#16A34A"),
+        IconStyle("analytics", R.drawable.ic_subject_analytics, "#FEFCE8", "#CA8A04"),
+        IconStyle("language", R.drawable.ic_subject_language, "#FAF5FF", "#9333EA"),
+        IconStyle("android", R.drawable.ic_subject_android, "#F0FDF4", "#15803D"),
+        IconStyle("cooperation", R.drawable.ic_subject_cooperation, "#FFF1F2", "#BE123C"),
+        IconStyle("hardware", R.drawable.ic_subject_hardware, "#F8FAFC", "#475569")
     )
 
     private val DEFAULT = IconStyle("default", R.drawable.ic_mortarboard, "#EEF2FF", "#4F46E5")
