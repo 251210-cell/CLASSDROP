@@ -97,7 +97,9 @@ class HomeFragment : Fragment() {
     private fun renderMaterias(materias: List<MateriaResponse>) {
         binding.pbSubjects.visibility = View.GONE
         binding.rvSubjects.visibility = View.VISIBLE
-        adapter.submitList(materias)
+        // Limitamos a las primeras 4 materias para que el Home no se vea saturado.
+        // El usuario podrá ver el resto haciendo clic en "Ver todas".
+        adapter.submitList(materias.take(4))
     }
 
     private fun renderNovedades(archivos: List<FileModel>) {
