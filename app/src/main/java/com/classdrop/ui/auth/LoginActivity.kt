@@ -46,10 +46,6 @@ class LoginActivity : AppCompatActivity() {
         binding.tvGoToRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
-
-        binding.tvForgotPassword.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
-        }
     }
 
     private fun togglePasswordVisibility() {
@@ -85,7 +81,6 @@ class LoginActivity : AppCompatActivity() {
                     setLoading(false)
                     val loginData = result.data
                     
-                    // LÓGICA DE VERIFICACIÓN EN DOS PASOS (2FA)
                     if (loginData?.requires2FA == true) {
                         val intent = Intent(this, VerifyOTPActivity::class.java).apply {
                             putExtra("USER_ID", loginData.userId)
@@ -94,7 +89,6 @@ class LoginActivity : AppCompatActivity() {
                         return@observe
                     }
 
-                    // Login Directo (si no tiene 2FA activo)
                     val user = loginData?.usuario
                     val role = user?.rol ?: UserRole.STUDENT
                     sessionManager.saveAuthToken(loginData?.token.orEmpty())
